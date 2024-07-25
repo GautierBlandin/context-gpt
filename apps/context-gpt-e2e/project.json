@@ -1,0 +1,9 @@
+{
+  "name": "context-gpt-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/context-gpt-e2e/src",
+  "tags": [],
+  "implicitDependencies": ["context-gpt"],
+  "// targets": "to see all targets run: nx show project context-gpt-e2e --web",
+  "targets": {}
+}
