@@ -1,0 +1,43 @@
+flowchart TD
+  App[App]
+
+  UIShared["UI (Shared)"]
+
+  subgraph BoundedContext["Bounded Context"]
+    Infrastructure[Infrastructure]
+    UIBounded["UI (Bounded Context)"]
+
+    subgraph Core[Core]
+      CoreModel[Model]
+      CoreDomain[Domain]
+      CorePorts[Ports]
+    end
+
+    subgraph Feature[Feature]
+      FeatureDomain[Domain]
+      FeatureUI["UI (Feature)"]
+    end
+  end
+
+%% Dependencies
+  App --> Feature
+  App --> Infrastructure
+
+  FeatureUI --> FeatureDomain
+  FeatureUI --> UIBounded
+
+  FeatureDomain --> CoreDomain
+  FeatureDomain --> CorePorts
+
+  Infrastructure --> CorePorts
+
+  UIBounded --> UIShared
+  UIBounded --> CoreModel
+
+  CoreDomain --> CoreModel
+  CorePorts --> CoreModel
+
+%% Styling to create visual hierarchy
+  style BoundedContext stroke-width:4px
+  style Core fill:#e0e0e0,stroke:#666,stroke-width:2px
+  style Feature fill:#e0e0e0,stroke:#666,stroke-width:2px
