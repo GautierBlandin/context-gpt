@@ -1,8 +1,5 @@
 import { Claude3_5Proxy } from './Claude3.5Proxy';
 import { SendPromptInput } from '../ports/LLMProxy';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 describe('Claude3_5Proxy Integration Test', () => {
   let proxy: Claude3_5Proxy;
