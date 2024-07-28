@@ -14,6 +14,7 @@ export default defineConfig({
   // },
 
   test: {
+    setupFiles: ['dotenv/config'],
     watch: false,
     globals: true,
     environment: 'jsdom',
