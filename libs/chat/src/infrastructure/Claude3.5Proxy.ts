@@ -5,9 +5,9 @@ export class Claude3_5Proxy implements LLMProxy {
   private client: Anthropic;
 
   constructor() {
-    const apiKey = process.env.CLAUDE_API_KEY;
+    const apiKey = process.env.NEXT_PUBLIC_CLAUDE_API_KEY;
     if (!apiKey) {
-      throw new Error('CLAUDE_API_KEY is not set in the environment variables');
+      throw new Error('NEXT_PUBLIC_CLAUDE_API_KEY is not set in the environment variables');
     }
     this.client = new Anthropic({ apiKey });
   }
