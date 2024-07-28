@@ -1,0 +1,15 @@
+C4Context
+  title Context diagram for Basic Chatbot Interface
+
+  Person(user, "User", "A person using the chatbot application")
+
+  System_Boundary(chatbot_system, "Chatbot Application") {
+    System(frontend, "Frontend Application", "Provides the user interface for the chatbot")
+  }
+
+  System_Ext(claude_api, "Claude 3.5 Sonnet API", "External AI language model for generating responses")
+
+  Rel(user, frontend, "Interacts with")
+  Rel(frontend, claude_api, "Sends prompts and receives responses")
+
+  UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="1")
