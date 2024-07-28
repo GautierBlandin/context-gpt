@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { LLMProxyFake } from '../../ports/LLMProxy.fake';
 import { Message } from '../../model/Message';
 import { Chunk } from '../../model/Chunk';
+import { LLMProxyDi } from '../../ports/LLMProxy.di';
 
 interface ChatDomainState {
   messages: Message[];
@@ -19,7 +20,7 @@ type ChatDomainStore = ChatDomainState & {
 };
 
 export const createChatDomainStore = create<ChatDomainStore>((set, get) => {
-  const llmProxy = new LLMProxyFake();
+  const llmProxy = LLMProxyDi.getInstance();
 
   return {
     messages: [],
