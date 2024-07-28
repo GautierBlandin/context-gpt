@@ -1,1 +1,2 @@
-export * from './lib/shared';
+export { TextInput } from './lib/TextInput';
+export { SubmitButton } from './lib/Button';
