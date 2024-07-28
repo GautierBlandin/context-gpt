@@ -1,5 +1,6 @@
 import { Claude3_5Proxy } from './Claude3.5Proxy';
 import { SendPromptInput } from '../ports/LLMProxy';
+import { Message } from '../model/Message';
 
 describe('Claude3_5Proxy Integration Test', () => {
   let proxy: Claude3_5Proxy;
@@ -8,13 +9,15 @@ describe('Claude3_5Proxy Integration Test', () => {
     proxy = new Claude3_5Proxy();
   });
 
-  it('should send a prompt and receive a response', async () => {
-    const prompt = 'What is the capital of France?';
+  it('should send messages and receive a response', async () => {
+    const messages: Message[] = [
+      { content: 'What is the capital of France?', sender: 'User' }
+    ];
     const chunks: string[] = [];
     let isComplete = false;
 
     const input: SendPromptInput = {
-      prompt,
+      messages,
       addChunkCallback: (chunk) => {
         chunks.push(chunk.content);
       },

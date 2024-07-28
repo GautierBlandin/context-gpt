@@ -8,7 +8,7 @@ classDiagram
       +addChunk(chunk: Chunk)void
       +endResponse()void
       -addMessage(message: Message)void
-      -promptLLM(message: Message)void
+      -promptLLM(messages: Message[])void
     }
 
     class ChatUI {
@@ -46,7 +46,7 @@ classDiagram
     }
 
     class SendPromptInput {
-      +prompt: string
+      +messages: Message[]
       +addChunkCallback: function
       +endCallback: function
     }

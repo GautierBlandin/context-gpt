@@ -17,7 +17,10 @@ export class Claude3_5Proxy implements LLMProxy {
       const stream = await this.client.messages.create({
         model: 'claude-3-sonnet-20240229',
         max_tokens: 1000,
-        messages: [{ role: 'user', content: input.prompt }],
+        messages: input.messages.map(msg => ({
+          role: msg.sender === 'User' ? 'user' : 'assistant',
+          content: msg.content
+        })),
         stream: true,
       });
 
