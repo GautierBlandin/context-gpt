@@ -1,1 +1,1 @@
-export * from './lib/di';
+export { injectableFactory } from './lib/di';
