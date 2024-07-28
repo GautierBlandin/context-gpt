@@ -6,6 +6,7 @@ import { LLMProxyDi } from '../../ports/LLMProxy.di';
 interface ChatDomainState {
   messages: Message[];
   streaming: boolean;
+  actions: ChatDomainActions
 }
 
 interface ChatDomainActions {
@@ -14,11 +15,9 @@ interface ChatDomainActions {
   endResponse: () => void;
 }
 
-type ChatDomainStore = ChatDomainState & {
-  actions: ChatDomainActions;
-};
+export type ChatDomainStore = ReturnType<typeof createChatDomainStoreFactory>;
 
-export const createChatDomainStoreFactory = () => createStore<ChatDomainStore>((set, get) => {
+export const createChatDomainStoreFactory = () => createStore<ChatDomainState>((set, get) => {
   const llmProxy = LLMProxyDi.getInstance();
 
   return {
