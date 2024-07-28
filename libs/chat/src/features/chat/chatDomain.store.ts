@@ -1,5 +1,4 @@
-import { create } from 'zustand';
-import { LLMProxyFake } from '../../ports/LLMProxy.fake';
+import { createStore } from 'zustand';
 import { Message } from '../../model/Message';
 import { Chunk } from '../../model/Chunk';
 import { LLMProxyDi } from '../../ports/LLMProxy.di';
@@ -19,7 +18,7 @@ type ChatDomainStore = ChatDomainState & {
   actions: ChatDomainActions;
 };
 
-export const createChatDomainStore = create<ChatDomainStore>((set, get) => {
+export const createChatDomainStoreFactory = () => createStore<ChatDomainStore>((set, get) => {
   const llmProxy = LLMProxyDi.getInstance();
 
   return {
