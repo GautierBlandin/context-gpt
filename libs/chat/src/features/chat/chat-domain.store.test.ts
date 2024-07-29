@@ -1,6 +1,6 @@
 import { LLMProxyFake } from '../../ports/LLMProxy.fake';
 import { LLMProxyDi } from '../../ports/LLMProxy.di';
-import { createChatDomainStoreFactory } from './chatDomain.store';
+import { createChatDomainStoreFactory } from './chat-domain.store';
 
 describe('chat store', () => {
   it('should send a user message', () => {

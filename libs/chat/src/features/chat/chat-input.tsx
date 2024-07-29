@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { ChatDomainContext } from './chatDomain.context';
+import { ChatDomainContext } from './chat-domain.context';
 import { Message } from '../../model/Message';
 import { SubmitButton, TextInput } from '@context-gpt/shared';
 import { useStore } from 'zustand';

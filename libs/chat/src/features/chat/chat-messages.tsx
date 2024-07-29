@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ChatDomainContext } from './chatDomain.context';
+import { ChatDomainContext } from './chat-domain.context';
 import { useStore } from 'zustand';
 import { Message } from '../../model/Message';
 

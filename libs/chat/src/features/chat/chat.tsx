@@ -1,8 +1,8 @@
 'use client';
-import { ChatDomainContext } from './chatDomain.context';
-import { createChatDomainStoreFactory } from './chatDomain.store';
+import { ChatDomainContext } from './chat-domain.context';
+import { createChatDomainStoreFactory } from './chat-domain.store';
 import React, { useContext, useMemo } from 'react';
-import { ChatInput } from './chatInput';
+import { ChatInput } from './chat-input';
 import { ChatMessages } from './chat-messages';
 
 export function Chat() {
