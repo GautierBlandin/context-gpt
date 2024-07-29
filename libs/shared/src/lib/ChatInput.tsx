@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 
 interface ChatInputProps {
   value: string;
@@ -17,9 +17,36 @@ export function ChatInput({
   disabled = false,
   placeholder = 'Type your message...',
 }: ChatInputProps) {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit();
+  };
+
+  const adjustHeight = () => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      // Reset height to auto to get the correct scrollHeight
+      textarea.style.height = 'auto';
+
+      // Calculate the height of three lines of text
+      const lineHeight = parseInt(window.getComputedStyle(textarea).lineHeight);
+      const minHeight = lineHeight * 4;
+
+      // Set the new height, ensuring it's at least the minimum height
+      const newHeight = Math.max(textarea.scrollHeight, minHeight);
+      textarea.style.height = `${Math.min(newHeight, 200)}px`;
+    }
+  };
+
+  useEffect(() => {
+    adjustHeight();
+  }, [value]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    onChange(e.target.value);
+    adjustHeight();
   };
 
   return (
@@ -29,13 +56,14 @@ export function ChatInput({
 focus-within:ring-indigo-600"
       >
         <textarea
+          ref={textareaRef}
           value={value}
-          onChange={(e) => onChange(e.target.value)}
-          rows={3}
+          onChange={handleChange}
+          rows={1}
           placeholder={placeholder}
           disabled={disabled}
           className="block w-full resize-none border-0 bg-transparent py-1.5 pr-14 text-gray-900
-placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 min-h-[4.5em] max-h-[200px] overflow-y-auto"
         />
         <div className="absolute bottom-0 right-0 flex justify-end p-2">
           <button
