@@ -27,22 +27,25 @@ export function ChatInput({
   const adjustHeight = () => {
     const textarea = textareaRef.current;
     if (textarea) {
-      // Reset height to auto to get the correct scrollHeight
       textarea.style.height = 'auto';
-
-      // Set the new height, ensuring it's at least the minimum height
       const newHeight = Math.max(textarea.scrollHeight);
       textarea.style.height = `${Math.min(newHeight, 200)}px`;
     }
   };
 
-  // Adjust the height when the value changes
   useEffect(() => {
     adjustHeight();
   }, [value]);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onChange(e.target.value);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      onSubmit();
+    }
   };
 
   return (
@@ -55,6 +58,7 @@ focus-within:ring-indigo-600"
           ref={textareaRef}
           value={value}
           onChange={handleChange}
+          onKeyDown={handleKeyDown}
           rows={1}
           placeholder={placeholder}
           className="block w-full resize-none border-0 bg-transparent py-1.5 pr-14 text-gray-900
