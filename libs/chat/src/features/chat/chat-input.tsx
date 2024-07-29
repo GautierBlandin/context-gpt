@@ -14,7 +14,7 @@ export const WiredChatInput: React.FC = () => {
   const actions = useStore(store, (state) => state.actions);
 
   const handleSendMessage = () => {
-    if (inputText.trim()) {
+    if (inputText.trim() !== '') {
       const message: Message = { content: inputText.trim(), sender: 'User' };
       actions.sendMessage(message);
       setInputText('');
@@ -26,7 +26,7 @@ export const WiredChatInput: React.FC = () => {
       value={inputText}
       onChange={setInputText}
       onSubmit={handleSendMessage}
-      disabled={streaming}
+      submitDisabled={streaming || inputText.trim().length === 0}
       placeholder="Type your message..."
     />
   );
