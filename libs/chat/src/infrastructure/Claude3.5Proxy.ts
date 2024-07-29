@@ -1,36 +1,53 @@
 import { LLMProxy, SendPromptInput } from '../ports/LLMProxy';
-import { Anthropic } from '@anthropic-ai/sdk';
 
 export class Claude3_5Proxy implements LLMProxy {
-  private client: Anthropic;
-
-  constructor() {
-    const apiKey = process.env.NEXT_PUBLIC_CLAUDE_API_KEY;
-    if (!apiKey) {
-      throw new Error('NEXT_PUBLIC_CLAUDE_API_KEY is not set in the environment variables');
-    }
-    this.client = new Anthropic({ apiKey });
-  }
-
   async sendPrompt(input: SendPromptInput): Promise<void> {
     try {
-      const stream = await this.client.messages.create({
-        model: 'claude-3-sonnet-20240229',
-        max_tokens: 1000,
-        messages: input.messages.map(msg => ({
-          role: msg.sender === 'User' ? 'user' : 'assistant',
-          content: msg.content
-        })),
-        stream: true,
+      const response = await fetch('/api/claude', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ messages: input.messages }),
       });
 
-      for await (const chunk of stream) {
-        if (chunk.type === 'content_block_delta' && 'text' in chunk.delta) {
-          input.addChunkCallback({ content: chunk.delta.text });
-        }
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      input.endCallback();
+      const reader = response.body?.getReader();
+      if (!reader) {
+        throw new Error('Response body is null');
+      }
+
+      const decoder = new TextDecoder();
+
+      // eslint-disable-next-line no-constant-condition
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value);
+        const lines = chunk.split('\n\n');
+
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            const data = line.slice(6);
+            if (data === '[DONE]') {
+              input.endCallback();
+            } else {
+              try {
+                const parsedData = JSON.parse(data);
+                if (parsedData.content) {
+                  input.addChunkCallback({ content: parsedData.content });
+                }
+              } catch (e) {
+                console.error('Error parsing SSE data:', e);
+              }
+            }
+          }
+        }
+      }
     } catch (error) {
       console.error('Error calling Claude API:', error);
       throw error;
