@@ -8,7 +8,7 @@ describe('chat store', () => {
 
     store.getState().actions.sendMessage({ content: 'Hello', sender: 'User' });
     expect(store.getState().messages).toEqual([{ content: 'Hello', sender: 'User' }]);
-  })
+  });
 
   it('should handle the streaming response', async () => {
     const { llmProxyFake, store } = setup();
@@ -19,7 +19,7 @@ describe('chat store', () => {
     store.getState().actions.sendMessage({ content: 'Hello', sender: 'User' });
     expect(store.getState().streaming).toBe(true);
 
-    await vi.advanceTimersByTime(1);
+    await vi.advanceTimersByTimeAsync(1);
 
     expect(store.getState().messages).toEqual([
       { content: 'Hello', sender: 'User' },
@@ -27,7 +27,7 @@ describe('chat store', () => {
     ]);
     expect(store.getState().streaming).toBe(true);
 
-    await vi.advanceTimersByTime(1);
+    await vi.advanceTimersByTimeAsync(1);
 
     expect(store.getState().messages).toEqual([
       { content: 'Hello', sender: 'User' },
@@ -46,9 +46,11 @@ describe('chat store', () => {
     store.getState().actions.sendMessage({ content: 'Hello', sender: 'User' });
 
     expect(store.getState().streaming).toBe(true);
-    expect(() => store.getState().actions.sendMessage({ content: 'Hello', sender: 'User' })).toThrowError('Cannot send message while streaming');
-  })
-})
+    expect(() => store.getState().actions.sendMessage({ content: 'Hello', sender: 'User' })).toThrowError(
+      'Cannot send message while streaming',
+    );
+  });
+});
 
 const setup = () => {
   LLMProxyDi.reset();
@@ -61,5 +63,5 @@ const setup = () => {
   return {
     llmProxyFake,
     store,
-  }
-}
+  };
+};
