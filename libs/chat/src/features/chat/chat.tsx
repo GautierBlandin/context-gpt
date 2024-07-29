@@ -2,7 +2,7 @@
 import { ChatDomainContext } from './chat-domain.context';
 import { createChatDomainStoreFactory } from './chat-domain.store';
 import React, { useContext, useMemo } from 'react';
-import { ChatInput } from './chat-input';
+import { WiredChatInput } from './chat-input';
 import { ChatMessages } from './chat-messages';
 
 export function Chat() {
@@ -16,15 +16,13 @@ export function Chat() {
 }
 
 function ChatBody() {
-  console.log(process.env.NEXT_PUBLIC_CLAUDE_API_KEY);
-
   const store = useContext(ChatDomainContext);
   if (!store) throw new Error('ChatStore not provided in the component tree');
 
   return (
     <div>
       <ChatMessages />
-      <ChatInput />
+      <WiredChatInput />
     </div>
   );
 }

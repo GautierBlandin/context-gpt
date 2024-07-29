@@ -33,6 +33,7 @@ export const TextInput: React.FC<TextInputProps> = ({
     onChange?.(newValue);
   };
 
+  // Submit when the user presses Enter
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -48,7 +49,7 @@ export const TextInput: React.FC<TextInputProps> = ({
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
         rows={multiline ? 3 : 1}
-        className={`block w-full rounded-md border-0 py-1.5 pr-10 text-gray-900 shadow-sm ring-1 ring-inset
+        className={`block w-full rounded-md border-0 py-1.5 pl-2 pr-10 text-gray-900 shadow-sm ring-1 ring-inset
 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6
 ${multiline ? 'resize-y' : 'resize-none'}`}
       />

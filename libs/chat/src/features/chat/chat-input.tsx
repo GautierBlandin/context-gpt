@@ -1,23 +1,33 @@
-// Dev/context-gpt/libs/chat/src/features/chat/chat-input.tsx
-
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { ChatDomainContext } from './chat-domain.context';
 import { Message } from '../../model/Message';
 import { useStore } from 'zustand';
-import { CompositeInput } from './composite-input';
+import { ChatInput } from '@context-gpt/shared';
 
-export const ChatInput: React.FC = () => {
+export const WiredChatInput: React.FC = () => {
   const store = useContext(ChatDomainContext);
+  const [inputText, setInputText] = useState('');
 
   if (!store) throw new Error('ChatStore not provided in the component tree');
 
   const streaming = useStore(store, (state) => state.streaming);
   const actions = useStore(store, (state) => state.actions);
 
-  const handleSendMessage = (inputText: string) => {
-    const message: Message = { content: inputText, sender: 'User' };
-    actions.sendMessage(message);
+  const handleSendMessage = () => {
+    if (inputText.trim()) {
+      const message: Message = { content: inputText.trim(), sender: 'User' };
+      actions.sendMessage(message);
+      setInputText('');
+    }
   };
 
-  return <CompositeInput onSubmit={handleSendMessage} placeholder="Type your message..." disabled={streaming} />;
+  return (
+    <ChatInput
+      value={inputText}
+      onChange={setInputText}
+      onSubmit={handleSendMessage}
+      disabled={streaming}
+      placeholder="Type your message..."
+    />
+  );
 };
