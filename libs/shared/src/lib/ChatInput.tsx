@@ -30,12 +30,8 @@ export function ChatInput({
       // Reset height to auto to get the correct scrollHeight
       textarea.style.height = 'auto';
 
-      // Calculate the height of four lines of text
-      const lineHeight = parseInt(window.getComputedStyle(textarea).lineHeight);
-      const minHeight = lineHeight * 4;
-
       // Set the new height, ensuring it's at least the minimum height
-      const newHeight = Math.max(textarea.scrollHeight, minHeight);
+      const newHeight = Math.max(textarea.scrollHeight);
       textarea.style.height = `${Math.min(newHeight, 200)}px`;
     }
   };
@@ -63,9 +59,9 @@ focus-within:ring-indigo-600"
           placeholder={placeholder}
           disabled={disabled}
           className="block w-full resize-none border-0 bg-transparent py-1.5 pr-14 text-gray-900
-placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 min-h-[4.5em] max-h-[200px] overflow-y-auto"
+placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 min-h-[7em] max-h-[200px] overflow-y-auto"
         />
-        <div className="absolute bottom-0 right-0 flex justify-end p-2">
+        <div className="absolute top-0 right-0 flex justify-end p-2">
           <button
             type="submit"
             disabled={disabled}
