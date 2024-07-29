@@ -1,5 +1,3 @@
-// di.spec.ts
-
 import { injectableFactory } from './di';
 
 describe('injectableFactory', () => {
