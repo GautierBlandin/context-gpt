@@ -28,8 +28,7 @@ export function ChatInput({
     const textarea = textareaRef.current;
     if (textarea) {
       textarea.style.height = 'auto';
-      const newHeight = Math.max(textarea.scrollHeight);
-      textarea.style.height = `${Math.min(newHeight, 200)}px`;
+      textarea.style.height = `${textarea.scrollHeight}px`;
     }
   };
 
