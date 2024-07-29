@@ -57,7 +57,6 @@ focus-within:ring-indigo-600"
           onChange={handleChange}
           rows={1}
           placeholder={placeholder}
-          disabled={disabled}
           className="block w-full resize-none border-0 bg-transparent py-1.5 pr-14 text-gray-900
 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 min-h-[7em] max-h-[200px] overflow-y-auto"
         />
