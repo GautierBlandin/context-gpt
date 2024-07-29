@@ -30,7 +30,7 @@ export function ChatInput({
       // Reset height to auto to get the correct scrollHeight
       textarea.style.height = 'auto';
 
-      // Calculate the height of three lines of text
+      // Calculate the height of four lines of text
       const lineHeight = parseInt(window.getComputedStyle(textarea).lineHeight);
       const minHeight = lineHeight * 4;
 
@@ -40,13 +40,13 @@ export function ChatInput({
     }
   };
 
+  // Adjust the height when the value changes
   useEffect(() => {
     adjustHeight();
   }, [value]);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onChange(e.target.value);
-    adjustHeight();
   };
 
   return (
