@@ -1,10 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Markdown } from './markdown';
+import { withContainer } from '../../storybook-utils/container';
 
 const meta: Meta<typeof Markdown> = {
   component: Markdown,
   title: 'Markdown',
   tags: ['autodocs'],
+  decorators: [withContainer],
 };
 
 export default meta;

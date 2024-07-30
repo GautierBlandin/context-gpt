@@ -3,10 +3,12 @@ import { ChatInput } from './ChatInput';
 
 import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
+import { withContainer } from '../storybook-utils/container';
 
 const meta: Meta<typeof ChatInput> = {
   component: ChatInput,
   title: 'ChatInput',
+  decorators: [withContainer],
 };
 export default meta;
 type Story = StoryObj<typeof ChatInput>;
