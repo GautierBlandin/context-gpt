@@ -26,3 +26,9 @@ export const Heading: Story = {
     expect(canvas.getByText(/Welcome to ChatInput!/gi)).toBeTruthy();
   },
 };
+
+export const SubmitDisabled: Story = {
+  args: {
+    submitDisabled: true,
+  },
+};
