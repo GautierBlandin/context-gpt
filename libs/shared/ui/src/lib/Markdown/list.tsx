@@ -11,11 +11,9 @@ export const List = ({
   className?: string;
 }) => {
   const Component = ordered ? 'ol' : 'ul';
-  return <Component className={cn(className, 'pl-6', ordered ? 'list-decimal' : 'list-disc')}>{children}</Component>;
-};
-
-export const ListItem = ({ children, className }: { children: React.ReactNode; className?: string }) => {
-  return <li className={cn(className, 'mb-1')}>{children}</li>;
+  return (
+    <Component className={cn(className, 'pl-10', 'py-2', ordered ? 'list-decimal' : 'list-disc')}>{children}</Component>
+  );
 };
 
 export const list = {
@@ -23,8 +21,4 @@ export const list = {
   attributes: {
     ordered: { type: Boolean },
   },
-};
-
-export const listItem = {
-  render: 'ListItem',
 };
