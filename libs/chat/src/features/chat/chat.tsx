@@ -20,10 +20,10 @@ function ChatBody() {
   if (!store) throw new Error('ChatStore not provided in the component tree');
 
   return (
-    <div className="h-screen" id={'full-chat'}>
-      <div className="h-full max-w-4xl mx-auto px-4">
-        <div className="flex flex-col h-full">
-          <div className="flex-grow overflow-y-auto">
+    <div className="h-screen overflow-x-hidden" id={'full-chat'}>
+      <div className="h-full w-full max-w-4xl mx-auto px-4">
+        <div className="flex flex-col h-full w-full">
+          <div className="flex-grow overflow-y-auto overflow-x-hidden">
             <ChatMessages />
           </div>
           <div className="flex-shrink-0 w-full">
