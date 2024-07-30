@@ -50,7 +50,7 @@ export function ChatInput({
   return (
     <form onSubmit={handleSubmit} className="relative">
       <div
-        className="relative overflow-hidden rounded-lg shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2
+        className="flex items-start rounded-lg shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2
 focus-within:ring-indigo-600"
       >
         <textarea
@@ -60,10 +60,10 @@ focus-within:ring-indigo-600"
           onKeyDown={handleKeyDown}
           rows={1}
           placeholder={placeholder}
-          className="block w-full resize-none border-0 bg-transparent py-1.5 pr-16 text-gray-900
-placeholder:text-gray-400 sm:text-sm sm:leading-6 min-h-[7em] max-h-[200px] overflow-y-auto"
+          className="flex-grow w-full resize-none border-0 bg-transparent py-1.5 pl-2 text-gray-900
+placeholder:text-gray-400 sm:text-sm sm:leading-6 min-h-[7em] max-h-[200px] overflow-y-auto focus:outline-none"
         />
-        <div className="absolute top-0 right-0 flex justify-end p-2">
+        <div className="flex-shrink-0 p-2">
           <button
             type="submit"
             disabled={submitDisabled}
