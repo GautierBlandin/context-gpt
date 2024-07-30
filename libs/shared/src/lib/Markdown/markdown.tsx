@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import { CodeBlock } from './code-block';
 import { citationConfig } from './config';
 import { Paragraph } from './paragraph';
+import { List, ListItem } from './list';
 
 interface Props {
   content: string;
@@ -18,7 +19,7 @@ export const Markdown: FC<Props> = (props) => {
   return (
     <>
       {Markdoc.renderers.react(content, React, {
-        components: { Paragraph, CodeBlock },
+        components: { Paragraph, CodeBlock, List, ListItem },
       })}
     </>
   );
