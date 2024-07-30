@@ -51,7 +51,7 @@ export function ChatInput({
     <form onSubmit={handleSubmit} className="relative">
       <div
         className="flex items-start rounded-lg shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2
-focus-within:ring-indigo-600"
+focus-within:ring-indigo-600 p-2"
       >
         <textarea
           ref={textareaRef}
@@ -61,7 +61,7 @@ focus-within:ring-indigo-600"
           rows={1}
           placeholder={placeholder}
           className="flex-grow w-full resize-none border-0 bg-transparent py-1.5 pl-2 text-gray-900
-placeholder:text-gray-400 sm:text-sm sm:leading-6 min-h-[7em] max-h-[200px] overflow-y-auto focus:outline-none"
+placeholder:text-gray-400 sm:text-sm sm:leading-6 min-h-[7em] max-h-[200px] overflow-y-auto focus:ring-0"
         />
         <div className="flex-shrink-0 p-2">
           <button
