@@ -1,7 +1,7 @@
 import Markdoc from '@markdoc/markdoc';
-import React, { FC } from 'react';
+import React from 'react';
 import { CodeBlock } from './code-block';
-import { citationConfig } from './config';
+import { markdownConfig } from './config';
 import { Paragraph } from './paragraph';
 import { List, ListItem } from './list';
 
@@ -9,18 +9,18 @@ interface Props {
   content: string;
 }
 
-export const Markdown: FC<Props> = (props) => {
-  const ast = Markdoc.parse(props.content);
+export function Markdown({ content }: Props) {
+  const ast = Markdoc.parse(content);
 
-  const content = Markdoc.transform(ast, {
-    ...citationConfig,
+  const transformedContent = Markdoc.transform(ast, {
+    ...markdownConfig,
   });
 
   return (
     <>
-      {Markdoc.renderers.react(content, React, {
+      {Markdoc.renderers.react(transformedContent, React, {
         components: { Paragraph, CodeBlock, List, ListItem },
       })}
     </>
   );
-};
+}
