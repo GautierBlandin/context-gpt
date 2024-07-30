@@ -19,7 +19,7 @@ export const ChatMessages: React.FC = () => {
   }, [messages, streaming]);
 
   return (
-    <div>
+    <div className="px-4">
       {messages.map((message: Message, index: number) => (
         <div key={index} className={`message ${message.sender.toLowerCase()}`}>
           <MessageContent message={message} />
