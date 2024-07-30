@@ -48,7 +48,9 @@ function ChatBody() {
       <div ref={scrollContainerRef} className="flex-grow overflow-y-auto overflow-x-hidden" onScroll={handleScroll}>
         <div className="h-full w-full px-4">
           <div className="max-w-4xl mx-auto">
-            <ChatMessages />
+            <div className="px-8" id={'chat-messages'}>
+              <ChatMessages />
+            </div>
           </div>
         </div>
       </div>
