@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
   const { messages } = await req.json();
 
   const anthropicStream = await client.messages.create({
-    model: 'claude-3-sonnet-20240229',
+    model: 'claude-3-5-sonnet-20240620',
     max_tokens: 1000,
     messages: messages.map((msg: any) => ({
       role: msg.sender === 'User' ? 'user' : 'assistant',
