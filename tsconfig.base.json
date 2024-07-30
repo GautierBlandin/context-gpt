@@ -17,7 +17,7 @@
     "paths": {
       "@context-gpt/chat": ["libs/chat/src/index.ts"],
       "@context-gpt/di": ["libs/di/src/index.ts"],
-      "@context-gpt/shared": ["libs/shared/src/index.ts"]
+      "@context-gpt/shared/ui": ["libs/shared/ui/src/index.ts"]
     },
     "esModuleInterop": true
   },

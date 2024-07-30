@@ -1,7 +1,15 @@
 import React from 'react';
 import { cn } from '../cn';
 
-export const List = ({ children, ordered, className }: { children: React.ReactNode; ordered: boolean; className?: string }) => {
+export const List = ({
+  children,
+  ordered,
+  className,
+}: {
+  children: React.ReactNode;
+  ordered: boolean;
+  className?: string;
+}) => {
   const Component = ordered ? 'ol' : 'ul';
   return <Component className={cn(className, 'pl-6', ordered ? 'list-decimal' : 'list-disc')}>{children}</Component>;
 };

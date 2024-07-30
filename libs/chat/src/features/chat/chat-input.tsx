@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { ChatDomainContext } from './chat-domain.context';
 import { Message } from '../../model/Message';
 import { useStore } from 'zustand';
-import { ChatInput } from '@context-gpt/shared';
+import { ChatInput } from '@context-gpt/shared/ui';
 
 export const WiredChatInput: React.FC = () => {
   const store = useContext(ChatDomainContext);

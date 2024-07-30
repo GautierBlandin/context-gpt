@@ -1,6 +1,6 @@
 import React from 'react';
 import { Message } from '../model/Message';
-import { Markdown } from '@context-gpt/shared';
+import { Markdown } from '@context-gpt/shared/ui';
 
 interface MessageContentProps {
   message: Message;
