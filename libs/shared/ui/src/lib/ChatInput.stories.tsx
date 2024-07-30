@@ -16,7 +16,9 @@ export const Primary = {
 };
 
 export const Heading: Story = {
-  args: {},
+  args: {
+    value: 'Welcome to ChatInput!',
+  },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     expect(canvas.getByText(/Welcome to ChatInput!/gi)).toBeTruthy();
