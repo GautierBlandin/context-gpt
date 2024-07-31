@@ -1,7 +1,7 @@
 import { CheckIcon, ClipboardIcon } from 'lucide-react';
 import { FC, memo, useEffect, useState } from 'react';
 import { Prism } from 'react-syntax-highlighter';
-import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { darcula } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Button } from './button';
 
 export const fence = {
@@ -20,6 +20,20 @@ interface Props {
   language: string;
   children: string;
 }
+
+const customStyle = {
+  ...darcula,
+  'code[class*="language-"]': {
+    ...darcula['code[class*="language-"]'],
+    fontFamily: 'Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace',
+    fontSize: '0.9rem', // Adjust this value to make the font smaller
+  },
+  'pre[class*="language-"]': {
+    ...darcula['pre[class*="language-"]'],
+    fontFamily: 'Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace',
+    fontSize: '0.9rem', // Adjust this value to make the font smaller
+  },
+};
 
 export const CodeBlock: FC<Props> = memo(({ language, children }) => {
   const [isIconChecked, setIsIconChecked] = useState(false);
@@ -52,7 +66,7 @@ export const CodeBlock: FC<Props> = memo(({ language, children }) => {
         </Button>
       </div>
 
-      <Prism language={language} style={atomDark} PreTag="pre" showLineNumbers>
+      <Prism language={language} style={customStyle} PreTag="pre">
         {children}
       </Prism>
     </div>
