@@ -12,12 +12,17 @@ export const ChatMessages: React.FC = () => {
   const messages = useStore(store, (state) => state.messages);
 
   return (
-    <>
+    <div className="flex flex-col gap-4">
       {messages.map((message: Message, index: number) => (
-        <div key={index} className={`message ${message.sender.toLowerCase()}`}>
-          <Markdown content={message.content} />
+        <div key={index} className={`flex w-full ${message.sender === 'User' ? 'justify-start' : 'justify-end'}`}>
+          <div
+            className={`max-w-[100%] rounded-lg p-3 ${
+message.sender === 'User' ? 'bg-blue-100 text-black' : 'bg-gray-200 text-black' }`}
+          >
+            <Markdown content={message.content} />
+          </div>
         </div>
       ))}
-    </>
+    </div>
   );
 };
