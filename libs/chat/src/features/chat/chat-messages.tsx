@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { ChatDomainContext } from './chat-domain.context';
 import { useStore } from 'zustand';
 import { Message } from '../../model/Message';
@@ -10,13 +10,6 @@ export const ChatMessages: React.FC = () => {
   if (!store) throw new Error('ChatStore not provided in the component tree');
 
   const messages = useStore(store, (state) => state.messages);
-  const streaming = useStore(store, (state) => state.streaming);
-
-  useEffect(() => {
-    if (!streaming && messages.length > 0) {
-      console.log(messages[messages.length - 1].content);
-    }
-  }, [messages, streaming]);
 
   return (
     <>
