@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { ChatDomainContext } from './chat-domain.context';
 import { useStore } from 'zustand';
 import { Message } from '../../model/Message';
-import MessageContent from '../../ui/message-content';
+import { Markdown } from '@context-gpt/shared/ui';
 
 export const ChatMessages: React.FC = () => {
   const store = useContext(ChatDomainContext);
@@ -15,7 +15,7 @@ export const ChatMessages: React.FC = () => {
     <>
       {messages.map((message: Message, index: number) => (
         <div key={index} className={`message ${message.sender.toLowerCase()}`}>
-          <MessageContent message={message} />
+          <Markdown content={message.content} />
         </div>
       ))}
     </>
