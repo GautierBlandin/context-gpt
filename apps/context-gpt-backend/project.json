@@ -1,0 +1,26 @@
+{
+  "name": "context-gpt-backend",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/context-gpt-backend/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "context-gpt-backend:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "context-gpt-backend:build:development"
+        },
+        "production": {
+          "buildTarget": "context-gpt-backend:build:production"
+        }
+      }
+    }
+  }
+}
