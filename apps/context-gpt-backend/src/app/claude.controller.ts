@@ -36,8 +36,6 @@ export class ClaudeController {
         stream: true,
       });
 
-      console.log('Anthropic stream created');
-
       for await (const chunk of anthropicStream) {
         if (chunk.type === 'content_block_delta' && 'text' in chunk.delta) {
           res.write(`data: ${JSON.stringify({ content: chunk.delta.text })}\n\n`);
@@ -46,7 +44,6 @@ export class ClaudeController {
 
       res.write('data: [DONE]\n\n');
     } catch (error) {
-      console.error('Error calling Claude API:', error);
       res.write(`data: ${JSON.stringify({ error: 'An error occurred' })}\n\n`);
     } finally {
       res.end();
