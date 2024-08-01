@@ -1,9 +1,8 @@
-import { Controller, Post, Req, Res, StreamableFile } from '@nestjs/common';
+import { Controller, Post, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { Anthropic } from '@anthropic-ai/sdk';
-import { Readable } from 'stream';
 
-@Controller('api/claude')
+@Controller('claude')
 export class ClaudeController {
   private readonly anthropic: Anthropic;
 
@@ -19,40 +18,38 @@ export class ClaudeController {
   async handleClaudeRequest(@Req() req: Request, @Res() res: Response) {
     const { messages } = req.body;
 
-    const anthropicStream = await this.anthropic.messages.create({
-      model: 'claude-3-5-sonnet-20240620',
-      max_tokens: 1000,
-      messages: messages.map((msg: any) => ({
-        role: msg.sender === 'User' ? 'user' : 'assistant',
-        content: msg.content,
-      })),
-      stream: true,
+    // Set headers for SSE
+    res.writeHead(200, {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache, no-transform',
+      Connection: 'keep-alive',
     });
 
-    res.setHeader('Content-Type', 'text/event-stream');
-    res.setHeader('Cache-Control', 'no-cache, no-transform');
-    res.setHeader('Connection', 'keep-alive');
+    try {
+      const anthropicStream = await this.anthropic.messages.create({
+        model: 'claude-3-5-sonnet-20240620',
+        max_tokens: 1000,
+        messages: messages.map((msg: any) => ({
+          role: msg.sender === 'User' ? 'user' : 'assistant',
+          content: msg.content,
+        })),
+        stream: true,
+      });
 
-    const readable = new Readable({
-      read() {},
-    });
+      console.log('Anthropic stream created');
 
-    (async () => {
-      try {
-        for await (const chunk of anthropicStream) {
-          if (chunk.type === 'content_block_delta' && 'text' in chunk.delta) {
-            readable.push(`data: ${JSON.stringify({ content: chunk.delta.text })}\n\n`);
-          }
+      for await (const chunk of anthropicStream) {
+        if (chunk.type === 'content_block_delta' && 'text' in chunk.delta) {
+          res.write(`data: ${JSON.stringify({ content: chunk.delta.text })}\n\n`);
         }
-        readable.push('data: [DONE]\n\n');
-        readable.push(null);
-      } catch (error) {
-        console.error('Error calling Claude API:', error);
-        readable.push(`data: ${JSON.stringify({ error: 'An error occurred' })}\n\n`);
-        readable.push(null);
       }
-    })();
 
-    return new StreamableFile(readable);
+      res.write('data: [DONE]\n\n');
+    } catch (error) {
+      console.error('Error calling Claude API:', error);
+      res.write(`data: ${JSON.stringify({ error: 'An error occurred' })}\n\n`);
+    } finally {
+      res.end();
+    }
   }
 }
