@@ -1,0 +1,125 @@
+# Goal
+Implement a very simple authentication system for the app.
+
+# Requirements
+
+- There should be a login component that allows users to enter a hardcoded access token.
+- If the access token is correct, the user should be redirected to the main page
+- Every API request should be authenticated with the access token
+
+# Design
+
+## Client-side
+
+Wrap the app in a component that checks the validity of the access token, and displays a login form if it's invalid.
+If the access token is valid, display the main page. Otherwise, display a simple text input field for the user to enter the access token.
+
+When the text input is submitted, send an API request to the server to validate the access token.
+
+## Server-side
+
+- Implement a simple Guard that checks the validity of the access token, and set the guard in the controllers that require authentication..
+- Implement a /check-token endpoint that accepts the access token and returns a boolean indicating whether the token is valid or not.
+
+# Overall flow
+
+## Application startup
+
+```mermaid
+sequenceDiagram
+  actor User
+  participant Client
+  participant Server
+
+  User->>Client: Open application
+  Client->>Client: Check for stored token
+alt Token exists
+Client->>Server: Validate token (/check-token)
+Server->>Client: Token valid/invalid response
+alt Token valid
+Client->>User: Display main page
+else Token invalid
+Client->>User: Display login form
+end
+else No token
+Client->>User: Display login form
+end
+```
+
+## Login process
+
+```mermaid
+sequenceDiagram
+    actor User
+    participant Client
+    participant Server
+
+    User->>Client: Enter access token
+    Client->>Server: Validate token (/check-token)
+    alt Token valid
+        Server->>Client: Token valid response
+        Client->>Client: Store token
+        Client->>User: Display main page
+    else Token invalid
+        Server->>Client: Token invalid response
+        Client->>User: Display error message
+    end
+```
+
+## API requests
+
+```mermaid
+sequenceDiagram
+    actor User
+    participant Client
+    participant Server
+
+    Client->>Server: API request with token
+    Server->>Server: Guard checks token
+    alt Token valid
+        Server->>Client: API response
+    else Token invalid
+        Server->>Client: Unauthorized error
+        Client->>User: Display login form
+    end
+```
+
+# Software components
+
+## Backend
+
+### Check token endpoint
+
+Simple controller that accepts the access token and check it against an environment variable.
+
+### Authentication guard
+
+Simple guard that checks the validity of the access token using the environment variable.
+
+```mermaid
+graph TD
+  ApiRoutes[Authenticated API routes] --> ApiGuard[Authentication Guard]
+  ApiGuard --> TokenRepository[Token Repository]
+  CheckTokenEndpoint[Check token endpoint] --> TokenRepository
+  TokenRepository --> ProcessEnv[Process.env.ACCESS_TOKEN]
+```
+
+## Frontend
+
+## API requests
+
+Current architecture:
+
+```mermaid
+graph LR
+LLMProxy[LLM Proxy] --> Backend[Backend]
+```
+
+New architecture:
+
+```mermaid
+graph LR
+LLMProxy[LLM Proxy] --> HttpClient[Http Client]
+HttpClient --Sends requests to --> Backend[Backend]
+HttpClient --> TokenRepository[Token Repository]
+```
