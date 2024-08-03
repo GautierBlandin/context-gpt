@@ -1,1 +1,1 @@
-export { injectableFactory } from './lib/di';
+export { singletonFactory } from './lib/di';

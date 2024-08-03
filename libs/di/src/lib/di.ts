@@ -1,4 +1,4 @@
-export function injectableFactory<T>(config: InjectableFactoryConfig<T>) {
+export function singletonFactory<T>(config: InjectableFactoryConfig<T>) {
   let override: T | undefined;
   let instance: T | undefined;
 
@@ -6,7 +6,7 @@ export function injectableFactory<T>(config: InjectableFactoryConfig<T>) {
     if (override !== undefined) {
       return override;
     }
-    return instance ??= config.factory();
+    return (instance ??= config.factory());
   };
 
   const reset = () => {

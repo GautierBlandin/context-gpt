@@ -1,8 +1,8 @@
-import { injectableFactory } from './di';
+import { singletonFactory } from './di';
 
 describe('injectableFactory', () => {
   it('should return an object with getInstance, reset, and setOverride methods', () => {
-    const factory = injectableFactory({ factory: () => 'test' });
+    const factory = singletonFactory({ factory: () => 'test' });
 
     expect(factory).toHaveProperty('getInstance');
     expect(factory).toHaveProperty('reset');
@@ -10,13 +10,13 @@ describe('injectableFactory', () => {
   });
 
   it('should return the factory result when getInstance is called', () => {
-    const factory = injectableFactory({ factory: () => 'test value' });
+    const factory = singletonFactory({ factory: () => 'test value' });
 
     expect(factory.getInstance()).toBe('test value');
   });
 
   it('should return the override value when setOverride is called', () => {
-    const factory = injectableFactory({ factory: () => 'original value' });
+    const factory = singletonFactory({ factory: () => 'original value' });
 
     factory.setOverride('override value');
 
@@ -24,7 +24,7 @@ describe('injectableFactory', () => {
   });
 
   it('should return to the original factory value after reset is called', () => {
-    const factory = injectableFactory({ factory: () => 'original value' });
+    const factory = singletonFactory({ factory: () => 'original value' });
 
     factory.setOverride('override value');
     factory.reset();
