@@ -7,7 +7,6 @@ export class TokenController {
 
   @Post('check-token')
   async checkToken(@Body('token') token: string): Promise<{ isValid: boolean }> {
-    console.log('Checking token:', token);
     const isValid = await this.tokenService.validateToken(token);
     return { isValid };
   }
