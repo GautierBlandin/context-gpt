@@ -1,11 +1,16 @@
 # Goal
 Implement a very simple authentication system for the app.
 
-# Requirements
+# Functional Requirements
 
 - There should be a login component that allows users to enter a hardcoded access token.
 - If the access token is correct, the user should be redirected to the main page
 - Every API request should be authenticated with the access token
+
+# Anticipated future requirements
+
+- Users will be able to log in either with username/password or with a federated identity provider
+- Each user will have a unique access token
 
 # Design
 
@@ -121,5 +126,24 @@ New architecture:
 graph LR
 LLMProxy[LLM Proxy] --> HttpClient[Http Client]
 HttpClient --Sends requests to --> Backend[Backend]
-HttpClient --> TokenRepository[Token Repository]
+HttpClient --> TokenRepository["Token Repository (front-end)"]
 ```
+
+## Authentication flow
+
+```mermaid
+graph TD
+  App --> AuthenticationChecker[Authentication Checker]
+  App --> RestOfTheApp[Rest of the app]
+  AuthenticationChecker --> TokenRepository["Token Repository (front-end)"]
+  AuthenticationChecker --> TokenChecker --> HttpClient[Http Client] --Unauthenticated \n /check-token request--> Backend[Backend]
+  AuthenticationChecker --> LoginForm[Login Form]
+```
+
+# Implementation plan
+
+1. /check-token endpoint (+ token repository on backend)
+2. HTTP client without auth (refactor existing LLM Proxy to use it)
+3. Authentication checker / Token Repository (front-end) / Token Checker / Login Form
+4. Add authentication to HTTP client
+5. Require authentication in backend routes
