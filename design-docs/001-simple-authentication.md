@@ -106,7 +106,7 @@ graph TD
   ApiRoutes[Authenticated API routes] --> ApiGuard[Authentication Guard]
   ApiGuard --> TokenRepository[Token Repository]
   CheckTokenEndpoint[Check token endpoint] --> TokenRepository
-  TokenRepository --> ProcessEnv[Process.env.ACCESS_TOKEN]
+  TokenRepository --> ProcessEnv[Process.env.API_ACCESS_TOKEN]
 ```
 
 ## Frontend
