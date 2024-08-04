@@ -1,6 +1,7 @@
-import { Controller, Post, Req, Res } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Response } from 'express';
 import { Anthropic } from '@anthropic-ai/sdk';
+import { ClaudeRequestDto } from './claude.dto';
 
 @Controller('claude')
 export class ClaudeController {
@@ -15,8 +16,8 @@ export class ClaudeController {
   }
 
   @Post()
-  async handleClaudeRequest(@Req() req: Request, @Res() res: Response) {
-    const { messages } = req.body;
+  async handleClaudeRequest(@Body() claudeRequestDto: ClaudeRequestDto, @Res() res: Response) {
+    const { messages } = claudeRequestDto;
 
     // Set headers for SSE
     res.writeHead(200, {
@@ -29,7 +30,7 @@ export class ClaudeController {
       const anthropicStream = await this.anthropic.messages.create({
         model: 'claude-3-5-sonnet-20240620',
         max_tokens: 1000,
-        messages: messages.map((msg: any) => ({
+        messages: messages.map((msg) => ({
           role: msg.sender === 'User' ? 'user' : 'assistant',
           content: msg.content,
         })),
