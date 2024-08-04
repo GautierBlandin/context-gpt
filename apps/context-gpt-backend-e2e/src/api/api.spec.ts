@@ -6,10 +6,10 @@ dotenv.config({ path: '.env.e2e' });
 const VALID_TOKEN = process.env.API_ACCESS_TOKEN;
 
 describe('API End-to-End Tests', () => {
-  describe('Root Endpoint (/)', () => {
-    it('should return "Hello API"', async () => {
-      const result = await makeRequest({ endpoint: '/' });
-      expect(result).toEqual({ message: 'Hello API' });
+  describe('Health Endpoint (/health)', () => {
+    it('should return OK status', async () => {
+      const result = await makeRequest({ endpoint: '/health' });
+      expect(result).toEqual({ status: 'OK' });
     });
   });
 
