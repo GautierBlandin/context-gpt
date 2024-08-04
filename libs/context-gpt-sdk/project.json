@@ -1,0 +1,9 @@
+{
+  "name": "context-gpt-sdk",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/context-gpt-sdk/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project context-gpt-sdk --web",
+  "targets": {}
+}
