@@ -16,4 +16,5 @@ export default {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../coverage/context-gpt-backend-e2e',
+  testMatch: ['**/src/**/*.spec.ts'],
 };
