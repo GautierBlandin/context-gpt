@@ -1,6 +1,19 @@
 import type { paths } from '../../api-types/schema';
 import createClient, { Client } from 'openapi-fetch';
 
+export enum ChunkType {
+  Start = 'start',
+  Content = 'content',
+  End = 'end',
+  Error = 'error',
+}
+
+export type Chunk =
+  | { type: ChunkType.Start }
+  | { type: ChunkType.Content; content: string }
+  | { type: ChunkType.End }
+  | { type: ChunkType.Error; error: string };
+
 export class ContextGptSdk {
   private readonly baseUrl: string;
 
@@ -19,9 +32,9 @@ export class ContextGptSdk {
     return this.client.GET('/api/health');
   }
 
-  public async promptClaude({
+  public async *promptClaude({
     messages,
-  }: paths['/api/claude']['post']['requestBody']['content']['application/json']): Promise<ReadableStream<Uint8Array>> {
+  }: paths['/api/claude']['post']['requestBody']['content']['application/json']): AsyncGenerator<Chunk, void, unknown> {
     const response = await fetch(`${this.baseUrl}/api/claude`, {
       method: 'POST',
       headers: {
@@ -31,13 +44,48 @@ export class ContextGptSdk {
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      yield { type: ChunkType.Error, error: `HTTP error! status: ${response.status}` };
+      return;
     }
 
     if (!response.body) {
-      throw new Error('Response body is null');
+      yield { type: ChunkType.Error, error: 'Response body is null' };
+      return;
     }
 
-    return response.body;
+    yield { type: ChunkType.Start };
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value);
+        const lines = chunk.split('\n\n');
+
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            const data = line.slice(6);
+            if (data === '[DONE]') {
+              yield { type: ChunkType.End };
+            } else {
+              try {
+                const parsedData = JSON.parse(data);
+                if (parsedData.content) {
+                  yield { type: ChunkType.Content, content: parsedData.content };
+                }
+              } catch (e) {
+                yield { type: ChunkType.Error, error: `Error parsing SSE data: ${e}` };
+              }
+            }
+          }
+        }
+      }
+    } catch (error) {
+      yield { type: ChunkType.Error, error: `Stream reading error: ${error}` };
+    }
   }
 }

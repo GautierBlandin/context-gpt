@@ -1,4 +1,4 @@
-import { ContextGptSdk } from './context-gpt-sdk';
+import { ChunkType, ContextGptSdk } from './context-gpt-sdk';
 import * as dotenv from 'dotenv';
 
 dotenv.config({ path: '.env.e2e' });
@@ -41,37 +41,28 @@ describe('contextGptSdk', () => {
         },
       ];
 
-      const stream = await sdk.promptClaude({ messages });
-      const reader = stream.getReader();
       let result = '';
+      let hasStarted = false;
+      let hasEnded = false;
 
-      // eslint-disable-next-line no-constant-condition
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        const chunk = new TextDecoder().decode(value);
-        const lines = chunk.split('\n\n');
-
-        for (const line of lines) {
-          if (line.startsWith('data: ')) {
-            const data = line.slice(6);
-            if (data === '[DONE]') {
-              break;
-            } else {
-              try {
-                const parsedData = JSON.parse(data);
-                if (parsedData.content) {
-                  result += parsedData.content;
-                }
-              } catch (e) {
-                console.error('Error parsing SSE data:', e);
-              }
-            }
-          }
+      for await (const chunk of sdk.promptClaude({ messages })) {
+        switch (chunk.type) {
+          case ChunkType.Start:
+            hasStarted = true;
+            break;
+          case ChunkType.Content:
+            result += chunk.content;
+            break;
+          case ChunkType.End:
+            hasEnded = true;
+            break;
+          case ChunkType.Error:
+            throw new Error(chunk.error);
         }
       }
 
+      expect(hasStarted).toBe(true);
+      expect(hasEnded).toBe(true);
       expect(result.trim()).toEqual('I understand, and my API is healthy!');
     });
   });
