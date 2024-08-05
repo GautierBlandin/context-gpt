@@ -16,8 +16,8 @@ export const ChatMessages: React.FC = () => {
       {messages.map((message: Message, index: number) => (
         <div key={index} className={`flex w-full ${message.sender === 'User' ? 'justify-start' : 'justify-end'}`}>
           <div
-            className={`max-w-[100%] rounded-lg p-3 ${
-message.sender === 'User' ? 'bg-blue-100 text-black' : 'bg-gray-200 text-black' }`}
+            className={`${message.sender === 'User' ? 'max-w-[70%] bg-blue-100' : 'w-full bg-gray-200'} rounded-lg p-3
+text-black`}
           >
             <Markdown content={message.content} />
           </div>
