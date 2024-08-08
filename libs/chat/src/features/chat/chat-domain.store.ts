@@ -1,7 +1,7 @@
 import { createStore } from 'zustand';
-import { Message } from '../../core/Message';
-import { Chunk } from '../../core/Chunk';
-import { LLMProxyDi } from '../../ports/LLMProxy.di';
+import { Message } from '../../core';
+import { Chunk } from '../../core';
+import { LLMProxyDi } from '../../compositionRoot';
 
 interface ChatDomainState {
   messages: Message[];

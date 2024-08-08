@@ -1,5 +1,5 @@
-import { LLMProxyFake } from '../../ports/LLMProxy.fake';
-import { LLMProxyDi } from '../../ports/LLMProxy.di';
+import { LLMProxyFake } from '../../ports';
+import { LLMProxyDi } from '../../compositionRoot';
 import { createChatDomainStoreFactory } from './chat-domain.store';
 
 describe('chat store', () => {
