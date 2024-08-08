@@ -131,6 +131,10 @@ HttpClient --> TokenRepository["Token Repository (front-end)"]
 
 ## Authentication flow
 
+```ts
+
+```
+
 ```mermaid
 graph TD
   App --> AuthenticationChecker[Authentication Checker]
@@ -140,10 +144,19 @@ graph TD
   AuthenticationChecker --> LoginForm[Login Form]
 ```
 
-# Implementation plan
+# Implementation steps
 
-1. /check-token endpoint (+ token repository on backend)
-2. HTTP client without auth (refactor existing LLM Proxy to use it)
-3. Authentication checker / Token Repository (front-end) / Token Checker / Login Form
-4. Add authentication to HTTP client
-5. Require authentication in backend routes
+- [X] /check-token endpoint (+ token repository on backend)
+- [ ] HTTP client without auth (refactor existing LLM Proxy to use it)
+  - [ ] Make the HTTP client a singleton
+- [ ] Authentication checker / Token Repository (front-end) / Token Checker / Login Form
+  - [ ] Add the AuthenticationChecker component / context to the app
+  - [ ] Add the TokenRepository component / context to the app
+  - [ ] Add the TokenChecker service
+  - [ ] Add simple login form component
+- [ ] Add authentication to HTTP client
+  - [ ] Add setToken method to ContextGptSdk
+  - [ ] In ContextGptSdk, send the token in the Authorization header when it is set
+- [ ] Require authentication in backend routes
+  - [ ] Add global guard to check authentication token
+  - [ ] Disable global guard for specific unauthenticated routes such as /check-token and /health
