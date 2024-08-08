@@ -1,4 +1,4 @@
-import { Claude3_5Proxy } from '../infrastructure/Claude3.5Proxy';
+import { Claude3_5Proxy } from '../infrastructure';
 import { singletonFactory } from '@context-gpt/di';
 import { LLMProxy } from './LLMProxy';
 
