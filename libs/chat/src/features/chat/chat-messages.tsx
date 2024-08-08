@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { ChatDomainContext } from './chat-domain.context';
 import { useStore } from 'zustand';
-import { Message } from '../../model/Message';
+import { Message } from '../../core/Message';
 import { Markdown } from '@context-gpt/shared/ui';
 
 export const ChatMessages: React.FC = () => {

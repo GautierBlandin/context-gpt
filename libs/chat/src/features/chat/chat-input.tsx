@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { ChatDomainContext } from './chat-domain.context';
-import { Message } from '../../model/Message';
+import { Message } from '../../core/Message';
 import { useStore } from 'zustand';
 import { ChatInput } from '@context-gpt/shared/ui';
 

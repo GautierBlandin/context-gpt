@@ -1,5 +1,5 @@
-import { Chunk } from '../model/Chunk';
-import { Message } from '../model/Message';
+import { Chunk } from '../core/Chunk';
+import { Message } from '../core/Message';
 
 export interface LLMProxy {
   sendPrompt(input: SendPromptInput): void;
