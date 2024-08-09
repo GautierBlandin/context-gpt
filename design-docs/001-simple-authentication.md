@@ -150,8 +150,9 @@ graph TD
 - [X] HTTP client without auth (refactor existing LLM Proxy to use it)
   - [X] Make the HTTP client a singleton
 - [ ] Authentication checker / Token Repository (front-end) / Token Checker / Login Form
-  - [ ] Add LocalTokenStorage
+  - [X] Add LocalTokenStorage
   - [X] Add the TokenChecker service
+  - [X] Add authentication store
   - [ ] Add simple login form component
   - [ ] Add the AuthenticationChecker component / context to the app
 - [ ] Add authentication to HTTP client
