@@ -1,7 +1,7 @@
 import { getSdkSingleton } from './SdkSingleton';
-import { TokenCheckerOutput } from '../ports';
+import { TokenChecker, TokenCheckerOutput } from '../ports';
 
-export class TokenChecker {
+export class TokenCheckerImpl implements TokenChecker {
   private readonly sdk = getSdkSingleton();
 
   async checkToken({ token }: { token: string }): Promise<TokenCheckerOutput> {
