@@ -11,7 +11,7 @@ interface TextInputProps {
   multiline?: boolean;
 }
 
-export const TextInput: React.FC<TextInputProps> = ({
+export const TextArea: React.FC<TextInputProps> = ({
   value: externalValue,
   onChange,
   onSubmit,
