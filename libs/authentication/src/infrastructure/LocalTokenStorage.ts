@@ -1,8 +1,12 @@
-import { LocalTokenStorage, LocalTokenStorageOutput } from '../ports/LocalTokenStorage';
+import { LocalTokenStorage, LocalTokenStorageOutput } from '../ports';
 
 export class LocalTokenStorageImpl implements LocalTokenStorage {
   getToken(): LocalTokenStorageOutput {
-    return { token: localStorage.getItem('authToken') };
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      return null;
+    }
+    return { token };
   }
 
   setToken({ token }: { token: string }): void {
