@@ -139,7 +139,7 @@ HttpClient --> TokenRepository["Token Repository (front-end)"]
 graph TD
   App --> AuthenticationChecker[Authentication Checker]
   App --> RestOfTheApp[Rest of the app]
-  AuthenticationChecker --> TokenRepository["Token Repository (front-end)"]
+  AuthenticationChecker --> LocalTokenStorage["Local Token Storage (front-end)"]
   AuthenticationChecker --> TokenChecker --> HttpClient[Http Client] --Unauthenticated \n /check-token request--> Backend[Backend]
   AuthenticationChecker --> LoginForm[Login Form]
 ```
@@ -147,13 +147,13 @@ graph TD
 # Implementation steps
 
 - [X] /check-token endpoint (+ token repository on backend)
-- [ ] HTTP client without auth (refactor existing LLM Proxy to use it)
-  - [ ] Make the HTTP client a singleton
+- [X] HTTP client without auth (refactor existing LLM Proxy to use it)
+  - [X] Make the HTTP client a singleton
 - [ ] Authentication checker / Token Repository (front-end) / Token Checker / Login Form
-  - [ ] Add the AuthenticationChecker component / context to the app
-  - [ ] Add the TokenRepository component / context to the app
-  - [ ] Add the TokenChecker service
+  - [ ] Add LocalTokenStorage
+  - [X] Add the TokenChecker service
   - [ ] Add simple login form component
+  - [ ] Add the AuthenticationChecker component / context to the app
 - [ ] Add authentication to HTTP client
   - [ ] Add setToken method to ContextGptSdk
   - [ ] In ContextGptSdk, send the token in the Authorization header when it is set
