@@ -5,12 +5,8 @@ import { LocalTokenStorageSingleton } from '../composition-root/LocalTokenStorag
 import { authenticationStoreFactory } from './Authentication.store';
 
 describe('Authentication store', () => {
-  beforeEach(() => {
-    vi.useFakeTimers();
-  });
-
-  afterEach(() => {
-    vi.useRealTimers();
+  afterEach(async () => {
+    await vi.runAllTimersAsync();
   });
 
   it('should initialize as Anonymous when no token is present', () => {
@@ -105,6 +101,8 @@ const setup = () => {
 
   TokenCheckerSingleton.setOverride(tokenCheckerFake);
   LocalTokenStorageSingleton.setOverride(localTokenStorageFake);
+
+  vi.useFakeTimers();
 
   return {
     store: authenticationStoreFactory(),
