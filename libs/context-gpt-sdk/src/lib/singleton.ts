@@ -11,3 +11,5 @@ export function initializeSdkSingleton({ baseUrl }: Config) {
 export type Config = {
   baseUrl: string;
 };
+
+export const { getSdk } = initializeSdkSingleton({ baseUrl: '' });
