@@ -1,5 +1,3 @@
-// app/login/page.tsx
-
 'use client';
 
 import { useEffect } from 'react';

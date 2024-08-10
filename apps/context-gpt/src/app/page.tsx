@@ -1,12 +1,5 @@
-import { Chat } from '@context-gpt/chat';
+import { redirect } from 'next/navigation';
 
 export default function Index() {
-  /*
-   * Replace the elements below with your own.
-   *
-   * Note: The corresponding styles are in the ./index.tailwind file.
-   */
-  return (
-    <Chat />
-  );
+  redirect('/chat');
 }
