@@ -12,4 +12,4 @@ export type Config = {
   baseUrl: string;
 };
 
-export const { getSdk } = initializeSdkSingleton({ baseUrl: '' });
+export const { getSdk } = initializeSdkSingleton({ baseUrl: 'http://localhost:8000' });

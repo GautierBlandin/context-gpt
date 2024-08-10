@@ -1,8 +1,8 @@
 import { subscribe } from 'valtio/vanilla';
-import { ContextGptSdk } from '@context-gpt/context-gpt-sdk';
+import { getSdk } from '@context-gpt/context-gpt-sdk';
 import { AuthenticationStateType, authenticationStore } from '@context-gpt/authentication';
 
-const sdk = new ContextGptSdk('');
+const sdk = getSdk();
 
 subscribe(authenticationStore, () => {
   if (authenticationStore.authState.type === AuthenticationStateType.Authenticated) {
