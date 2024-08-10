@@ -10,17 +10,29 @@ describe('Authentication store', () => {
     await vi.runAllTimersAsync();
   });
 
-  it('should initialize as Anonymous when no token is present', () => {
+  it('should initialize with PreInitialization state', () => {
     const { store } = setup();
+
+    expect(store.authState).toEqual({ type: AuthenticationStateType.PreInitialization, token: null });
+  });
+
+  it('should initialize as Anonymous when no token is present after calling initialize', async () => {
+    const { localTokenStorageFake } = setup();
+
+    localTokenStorageFake.clearToken();
+    const store = new AuthenticationStore();
+
+    await store.initialize();
 
     expect(store.authState).toEqual({ type: AuthenticationStateType.Anonymous, token: null });
   });
 
-  it('should initialize as PendingInitialTokenValidation when a token is present', () => {
+  it('should initialize as PendingInitialTokenValidation when a token is present after calling initialize', async () => {
     const { localTokenStorageFake } = setup();
     localTokenStorageFake.setToken({ token: 'initialToken' });
 
     const newStore = new AuthenticationStore();
+    newStore.initialize();
 
     expect(newStore.authState).toEqual({
       type: AuthenticationStateType.PendingInitialTokenValidation,
@@ -34,6 +46,7 @@ describe('Authentication store', () => {
     tokenCheckerFake.setValidToken('validToken');
 
     const newStore = new AuthenticationStore();
+    newStore.initialize();
 
     await vi.runAllTimersAsync();
 
@@ -46,6 +59,7 @@ describe('Authentication store', () => {
     tokenCheckerFake.setValidToken('validToken');
 
     const store = new AuthenticationStore();
+    store.initialize();
 
     await vi.runAllTimersAsync();
 

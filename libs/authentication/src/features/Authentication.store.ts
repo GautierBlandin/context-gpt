@@ -10,9 +10,13 @@ export class AuthenticationStore {
   private tokenChecker = TokenCheckerSingleton.getInstance();
 
   constructor() {
+    this.authState = { type: AuthenticationStateType.PreInitialization, token: null };
+  }
+
+  public async initialize() {
     this.authState = this.determineInitialAuthState();
     if (this.authState.type === AuthenticationStateType.PendingInitialTokenValidation) {
-      this.handlePendingInitialTokenValidation({ token: this.authState.token });
+      await this.handlePendingInitialTokenValidation({ token: this.authState.token });
     }
   }
 
