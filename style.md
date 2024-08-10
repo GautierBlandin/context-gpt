@@ -41,3 +41,9 @@ interface Bar {
 - Do not put more than 2 arguments in a function. Instead, put the arguments in a single object.
 - Prefer the `function` keyword for top-level functions, including for React components
 - Prefer the `const` keyword for local (nested) functions
+
+## Classes
+
+- According to the 'What is more important comes first', private methods are declared last
+- Fields must be declared before methods
+- Every field and method should have an explicit access modifier

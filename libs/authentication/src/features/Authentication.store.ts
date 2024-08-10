@@ -1,19 +1,29 @@
 import { proxy, subscribe } from 'valtio';
-import { AuthToken } from '../core';
+import { AuthToken, AuthenticationState, AuthenticationStateType } from '../core';
 import { LocalTokenStorageSingleton } from '../composition-root/LocalTokenStorage.di';
 import { TokenCheckerSingleton } from '../composition-root/TokenChecker.di';
-import { AuthenticationState, AuthenticationStateType } from '../core';
 
 export class AuthenticationStore {
+  public authState: AuthenticationState;
+
   private localTokenStorage = LocalTokenStorageSingleton.getInstance();
   private tokenChecker = TokenCheckerSingleton.getInstance();
-
-  authState: AuthenticationState;
 
   constructor() {
     this.authState = this.determineInitialAuthState();
     if (this.authState.type === AuthenticationStateType.PendingInitialTokenValidation) {
-      this.handlePendingInitialTokenValidation(this.authState.token);
+      this.handlePendingInitialTokenValidation({ token: this.authState.token });
+    }
+  }
+
+  public async submitToken({ token }: { token: string }) {
+    this.localTokenStorage.setToken({ token });
+    this.authState = { type: AuthenticationStateType.PendingTokenValidation, token: null };
+    const result = await this.tokenChecker.checkToken({ token });
+    if (!(result.type === 'success') || !result.isValid) {
+      this.authState = { type: AuthenticationStateType.Anonymous, token: null };
+    } else {
+      this.authState = { type: AuthenticationStateType.Authenticated, token: { token } };
     }
   }
 
@@ -32,31 +42,19 @@ export class AuthenticationStore {
     }
   }
 
-  private handlePendingInitialTokenValidation(initialToken: AuthToken) {
-    this.tokenChecker.checkToken({ token: initialToken.token }).then((result) => {
+  private handlePendingInitialTokenValidation({ token }: { token: AuthToken }) {
+    this.tokenChecker.checkToken({ token: token.token }).then((result) => {
       if (!(result.type === 'success') || !result.isValid) {
         this.authState = { type: AuthenticationStateType.Anonymous, token: null };
       } else {
-        this.authState = { type: AuthenticationStateType.Authenticated, token: initialToken };
+        this.authState = { type: AuthenticationStateType.Authenticated, token };
       }
     });
-  }
-
-  async submitToken(token: string) {
-    this.localTokenStorage.setToken({ token });
-    this.authState = { type: AuthenticationStateType.PendingTokenValidation, token: null };
-    const result = await this.tokenChecker.checkToken({ token });
-    if (!(result.type === 'success') || !result.isValid) {
-      this.authState = { type: AuthenticationStateType.Anonymous, token: null };
-    } else {
-      this.authState = { type: AuthenticationStateType.Authenticated, token: { token } };
-    }
   }
 }
 
 export const authenticationStore = proxy(new AuthenticationStore());
 
-// Optional: Export a subscribe function for easier state management in components
-export const subscribeToAuthState = (callback: (state: AuthenticationState) => void) => {
+export function subscribeToAuthState(callback: (state: AuthenticationState) => void) {
   return subscribe(authenticationStore, () => callback(authenticationStore.authState));
-};
+}
