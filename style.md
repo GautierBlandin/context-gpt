@@ -68,4 +68,4 @@ export function MyComponent({ name }: MyComponentProps) {
 
 ## Exports
 
-- Never use default exports
+- Prefer named exports over default exports
