@@ -146,15 +146,15 @@ graph TD
 - [X] /check-token endpoint (+ token repository on backend)
 - [X] HTTP client without auth (refactor existing LLM Proxy to use it)
   - [X] Make the HTTP client a singleton
-- [ ] Authentication checker / Token Repository (front-end) / Token Checker / Login Form
+- [X] Authentication checker / Token Repository (front-end) / Token Checker / Login Form
   - [X] Add LocalTokenStorage
   - [X] Add the TokenChecker service
   - [X] Add authentication store
-  - [ ] Add simple login form component
-  - [ ] Add the AuthenticationChecker component / context to the app
-- [ ] Add authentication to HTTP client
-  - [ ] Add setToken method to ContextGptSdk
-  - [ ] In ContextGptSdk, send the token in the Authorization header when it is set
+  - [X] Add simple login form component
+  - [X] Add the AuthenticationChecker component / context to the app
+- [X] Add authentication to HTTP client
+  - [X] Add setToken method to ContextGptSdk
+  - [X] In ContextGptSdk, send the token in the Authorization header when it is set
 - [ ] Require authentication in backend routes
   - [ ] Add global guard to check authentication token
   - [ ] Disable global guard for specific unauthenticated routes such as /check-token and /health
