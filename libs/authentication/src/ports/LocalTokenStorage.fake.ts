@@ -13,4 +13,8 @@ export class LocalTokenStorageFake implements LocalTokenStorage {
   setToken({ token }: { token: string }): void {
     this.token = token;
   }
+
+  clearToken(): void {
+    this.token = null;
+  }
 }
