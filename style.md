@@ -65,3 +65,7 @@ export function MyComponent({ name }: MyComponentProps) {
 ## CSS
 
 - Use Tailwind CSS
+
+## Exports
+
+- Never use default exports
