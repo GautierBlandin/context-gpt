@@ -60,3 +60,7 @@ export function MyComponent({ name }: MyComponentProps) {
   return <div>Hello, {name}!</div>;
 }
 ```
+
+## CSS
+
+- Use Tailwind CSS
