@@ -1,11 +1,13 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { Anthropic } from '@anthropic-ai/sdk';
 import { ClaudeRequestDto } from './claude.dto';
+import { AuthGuard } from '../authorization/authorization';
 
 /**
  * This file is SSE voodoo. See https://medium.com/@david.richards.tech/sse-server-sent-events-using-a-post-request-without-eventsource-1c0bd6f14425 for more details.
  */
+@UseGuards(AuthGuard)
 @Controller('claude')
 export class ClaudeController {
   private readonly anthropic: Anthropic;
