@@ -1,9 +1,9 @@
 import { LLMProxy, SendPromptInput } from '../ports';
 import { ChunkType } from '@context-gpt/context-gpt-sdk';
-import { getSdkSingleton } from './SdkSingleton';
+import { authenticatedSdk } from './authenticatedSdk';
 
 export class Claude3_5Proxy implements LLMProxy {
-  private sdk = getSdkSingleton();
+  private sdk = authenticatedSdk;
 
   async sendPrompt(input: SendPromptInput): Promise<void> {
     try {
