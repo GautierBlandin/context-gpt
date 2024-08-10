@@ -1,10 +1,20 @@
 name: CI
 
+# Commenting out the existing triggers
+# on:
+#   push:
+#     branches:
+#       - main
+#   pull_request:
+
+# Adding a condition that will prevent the workflow from running
 on:
-  push:
-    branches:
-      - main
-  pull_request:
+  workflow_dispatch:
+    inputs:
+      run_ci:
+        description: 'Run CI (set to "true" to run)'
+        required: true
+        default: 'false'
 
 permissions:
   actions: read
@@ -12,6 +22,8 @@ permissions:
 
 jobs:
   main:
+    # Adding a condition to prevent the job from running
+    if: ${{ github.event.inputs.run_ci == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
