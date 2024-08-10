@@ -56,7 +56,7 @@ describe('Authentication store', () => {
     const { store, tokenCheckerFake } = setup();
     tokenCheckerFake.setValidToken('newValidToken');
 
-    store.submitToken('newValidToken');
+    store.submitToken({ token: 'newValidToken' });
 
     await vi.runAllTimersAsync();
 
@@ -68,7 +68,7 @@ describe('Authentication store', () => {
     tokenCheckerFake.setValidToken('validToken');
     tokenCheckerFake.setDelay(1);
 
-    store.submitToken('invalidToken');
+    store.submitToken({ token: 'invalidToken' });
 
     await vi.runAllTimersAsync();
 
@@ -79,7 +79,7 @@ describe('Authentication store', () => {
     const { store, tokenCheckerFake } = setup();
     tokenCheckerFake.setReturnError(true, 'Token check failed');
 
-    store.submitToken('someToken');
+    store.submitToken({ token: 'someToken' });
 
     await vi.runAllTimersAsync();
 
