@@ -16,13 +16,17 @@ export type Chunk =
 
 export class ContextGptSdk {
   private readonly baseUrl: string;
+  private accessToken: string | null = null;
+  private client: Client<paths>;
 
   constructor(baseUrl: string) {
     this.client = createClient<paths>({ baseUrl });
     this.baseUrl = baseUrl;
   }
 
-  private client: Client<paths>;
+  public setAccessToken(token: string | null) {
+    this.accessToken = token;
+  }
 
   public async checkToken({ token }: paths['/api/check-token']['post']['requestBody']['content']['application/json']) {
     return this.client.POST('/api/check-token', { body: { token } });
@@ -35,11 +39,17 @@ export class ContextGptSdk {
   public async *promptClaude({
     messages,
   }: paths['/api/claude']['post']['requestBody']['content']['application/json']): AsyncGenerator<Chunk, void, unknown> {
+    const headers: HeadersInit = {
+      'Content-Type': 'application/json',
+    };
+
+    if (this.accessToken) {
+      headers['Authorization'] = `Bearer ${this.accessToken}`;
+    }
+
     const response = await fetch(`${this.baseUrl}/api/claude`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
       body: JSON.stringify({ messages }),
     });
 
