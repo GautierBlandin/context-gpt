@@ -5,7 +5,6 @@ import { withContainer } from '../storybook-utils/container';
 const meta: Meta<typeof Loader> = {
   component: Loader,
   title: 'Loader',
-  tags: ['autodocs'],
   decorators: [withContainer],
 };
 export default meta;
