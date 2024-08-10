@@ -1,5 +1,5 @@
-import { proxy, subscribe } from 'valtio';
-import { AuthToken, AuthenticationState, AuthenticationStateType } from '../core';
+import { proxy } from 'valtio';
+import { AuthenticationState, AuthenticationStateType, AuthToken } from '../core';
 import { LocalTokenStorageSingleton } from '../composition-root/LocalTokenStorage.di';
 import { TokenCheckerSingleton } from '../composition-root/TokenChecker.di';
 
@@ -54,7 +54,3 @@ export class AuthenticationStore {
 }
 
 export const authenticationStore = proxy(new AuthenticationStore());
-
-export function subscribeToAuthState(callback: (state: AuthenticationState) => void) {
-  return subscribe(authenticationStore, () => callback(authenticationStore.authState));
-}
