@@ -13,25 +13,31 @@ interface AuthenticationActions {
   submitToken: (token: string) => Promise<void>;
 }
 
-export const authenticationStoreFactory = () =>
-  createStore<AuthenticationStoreState>((set, get) => {
+export const authenticationStore = authenticationStoreFactory();
+
+export function authenticationStoreFactory() {
+  return createStore<AuthenticationStoreState>((set) => {
     const localTokenStorage = LocalTokenStorageSingleton.getInstance();
     const tokenChecker = TokenCheckerSingleton.getInstance();
 
     const initialToken = localTokenStorage.getToken();
-    const initialAuthState = determineInitialAuthState(initialToken);
+    const initialAuthState = determineInitialAuthState({ initialToken });
 
     if (initialAuthState.type === AuthenticationStateType.PendingInitialTokenValidation) {
-      handlePendingInitialTokenValidation(initialAuthState.token, tokenChecker, set);
+      handlePendingInitialTokenValidation({
+        initialToken: initialAuthState.token,
+        tokenChecker,
+        set,
+      });
     }
 
     return {
       authState: initialAuthState,
       actions: {
-        submitToken: async (token: string) => {
+        submitToken: async (token) => {
           localTokenStorage.setToken({ token });
           set({ authState: { type: AuthenticationStateType.PendingTokenValidation, token: null } });
-          const result = await tokenChecker.checkToken({ token: token });
+          const result = await tokenChecker.checkToken({ token });
           if (!(result.type === 'success') || !result.isValid) {
             set({ authState: { type: AuthenticationStateType.Anonymous, token: null } });
           } else {
@@ -41,8 +47,9 @@ export const authenticationStoreFactory = () =>
       },
     };
   });
+}
 
-function determineInitialAuthState(initialToken: AuthToken | null): AuthenticationState {
+function determineInitialAuthState({ initialToken }: { initialToken: AuthToken | null }): AuthenticationState {
   if (initialToken !== null) {
     return {
       type: AuthenticationStateType.PendingInitialTokenValidation,
@@ -56,11 +63,15 @@ function determineInitialAuthState(initialToken: AuthToken | null): Authenticati
   }
 }
 
-function handlePendingInitialTokenValidation(
-  initialToken: AuthToken,
-  tokenChecker: ReturnType<typeof TokenCheckerSingleton.getInstance>,
-  set: (state: Partial<AuthenticationStoreState>) => void,
-) {
+function handlePendingInitialTokenValidation({
+  initialToken,
+  tokenChecker,
+  set,
+}: {
+  initialToken: AuthToken;
+  tokenChecker: ReturnType<typeof TokenCheckerSingleton.getInstance>;
+  set: (state: Partial<AuthenticationStoreState>) => void;
+}) {
   tokenChecker.checkToken({ token: initialToken.token }).then((result) => {
     if (!(result.type === 'success') || !result.isValid) {
       set({ authState: { type: AuthenticationStateType.Anonymous, token: null } });
@@ -69,5 +80,3 @@ function handlePendingInitialTokenValidation(
     }
   });
 }
-
-export const authenticationStore = authenticationStoreFactory();
