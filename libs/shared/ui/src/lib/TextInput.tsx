@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 
 interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -6,7 +6,7 @@ interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   setValue?: (value: string) => void;
 }
 
-const TextInput: React.FC<TextInputProps> = ({ label, value: propValue, setValue, ...props }) => {
+export const TextInput: React.FC<TextInputProps> = ({ label, value: propValue, setValue, ...props }) => {
   const [localValue, setLocalValue] = useState<string>(propValue || '');
 
   useEffect(() => {
@@ -38,5 +38,3 @@ placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm
     </div>
   );
 };
-
-export default TextInput;
