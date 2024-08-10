@@ -129,19 +129,16 @@ HttpClient --Sends requests to --> Backend[Backend]
 HttpClient --> TokenRepository["Token Repository (front-end)"]
 ```
 
-## Authentication flow
-
-```ts
-
-```
+## Authentication structure
 
 ```mermaid
 graph TD
-  App --> AuthenticationChecker[Authentication Checker]
-  App --> RestOfTheApp[Rest of the app]
-  AuthenticationChecker --> LocalTokenStorage["Local Token Storage (front-end)"]
-  AuthenticationChecker --> TokenChecker --> HttpClient[Http Client] --Unauthenticated \n /check-token request--> Backend[Backend]
-  AuthenticationChecker --> LoginForm[Login Form]
+  Page --> WithAuth
+  Page --> PageContent[Page Content]
+  WithAuth --> AuthenticationStore
+  WithAuth -- redirect to --> LoginForm[Login Form]
+  AuthenticationStore --> LocalTokenStorage["Local Token Storage (front-end)"]
+  AuthenticationStore --> TokenChecker --> HttpClient[Http Client] --Unauthenticated \n /check-token request--> Backend[Backend]
 ```
 
 # Implementation steps
