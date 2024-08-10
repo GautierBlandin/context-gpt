@@ -13,6 +13,12 @@ export function withAuth<PROPS extends React.JSX.IntrinsicAttributes>(WrappedCom
     const auth = useSnapshot(authenticationStore);
 
     useEffect(() => {
+      if (auth.authState.type === AuthenticationStateType.PreInitialization) {
+        authenticationStore.initialize();
+      }
+    }, [auth]);
+
+    useEffect(() => {
       if (auth.authState.type === AuthenticationStateType.Anonymous) {
         router.push('/login');
       }
