@@ -1,8 +1,9 @@
+import { AuthenticationStore } from './Authentication.store';
 import { TokenCheckerFake } from '../ports/TokenChecker.fake';
 import { LocalTokenStorageFake } from '../ports/LocalTokenStorage.fake';
 import { TokenCheckerSingleton } from '../composition-root/TokenChecker.di';
 import { LocalTokenStorageSingleton } from '../composition-root/LocalTokenStorage.di';
-import { authenticationStoreFactory } from './Authentication.store';
+import { AuthenticationStateType } from '../core';
 
 describe('Authentication store', () => {
   afterEach(async () => {
@@ -12,17 +13,17 @@ describe('Authentication store', () => {
   it('should initialize as Anonymous when no token is present', () => {
     const { store } = setup();
 
-    expect(store.getState().authState).toEqual({ type: 'anonymous', token: null });
+    expect(store.authState).toEqual({ type: AuthenticationStateType.Anonymous, token: null });
   });
 
   it('should initialize as PendingInitialTokenValidation when a token is present', () => {
     const { localTokenStorageFake } = setup();
     localTokenStorageFake.setToken({ token: 'initialToken' });
 
-    const newStore = authenticationStoreFactory();
+    const newStore = new AuthenticationStore();
 
-    expect(newStore.getState().authState).toEqual({
-      type: 'pendingInitialTokenValidation',
+    expect(newStore.authState).toEqual({
+      type: AuthenticationStateType.PendingInitialTokenValidation,
       token: { token: 'initialToken' },
     });
   });
@@ -32,11 +33,11 @@ describe('Authentication store', () => {
     localTokenStorageFake.setToken({ token: 'validToken' });
     tokenCheckerFake.setValidToken('validToken');
 
-    const newStore = authenticationStoreFactory();
+    const newStore = new AuthenticationStore();
 
     await vi.runAllTimersAsync();
 
-    expect(newStore.getState().authState).toEqual({ type: 'authenticated', token: { token: 'validToken' } });
+    expect(newStore.authState).toEqual({ type: AuthenticationStateType.Authenticated, token: { token: 'validToken' } });
   });
 
   it('should transition to Anonymous state when initial token is invalid', async () => {
@@ -44,50 +45,45 @@ describe('Authentication store', () => {
     localTokenStorageFake.setToken({ token: 'invalidToken' });
     tokenCheckerFake.setValidToken('validToken');
 
-    const store = authenticationStoreFactory();
+    const store = new AuthenticationStore();
 
     await vi.runAllTimersAsync();
 
-    expect(store.getState().authState).toEqual({ type: 'anonymous', token: null });
+    expect(store.authState).toEqual({ type: AuthenticationStateType.Anonymous, token: null });
   });
 
   it('should handle token submission and transition to Authenticated state when valid', async () => {
     const { store, tokenCheckerFake } = setup();
     tokenCheckerFake.setValidToken('newValidToken');
 
-    store.getState().actions.submitToken('newValidToken');
-
-    expect(store.getState().authState.type).toBe('pendingTokenValidation');
+    store.submitToken('newValidToken');
 
     await vi.runAllTimersAsync();
 
-    expect(store.getState().authState).toEqual({ type: 'authenticated', token: { token: 'newValidToken' } });
+    expect(store.authState).toEqual({ type: AuthenticationStateType.Authenticated, token: { token: 'newValidToken' } });
   });
 
   it('should handle token submission and transition to Anonymous state when invalid', async () => {
     const { store, tokenCheckerFake } = setup();
     tokenCheckerFake.setValidToken('validToken');
+    tokenCheckerFake.setDelay(1);
 
-    store.getState().actions.submitToken('invalidToken');
-
-    expect(store.getState().authState.type).toBe('pendingTokenValidation');
+    store.submitToken('invalidToken');
 
     await vi.runAllTimersAsync();
 
-    expect(store.getState().authState).toEqual({ type: 'anonymous', token: null });
+    expect(store.authState).toEqual({ type: AuthenticationStateType.Anonymous, token: null });
   });
 
   it('should handle token checker errors and transition to Anonymous state', async () => {
     const { store, tokenCheckerFake } = setup();
     tokenCheckerFake.setReturnError(true, 'Token check failed');
 
-    store.getState().actions.submitToken('someToken');
-
-    expect(store.getState().authState.type).toBe('pendingTokenValidation');
+    store.submitToken('someToken');
 
     await vi.runAllTimersAsync();
 
-    expect(store.getState().authState).toEqual({ type: 'anonymous', token: null });
+    expect(store.authState).toEqual({ type: AuthenticationStateType.Anonymous, token: null });
   });
 });
 
@@ -105,7 +101,7 @@ const setup = () => {
   vi.useFakeTimers();
 
   return {
-    store: authenticationStoreFactory(),
+    store: new AuthenticationStore(),
     tokenCheckerFake,
     localTokenStorageFake,
   };

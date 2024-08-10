@@ -1,82 +1,62 @@
+import { proxy, subscribe } from 'valtio';
 import { AuthToken } from '../core';
-import { createStore } from 'zustand';
 import { LocalTokenStorageSingleton } from '../composition-root/LocalTokenStorage.di';
 import { TokenCheckerSingleton } from '../composition-root/TokenChecker.di';
 import { AuthenticationState, AuthenticationStateType } from '../core';
 
-interface AuthenticationStoreState {
+export class AuthenticationStore {
+  private localTokenStorage = LocalTokenStorageSingleton.getInstance();
+  private tokenChecker = TokenCheckerSingleton.getInstance();
+
   authState: AuthenticationState;
-  actions: AuthenticationActions;
-}
 
-interface AuthenticationActions {
-  submitToken: (token: string) => Promise<void>;
-}
-
-export const authenticationStore = authenticationStoreFactory();
-
-export function authenticationStoreFactory() {
-  return createStore<AuthenticationStoreState>((set) => {
-    const localTokenStorage = LocalTokenStorageSingleton.getInstance();
-    const tokenChecker = TokenCheckerSingleton.getInstance();
-
-    const initialToken = localTokenStorage.getToken();
-    const initialAuthState = determineInitialAuthState({ initialToken });
-
-    if (initialAuthState.type === AuthenticationStateType.PendingInitialTokenValidation) {
-      handlePendingInitialTokenValidation({
-        initialToken: initialAuthState.token,
-        tokenChecker,
-        set,
-      });
+  constructor() {
+    this.authState = this.determineInitialAuthState();
+    if (this.authState.type === AuthenticationStateType.PendingInitialTokenValidation) {
+      this.handlePendingInitialTokenValidation(this.authState.token);
     }
+  }
 
-    return {
-      authState: initialAuthState,
-      actions: {
-        submitToken: async (token) => {
-          localTokenStorage.setToken({ token });
-          set({ authState: { type: AuthenticationStateType.PendingTokenValidation, token: null } });
-          const result = await tokenChecker.checkToken({ token });
-          if (!(result.type === 'success') || !result.isValid) {
-            set({ authState: { type: AuthenticationStateType.Anonymous, token: null } });
-          } else {
-            set({ authState: { type: AuthenticationStateType.Authenticated, token: { token } } });
-          }
-        },
-      },
-    };
-  });
-}
+  private determineInitialAuthState(): AuthenticationState {
+    const initialToken = this.localTokenStorage.getToken();
+    if (initialToken !== null) {
+      return {
+        type: AuthenticationStateType.PendingInitialTokenValidation,
+        token: initialToken,
+      };
+    } else {
+      return {
+        type: AuthenticationStateType.Anonymous,
+        token: null,
+      };
+    }
+  }
 
-function determineInitialAuthState({ initialToken }: { initialToken: AuthToken | null }): AuthenticationState {
-  if (initialToken !== null) {
-    return {
-      type: AuthenticationStateType.PendingInitialTokenValidation,
-      token: initialToken,
-    };
-  } else {
-    return {
-      type: AuthenticationStateType.Anonymous,
-      token: null,
-    };
+  private handlePendingInitialTokenValidation(initialToken: AuthToken) {
+    this.tokenChecker.checkToken({ token: initialToken.token }).then((result) => {
+      if (!(result.type === 'success') || !result.isValid) {
+        this.authState = { type: AuthenticationStateType.Anonymous, token: null };
+      } else {
+        this.authState = { type: AuthenticationStateType.Authenticated, token: initialToken };
+      }
+    });
+  }
+
+  async submitToken(token: string) {
+    this.localTokenStorage.setToken({ token });
+    this.authState = { type: AuthenticationStateType.PendingTokenValidation, token: null };
+    const result = await this.tokenChecker.checkToken({ token });
+    if (!(result.type === 'success') || !result.isValid) {
+      this.authState = { type: AuthenticationStateType.Anonymous, token: null };
+    } else {
+      this.authState = { type: AuthenticationStateType.Authenticated, token: { token } };
+    }
   }
 }
 
-function handlePendingInitialTokenValidation({
-  initialToken,
-  tokenChecker,
-  set,
-}: {
-  initialToken: AuthToken;
-  tokenChecker: ReturnType<typeof TokenCheckerSingleton.getInstance>;
-  set: (state: Partial<AuthenticationStoreState>) => void;
-}) {
-  tokenChecker.checkToken({ token: initialToken.token }).then((result) => {
-    if (!(result.type === 'success') || !result.isValid) {
-      set({ authState: { type: AuthenticationStateType.Anonymous, token: null } });
-    } else {
-      set({ authState: { type: AuthenticationStateType.Authenticated, token: initialToken } });
-    }
-  });
-}
+export const authenticationStore = proxy(new AuthenticationStore());
+
+// Optional: Export a subscribe function for easier state management in components
+export const subscribeToAuthState = (callback: (state: AuthenticationState) => void) => {
+  return subscribe(authenticationStore, () => callback(authenticationStore.authState));
+};
