@@ -77,13 +77,13 @@ describe('contextGptSdk', () => {
     it('should return 401 if no token is provided', async () => {
       const { sdk } = setup();
 
-      for await (const chunk of sdk.promptClaude({ messages: [] })) {
-        expect(chunk).toMatchObject({
-          type: ChunkType.Error,
-          error: expect.stringContaining('401'),
-        });
-        break;
-      }
+      const response = await sdk.promptClaude({ messages: [] }).next();
+      const chunk = response.value;
+
+      expect(chunk).toMatchObject({
+        type: ChunkType.Error,
+        error: expect.stringContaining('401'),
+      });
     });
   });
 });
