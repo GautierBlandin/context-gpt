@@ -39,4 +39,5 @@ interface Bar {
 ## Functions
 
 - Do not put more than 2 arguments in a function. Instead, put the arguments in a single object.
-- Prefer functions to arrow functions, including for React components.
+- Prefer the `function` keyword for top-level functions, including for React components
+- Prefer the `const` keyword for local (nested) functions
