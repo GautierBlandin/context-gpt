@@ -1,6 +1,16 @@
 import { AuthToken } from './AuthToken';
 
-export type AuthenticationState = Anonymous | PendingInitialTokenValidation | Authenticated | PendingTokenValidation;
+export type AuthenticationState =
+  | PreInitialization
+  | Anonymous
+  | PendingInitialTokenValidation
+  | Authenticated
+  | PendingTokenValidation;
+
+export type PreInitialization = {
+  type: AuthenticationStateType.PreInitialization;
+  token: null;
+};
 
 export type Anonymous = {
   type: AuthenticationStateType.Anonymous;
@@ -27,4 +37,5 @@ export enum AuthenticationStateType {
   PendingInitialTokenValidation = 'pendingInitialTokenValidation',
   Authenticated = 'authenticated',
   PendingTokenValidation = 'pendingTokenValidation',
+  PreInitialization = 'preInitialization',
 }
