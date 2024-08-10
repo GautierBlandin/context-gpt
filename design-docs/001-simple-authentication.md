@@ -155,6 +155,6 @@ graph TD
 - [X] Add authentication to HTTP client
   - [X] Add setToken method to ContextGptSdk
   - [X] In ContextGptSdk, send the token in the Authorization header when it is set
-- [ ] Require authentication in backend routes
-  - [ ] Add global guard to check authentication token
-  - [ ] Disable global guard for specific unauthenticated routes such as /check-token and /health
+- [X] Require authentication in backend routes
+  - [X] Add global guard to check authentication token
+  - [X] Disable global guard for specific unauthenticated routes such as /check-token and /health
