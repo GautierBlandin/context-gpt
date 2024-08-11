@@ -78,12 +78,21 @@
     },
     "build-docker": {
       "executor": "nx:run-commands",
+      "cache": true,
       "options": {
         "commands": [
           "docker build -t context-gpt-backend -f ./apps/context-gpt-backend/Dockerfile ."
         ]
       },
       "dependsOn": ["build"]
+    },
+    "push-ecr": {
+      "executor": "nx:run-commands",
+      "cache": true,
+      "options": {
+        "command": "node ./apps/context-gpt-backend/scripts/push-to-ecr.js"
+      },
+      "dependsOn": ["build-docker"]
     }
   }
 }
