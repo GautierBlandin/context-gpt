@@ -11,7 +11,7 @@ COPY package*.json ./
 RUN npm ci
 
 # Copy the built application
-COPY ./dist/apps/context-gpt-backend ./dist
+COPY dist/apps/context-gpt-backend ./dist
 
 # Expose the port the app runs on
 EXPOSE 8000
