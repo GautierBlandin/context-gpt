@@ -30,6 +30,9 @@ To save on NAT Gateway costs, we'll put the EC2 instance in the public subnet, a
 ## Implementation steps
 
 - [ ] Dockerize the NestJS backend
+  - [ ] Create a Dockerfile
+  - [ ] Build the Docker image
+  - [ ] Verify that the Docker image is working by running it locally
 - [ ] Automate the push of the Docker Image to ECR
 - [ ] Write an IaC Pulumi script to deploy the app
   - [ ] Create an S3 bucket
