@@ -1,0 +1,4 @@
+{
+  "ecrRepositoryUri": "YOUR_ECR_REPOSITORY_URI",
+  "awsRegion": "YOUR_AWS_REGION"
+}
