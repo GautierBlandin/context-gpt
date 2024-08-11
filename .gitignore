@@ -55,4 +55,4 @@ out
 
 storybook-static
 
-aws-config.json
+**/*/aws-config.json
