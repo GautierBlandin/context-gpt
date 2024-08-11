@@ -27,7 +27,6 @@ Design note:
 To save on NAT Gateway costs, we'll put the EC2 instance in the public subnet, and we'll use the Internet Gateway.
 - As a first step, we'll deploy the EC2 instance in the default VPC / default subnet. We will not create a custom VPC for now.
 
-
 ## Implementation steps
 
 - [ ] Dockerize the NestJS backend
