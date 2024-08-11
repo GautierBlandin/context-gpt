@@ -75,6 +75,15 @@
       "executor": "nx:run-commands",
       "configurations": {},
       "parallelism": true
+    },
+    "build-docker": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "docker build -t context-gpt-backend -f ./apps/context-gpt-backend/Dockerfile ."
+        ]
+      },
+      "dependsOn": ["build"]
     }
   }
 }
