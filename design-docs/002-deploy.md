@@ -33,7 +33,9 @@ To save on NAT Gateway costs, we'll put the EC2 instance in the public subnet, a
   - [X] Create a Dockerfile
   - [X] Build the Docker image
   - [X] Verify that the Docker image is working by running it locally
-- [ ] Automate the push of the Docker Image to ECR
+  - [X] Add an Nx target to build the Docker image
+- [X] Automate the push of the Docker Image to ECR
+  - [X] (Optional but recommended) Integrate the Automation in Nx targets 
 - [ ] Write an IaC Pulumi script to deploy the app
   - [ ] Create an S3 bucket
   - [ ] Sync the Next.js out directory with the S3 bucket
@@ -52,5 +54,3 @@ To save on NAT Gateway costs, we'll put the EC2 instance in the public subnet, a
   - [ ] Point the /api behavior to the ALB
   - [ ] Link ACM to CloudFront
   - [ ] Configure the Route53 hosted zone to point to CloudFront
-- [ ] Create an Nx target to dockerize and push the image to ECR
-- [ ] Create an Nx target to run the Pulumi deployment script
