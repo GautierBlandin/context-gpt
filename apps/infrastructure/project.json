@@ -5,36 +5,11 @@
   "projectType": "application",
   "tags": [],
   "targets": {
-    "build": {
-      "executor": "@nx/esbuild:esbuild",
-      "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "production",
+    "deploy": {
+      "executor": "nx:run-commands",
       "options": {
-        "platform": "node",
-        "outputPath": "dist/apps/infrastructure",
-        "format": ["cjs"],
-        "bundle": false,
-        "main": "apps/infrastructure/src/main.ts",
-        "tsConfig": "apps/infrastructure/tsconfig.app.json",
-        "assets": ["apps/infrastructure/src/assets"],
-        "generatePackageJson": true,
-        "esbuildOptions": {
-          "sourcemap": true,
-          "outExtension": {
-            ".js": ".js"
-          }
-        }
-      },
-      "configurations": {
-        "development": {},
-        "production": {
-          "esbuildOptions": {
-            "sourcemap": false,
-            "outExtension": {
-              ".js": ".js"
-            }
-          }
-        }
+        "command": "pulumi up",
+        "cwd": "apps/infrastructure"
       }
     }
   }

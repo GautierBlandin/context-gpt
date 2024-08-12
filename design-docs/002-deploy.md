@@ -37,7 +37,9 @@ To save on NAT Gateway costs, we'll put the EC2 instance in the public subnet, a
 - [X] Automate the push of the Docker Image to ECR
   - [X] (Optional but recommended) Integrate the Automation in Nx targets 
 - [ ] Write an IaC Pulumi script to deploy the app
-  - [ ] Create an S3 bucket
+  - [X] Setup a Pulumi infrastructure app
+  - [X] Create an S3 bucket
+  - [X] Make sure the simple pulumi script works
   - [ ] Sync the Next.js out directory with the S3 bucket
   - [ ] Provision an EC2 instance (free tier)
   - [ ] Configure the security group of the EC2 instance to allow inbound traffic from the ALB's security group on application port (8000)
