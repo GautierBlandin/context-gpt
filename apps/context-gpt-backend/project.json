@@ -22,60 +22,6 @@
         }
       }
     },
-    "build": {
-      "options": {
-        "cwd": "apps/context-gpt-backend",
-        "args": [
-          "--node-env=production"
-        ],
-        "command": "webpack-cli build",
-        "transformers": [
-          {
-            "name": "@nestjs/swagger/plugin",
-            "options": {
-              "classValidatorShim": false,
-              "introspectComments": true
-            }
-          }
-        ]
-      },
-      "cache": true,
-      "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "production",
-        "^production",
-        {
-          "externalDependencies": [
-            "webpack-cli"
-          ]
-        }
-      ],
-      "outputs": [
-        "{workspaceRoot}/dist/apps/context-gpt-backend"
-      ],
-      "metadata": {
-        "technologies": [
-          "webpack"
-        ],
-        "description": "Runs Webpack build",
-        "help": {
-          "command": "npx webpack-cli build --help",
-          "example": {
-            "options": {
-              "json": "stats.json"
-            },
-            "args": [
-              "--profile"
-            ]
-          }
-        }
-      },
-      "executor": "nx:run-commands",
-      "configurations": {},
-      "parallelism": true
-    },
     "build-docker": {
       "executor": "nx:run-commands",
       "cache": true,
