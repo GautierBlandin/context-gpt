@@ -25,6 +25,7 @@
     "build-docker": {
       "executor": "nx:run-commands",
       "cache": true,
+      "inputs": ["{projectRoot}/context-gpt-backend/Dockerfile", "{projectRoot}/dist/apps/context-gpt-backend/**/*"],
       "options": {
         "commands": [
           "docker build -t context-gpt-backend -f ./apps/context-gpt-backend/Dockerfile ."
@@ -35,6 +36,7 @@
     "push-ecr": {
       "executor": "nx:run-commands",
       "cache": true,
+      "inputs": ["{projectRoot}/context-gpt-backend/Dockerfile", "{projectRoot}/dist/apps/context-gpt-backend/**/*"],
       "options": {
         "command": "node ./apps/context-gpt-backend/scripts/push-to-ecr.js"
       },
