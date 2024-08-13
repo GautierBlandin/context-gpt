@@ -10,6 +10,30 @@
       "options": {
         "command": "pulumi up",
         "cwd": "apps/infrastructure"
+      },
+      "dependsOn": [
+        {
+          "target": "push-ecr",
+          "projects": "context-gpt-backend"
+        },
+        {
+          "target": "build",
+          "projects": "context-gpt"
+        }
+      ]
+    },
+    "destroy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pulumi destroy",
+        "cwd": "apps/infrastructure"
+      }
+    },
+    "preview": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pulumi preview",
+        "cwd": "apps/infrastructure"
       }
     }
   }
