@@ -216,6 +216,17 @@ const targetGroup = new aws.lb.TargetGroup('app-tg', {
   protocol: 'HTTP',
   targetType: 'instance',
   vpcId: vpc.id,
+  healthCheck: {
+    enabled: true,
+    path: '/api/health',
+    port: '8000',
+    protocol: 'HTTP',
+    healthyThreshold: 3,
+    unhealthyThreshold: 3,
+    timeout: 5,
+    interval: 30,
+    matcher: '200',
+  },
 });
 
 // Create a listener for the ALB
@@ -295,3 +306,95 @@ const ecsService = new aws.ecs.Service('app-service', {
 });
 
 export const apiURL = pulumi.interpolate`http://${alb.dnsName}`;
+
+const cloudfrontOAC = new aws.cloudfront.OriginAccessControl('cloudfrontOAC', {
+  originAccessControlOriginType: 's3',
+  signingBehavior: 'always',
+  signingProtocol: 'sigv4',
+});
+const cachingDisabledPolicyId = '4135ea2d-6df8-44a3-9df3-4b5a84be39ad';
+const cachingOptimizedPolicyId = '658327ea-f89d-4fab-a63d-7e88639e58f6';
+const allVieverExceptHostHeaderPolicyId = 'b689b0a8-53d0-40ab-baf2-68738e2966ac';
+
+const distribution = new aws.cloudfront.Distribution('s3Distribution', {
+  enabled: true,
+  defaultRootObject: 'index.html',
+
+  origins: [
+    {
+      domainName: bucket.bucketRegionalDomainName,
+      originId: 'S3Origin',
+      originAccessControlId: cloudfrontOAC.id,
+    },
+    {
+      domainName: alb.dnsName,
+      originId: 'ALBOrigin',
+      customOriginConfig: {
+        httpPort: 80,
+        httpsPort: 443,
+        originProtocolPolicy: 'http-only',
+        originSslProtocols: ['TLSv1.2'],
+      },
+    },
+  ],
+
+  defaultCacheBehavior: {
+    allowedMethods: ['GET', 'HEAD', 'OPTIONS'],
+    cachedMethods: ['GET', 'HEAD', 'OPTIONS'],
+    compress: true,
+    cachePolicyId: cachingDisabledPolicyId,
+    targetOriginId: 'S3Origin',
+    viewerProtocolPolicy: 'redirect-to-https',
+  },
+  orderedCacheBehaviors: [
+    {
+      pathPattern: '/api/*',
+      allowedMethods: ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'PATCH', 'POST', 'PUT'],
+      cachedMethods: ['GET', 'HEAD', 'OPTIONS'],
+      compress: true,
+      cachePolicyId: cachingDisabledPolicyId,
+      originRequestPolicyId: allVieverExceptHostHeaderPolicyId,
+      targetOriginId: 'ALBOrigin',
+      viewerProtocolPolicy: 'redirect-to-https',
+    },
+  ],
+
+  restrictions: {
+    geoRestriction: {
+      restrictionType: 'none',
+    },
+  },
+
+  viewerCertificate: {
+    cloudfrontDefaultCertificate: true,
+  },
+});
+
+new aws.s3.BucketPolicy(
+  'allowCloudFrontBucketPolicy',
+  {
+    bucket: bucket.bucket,
+    policy: {
+      Version: '2012-10-17',
+      Statement: [
+        {
+          Sid: 'AllowCloudFrontServicePrincipalRead',
+          Effect: 'Allow',
+          Principal: {
+            Service: 'cloudfront.amazonaws.com',
+          },
+          Action: ['s3:GetObject'],
+          Resource: pulumi.interpolate`${bucket.arn}/*`,
+          Condition: {
+            StringEquals: {
+              'AWS:SourceArn': distribution.arn,
+            },
+          },
+        },
+      ],
+    },
+  },
+  { dependsOn: [bucket, distribution] },
+);
+
+export const cloudFrontUrl = distribution.domainName;
