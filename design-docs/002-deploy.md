@@ -40,16 +40,16 @@ To save on NAT Gateway costs, we'll put the EC2 instance in the public subnet, a
   - [X] Setup a Pulumi infrastructure app
   - [X] Create an S3 bucket
   - [X] Make sure the simple pulumi script works
-  - [ ] Sync the Next.js out directory with the S3 bucket
-  - [ ] Provision an EC2 instance (free tier)
-  - [ ] Configure the security group of the EC2 instance to allow inbound traffic from the ALB's security group on application port (8000)
-  - [ ] Configure the security group of the EC2 instance to allow outbound traffic to the internet
-  - [ ] Create an ECS cluster that uses the EC2 instance
-  - [ ] Create a task definition for the backend
-  - [ ] Create an ALB
-  - [ ] Configure the ALB to use the ECS cluster as a target
-  - [ ] Configure the security group of the ALB to allow inbound traffic on port 443 and 80
-  - [ ] Configure the security group of the ALB to allow outbound traffic to the application port (8000)
+  - [X] Sync the Next.js out directory with the S3 bucket
+  - [X] Create an ASG as capacity provider. The ASG should use a t2.micro instance
+  - [X] Configure the security group of the ASG instance to allow inbound traffic from the ALB's security group on application port (8000)
+  - [X] Configure the security group of the ASG instance to allow outbound traffic to the internet
+  - [X] Create an ECS cluster that uses the ASG instance as capacity provider
+  - [X] Create a task definition for the backend
+  - [X] Create an ALB
+  - [X] Configure the ALB to use the ECS cluster as a target
+  - [X] Configure the security group of the ALB to allow inbound traffic on port 443 and 80
+  - [X] Configure the security group of the ALB to allow outbound traffic to the application port (8000)
   - [ ] Create a CloudFront distribution
   - [ ] Create an OAC to prevent direct access to the S3 bucket
   - [ ] Point the default behavior to S3
