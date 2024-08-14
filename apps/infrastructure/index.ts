@@ -214,7 +214,7 @@ const alb = new aws.lb.LoadBalancer('app-lb', {
 const targetGroup = new aws.lb.TargetGroup('app-tg', {
   port: 8000,
   protocol: 'HTTP',
-  targetType: 'ip',
+  targetType: 'instance',
   vpcId: vpc.id,
 });
 
@@ -241,9 +241,8 @@ const apiAccessToken = aws.ssm.getParameter({ name: '/context-gpt/api-access-tok
 // Create an ECS task definition
 const taskDefinition = new aws.ecs.TaskDefinition('app-task', {
   family: 'app-task',
-  cpu: '256',
   memory: '512',
-  networkMode: 'awsvpc',
+  networkMode: 'host',
   executionRoleArn: ecsTaskExecutionRole.arn, // Use the new ECS task execution role
   taskRoleArn: ecsTaskExecutionRole.arn,
   containerDefinitions: pulumi.all([claudeApiKey, apiAccessToken]).apply(([claudeApiKeyValue, apiAccessTokenValue]) =>
@@ -286,11 +285,6 @@ const ecsService = new aws.ecs.Service('app-service', {
   cluster: cluster.id,
   taskDefinition: taskDefinition.arn,
   desiredCount: 1,
-  networkConfiguration: {
-    subnets: [publicSubnet1.id, publicSubnet2.id],
-    assignPublicIp: false,
-    securityGroups: [instanceSg.id],
-  },
   loadBalancers: [
     {
       targetGroupArn: targetGroup.arn,
