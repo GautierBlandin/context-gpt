@@ -28,7 +28,7 @@
       "inputs": ["{projectRoot}/context-gpt-backend/Dockerfile", "{projectRoot}/dist/apps/context-gpt-backend/**/*"],
       "options": {
         "commands": [
-          "docker build -t context-gpt-backend -f ./apps/context-gpt-backend/Dockerfile ."
+          "docker buildx build --platform linux/amd64 -t context-gpt-backend -f ./apps/context-gpt-backend/Dockerfile ."
         ]
       },
       "dependsOn": ["build"]
