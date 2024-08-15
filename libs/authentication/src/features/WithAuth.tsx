@@ -1,7 +1,5 @@
-'use client';
-
 import React, { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useSnapshot } from 'valtio';
 import { authenticationStore } from './Authentication.store';
 import { AuthenticationStateType } from '../core';
@@ -9,7 +7,8 @@ import { Loader } from '@context-gpt/shared/ui';
 
 export function withAuth<PROPS extends React.JSX.IntrinsicAttributes>(WrappedComponent: React.ComponentType<PROPS>) {
   return function AuthenticatedComponent(props: PROPS) {
-    const router = useRouter();
+    const navigate = useNavigate();
+    const location = useLocation();
     const auth = useSnapshot(authenticationStore);
 
     useEffect(() => {
@@ -20,9 +19,9 @@ export function withAuth<PROPS extends React.JSX.IntrinsicAttributes>(WrappedCom
 
     useEffect(() => {
       if (auth.authState.type === AuthenticationStateType.Anonymous) {
-        router.push('/login');
+        navigate('/login', { state: { from: location }, replace: true });
       }
-    }, [auth.authState, router]);
+    }, [auth.authState, navigate, location]);
 
     if (auth.authState.type !== AuthenticationStateType.Authenticated) {
       return <Loader size="large" />;

@@ -1,19 +1,17 @@
-'use client';
-
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useNavigate } from 'react-router-dom';
 import { useSnapshot } from 'valtio';
 import { AuthenticationStateType, authenticationStore, LoginForm } from '@context-gpt/authentication';
 
-export default function LoginPage() {
-  const router = useRouter();
+export function LoginPage() {
+  const navigate = useNavigate();
   const auth = useSnapshot(authenticationStore);
 
   useEffect(() => {
     if (auth.authState.type === AuthenticationStateType.Authenticated) {
-      router.back();
+      navigate(-1);
     }
-  }, [auth.authState, router]);
+  }, [auth.authState, navigate]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">

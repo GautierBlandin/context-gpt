@@ -1,6 +1,4 @@
-'use client';
-
-import React, { useRef, useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 interface ChatInputProps {
   value: string;
@@ -61,7 +59,7 @@ focus-within:ring-indigo-600 p-3"
           rows={1}
           placeholder={placeholder}
           className="flex-grow w-full resize-none border-0 bg-transparent p-0 text-gray-900 placeholder:text-gray-400
-sm:text-sm sm:leading-6 min-h-[7em] max-h-[200px] overflow-y-auto focus:ring-0"
+sm:text-sm sm:leading-6 min-h-[7em] max-h-[200px] overflow-y-auto focus:ring-0 focus:outline-none"
         />
         <div className="flex-shrink-0">
           <button

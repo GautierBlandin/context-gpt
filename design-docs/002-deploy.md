@@ -7,7 +7,6 @@ Deploy the application to AWS.
 ## Infrastructure diagram
 ```mermaid
 graph LR
-  R53 --> CloudFront
   CloudFront --> S3 -- Serves --> StaticNextApp[Static Next.js App]
   CloudFront --> ALB
 

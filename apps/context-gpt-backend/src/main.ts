@@ -2,7 +2,6 @@ import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app/app.module';
-import * as fs from 'node:fs';
 import * as path from 'node:path';
 
 const projectRoot = path.join(__dirname, '../../../apps/context-gpt-backend');
@@ -25,7 +24,6 @@ async function bootstrap() {
     const document = SwaggerModule.createDocument(app, config);
 
     const swaggerSpecPath = path.join(projectRoot, 'swagger-spec.json');
-    fs.writeFileSync(swaggerSpecPath, JSON.stringify(document));
 
     SwaggerModule.setup('api/docs', app, document);
   }

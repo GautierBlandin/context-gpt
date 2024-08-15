@@ -83,7 +83,18 @@
     },
     "@nx/react": {
       "library": {
+        "style": "tailwind",
+        "linter": "eslint",
         "unitTestRunner": "vitest"
+      },
+      "application": {
+        "babel": true,
+        "style": "tailwind",
+        "linter": "eslint",
+        "bundler": "vite"
+      },
+      "component": {
+        "style": "tailwind"
       }
     }
   },
