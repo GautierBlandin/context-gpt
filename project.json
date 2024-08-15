@@ -1,0 +1,19 @@
+{
+  "$schema": "./node_modules/nx/schemas/project-schema.json",
+  "name": "context-gpt",
+  "targets": {
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx serve context-gpt-backend",
+          "nx serve context-gpt-frontend"
+        ],
+        "parallel": true
+      }
+    },
+    "deploy": {
+      "command": "nx run infrastructure:deploy"
+    }
+  }
+}
