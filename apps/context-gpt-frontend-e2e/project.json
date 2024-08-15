@@ -1,0 +1,9 @@
+{
+  "name": "context-gpt-frontend-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/context-gpt-frontend-e2e/src",
+  "implicitDependencies": ["context-gpt-frontend"],
+  "// targets": "to see all targets run: nx show project context-gpt-frontend-e2e --web",
+  "targets": {}
+}
