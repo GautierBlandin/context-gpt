@@ -18,7 +18,7 @@
         },
         {
           "target": "build",
-          "projects": "context-gpt"
+          "projects": "context-gpt-frontend"
         }
       ]
     },
