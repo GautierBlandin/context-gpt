@@ -6,7 +6,7 @@ import * as pulumi from '@pulumi/pulumi';
 const bucket = new aws.s3.Bucket('next-static');
 
 new synced.S3BucketFolder('synced-folder', {
-  path: '../../apps/context-gpt/out',
+  path: '../../dist/apps/context-gpt-frontend',
   bucketName: bucket.bucket,
   acl: 'private',
 });
@@ -319,6 +319,15 @@ const allVieverExceptHostHeaderPolicyId = 'b689b0a8-53d0-40ab-baf2-68738e2966ac'
 const distribution = new aws.cloudfront.Distribution('s3Distribution', {
   enabled: true,
   defaultRootObject: 'index.html',
+
+  customErrorResponses: [
+    {
+      errorCode: 403,
+      responseCode: 200,
+      responsePagePath: '/index.html',
+      errorCachingMinTtl: 300,
+    },
+  ],
 
   origins: [
     {
