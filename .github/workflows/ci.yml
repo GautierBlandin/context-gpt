@@ -23,16 +23,16 @@ jobs:
 
       - name: Use API Access Token
         env:
-          API_TOKEN: ${{ secrets.API_ACCESS_TOKEN }}
+          API_ACCESS_TOKEN: ${{ secrets.API_ACCESS_TOKEN }}
         run: echo "API token is set"
 
       - name: Use Claude API Key
         env:
-          CLAUDE_KEY: ${{ secrets.CLAUDE_API_KEY }}
+          CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
         run: echo "Claude API key is set"
 
       - name: Unit tests
-        run: npx nx run-many -t test --verbose
+        run: npx nx run-many -t test
 
       - name: Build
         run: npx nx build
