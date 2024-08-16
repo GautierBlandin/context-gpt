@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {},
   "private": true,
-  "type": "module",
+  "type": "commonjs",
   "dependencies": {
     "@anthropic-ai/sdk": "^0.25.0",
     "@markdoc/markdoc": "^0.4.0",
