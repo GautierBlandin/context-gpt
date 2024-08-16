@@ -32,7 +32,7 @@ jobs:
         run: echo "Claude API key is set"
 
       - name: Unit tests
-        run: npx nx run-many -t test
+        run: npx nx run-many -t test --verbose
 
       - name: Build
         run: npx nx build
