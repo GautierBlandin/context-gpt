@@ -5,5 +5,9 @@
   "projectType": "library",
   "tags": [],
   "// targets": "to see all targets run: nx show project shared-ui --web",
-  "targets": {}
+  "targets": {
+    "test": {
+      "command": "echo 'No tests to run for shared-ui'"
+    }
+  }
 }
