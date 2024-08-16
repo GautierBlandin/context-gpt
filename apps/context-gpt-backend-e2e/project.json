@@ -5,12 +5,8 @@
   "implicitDependencies": ["context-gpt-backend"],
   "targets": {
     "e2e": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
-      "options": {
-        "jestConfig": "apps/context-gpt-backend-e2e/jest.config.ts",
-        "passWithNoTests": true
-      },
       "dependsOn": ["context-gpt-backend:build"]
     }
   }
