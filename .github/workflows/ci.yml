@@ -16,13 +16,20 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18' # or your preferred Node.js version
+          node-version: '22' # or your preferred Node.js version
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Lint
-        run: npx nx run-many -t lint
+      - name: Use API Access Token
+        env:
+          API_TOKEN: ${{ secrets.API_ACCESS_TOKEN }}
+        run: echo "API token is set"
+
+      - name: Use Claude API Key
+        env:
+          CLAUDE_KEY: ${{ secrets.CLAUDE_API_KEY }}
+        run: echo "Claude API key is set"
 
       - name: Unit tests
         run: npx nx run-many -t test
@@ -35,3 +42,6 @@ jobs:
           npx nx serve &
           sleep 30 # Wait for the server to start
           npx nx run-many -t e2e
+
+      - name: Lint
+        run: npx nx run-many -t lint
