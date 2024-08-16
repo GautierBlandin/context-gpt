@@ -19,7 +19,7 @@ jobs:
           node-version: '22' # or your preferred Node.js version
 
       - name: Install dependencies
-        run: npm ci --force
+        run: npm i --force
 
       - name: Use API Access Token
         env:
