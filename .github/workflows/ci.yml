@@ -44,8 +44,8 @@ jobs:
 
       - name: E2E tests
         run: |
-          npx nx serve &
-          sleep 30 # Wait for the server to start
+          npx nx serve context-gpt-backend &
+          sleep 10 # Wait for the server to start
           npx nx run-many -t e2e
 
       - name: Lint
