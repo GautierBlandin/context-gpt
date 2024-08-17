@@ -56,6 +56,3 @@ out
 storybook-static
 
 **/*/aws-config.json
-
-# package-lock.json is ignored beacuse it causes issues for running tasks in CI, see https://github.com/nrwl/nx/issues/22407
-package-lock.json
