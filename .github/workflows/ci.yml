@@ -19,6 +19,7 @@ jobs:
           node-version: '22' # or your preferred Node.js version
 
       - name: remove package-lock.json
+        # Remove package-lock.json to avoid an issue where Nx crashes when executing in CI. See https://github.com/nrwl/nx/issues/22407
         run: rm -f package-lock.json
 
       - name: Install dependencies
