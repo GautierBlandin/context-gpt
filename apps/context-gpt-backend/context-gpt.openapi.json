@@ -1,0 +1,83 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/claude": {
+      "post": {
+        "operationId": "ClaudeController_handleClaudeRequest",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClaudeRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/check-token": {
+      "post": {
+        "operationId": "TokenController_checkToken",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckTokenInputDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "HealthController_healthCheck",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  "info": {
+    "title": "Cats example",
+    "description": "The cats API description 2",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "cats",
+      "description": ""
+    }
+  ],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "ClaudeRequestDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CheckTokenInputDto": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  }
+}
