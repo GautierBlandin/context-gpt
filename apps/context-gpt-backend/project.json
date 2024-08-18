@@ -41,6 +41,13 @@
         "command": "node ./apps/context-gpt-backend/scripts/push-to-ecr.js"
       },
       "dependsOn": ["build-docker"]
+    },
+    "generate-spec": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "bash ./apps/context-gpt-backend/generate-spec.sh"
+      },
+      "dependsOn": ["build"]
     }
   }
 }
