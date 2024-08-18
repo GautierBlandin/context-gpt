@@ -4,7 +4,22 @@ import { ChunkType, ContextGptSdk } from '@context-gpt/context-gpt-sdk';
 dotenv.config({ path: '.env.e2e' });
 
 const VALID_TOKEN = process.env.API_ACCESS_TOKEN;
-const API_URL = process.env.API_URL || 'http://localhost:8000';
+const API_URL = process.env.VITE_API_URL;
+const API_PREFIX = process.env.VITE_API_PREFIX;
+
+console.log(process.env);
+
+if (!API_URL) {
+  throw new Error('VITE_API_URL is not set in the environment variables');
+}
+
+if (!API_PREFIX) {
+  throw new Error('VITE_API_PREFIX is not set in the environment variables');
+}
+
+if (!API_PREFIX) {
+  throw new Error('VITE_API_PREFIX is not set in the environment variables');
+}
 
 describe('contextGptSdk', () => {
   describe('Check Token Endpoint (/check-token)', () => {
@@ -86,9 +101,21 @@ describe('contextGptSdk', () => {
 });
 
 const setup = () => {
-  const sdk = new ContextGptSdk(API_URL);
+  const sdk = new ContextGptSdk({
+    baseUrl: combineBaseUrl(API_URL, API_PREFIX),
+  });
 
   return {
     sdk,
   };
 };
+
+// New helper function to combine API_URL and API_PREFIX
+function combineBaseUrl(url: string, prefix: string): string {
+  // Remove trailing slash from URL if present
+  const cleanUrl = url.endsWith('/') ? url.slice(0, -1) : url;
+  // Remove leading slash from prefix if present
+  const cleanPrefix = prefix.startsWith('/') ? prefix.slice(1) : prefix;
+
+  return `${cleanUrl}/${cleanPrefix}`;
+}
