@@ -49,9 +49,9 @@ To save on NAT Gateway costs, we'll put the EC2 instance in the public subnet, a
   - [X] Configure the ALB to use the ECS cluster as a target
   - [X] Configure the security group of the ALB to allow inbound traffic on port 443 and 80
   - [X] Configure the security group of the ALB to allow outbound traffic to the application port (8000)
-  - [ ] Create a CloudFront distribution
-  - [ ] Create an OAC to prevent direct access to the S3 bucket
-  - [ ] Point the default behavior to S3
-  - [ ] Point the /api behavior to the ALB
+  - [X] Create a CloudFront distribution
+  - [X] Create an OAC to prevent direct access to the S3 bucket
+  - [X] Point the default behavior to S3
+  - [X] Point the /api behavior to the ALB
   - [ ] Link ACM to CloudFront
   - [ ] Configure the Route53 hosted zone to point to CloudFront
