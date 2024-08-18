@@ -15,7 +15,6 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@context-gpt/api": ["libs/api/src/index.ts"],
       "@context-gpt/authentication": ["libs/authentication/src/index.ts"],
       "@context-gpt/chat": ["libs/chat/src/index.ts"],
       "@context-gpt/context-gpt-sdk": ["libs/context-gpt-sdk/src/index.ts"],
