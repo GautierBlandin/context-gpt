@@ -7,8 +7,6 @@ const VALID_TOKEN = process.env.API_ACCESS_TOKEN;
 const API_URL = process.env.VITE_API_URL;
 const API_PREFIX = process.env.VITE_API_PREFIX;
 
-console.log(process.env);
-
 if (!API_URL) {
   throw new Error('VITE_API_URL is not set in the environment variables');
 }
