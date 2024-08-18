@@ -14,12 +14,16 @@ export type Chunk =
   | { type: ChunkType.End }
   | { type: ChunkType.Error; error: string };
 
+export interface ConstructorOptions {
+  baseUrl: string;
+}
+
 export class ContextGptSdk {
   private readonly baseUrl: string;
   private accessToken: string | null = null;
   private client: Client<paths>;
 
-  constructor(baseUrl: string) {
+  constructor({ baseUrl }: ConstructorOptions) {
     this.client = createClient<paths>({ baseUrl });
     this.baseUrl = baseUrl;
   }
@@ -28,17 +32,17 @@ export class ContextGptSdk {
     this.accessToken = token;
   }
 
-  public async checkToken({ token }: paths['/api/check-token']['post']['requestBody']['content']['application/json']) {
-    return this.client.POST('/api/check-token', { body: { token } });
+  public async checkToken({ token }: paths['/check-token']['post']['requestBody']['content']['application/json']) {
+    return this.client.POST('/check-token', { body: { token } });
   }
 
   public async healthCheck() {
-    return this.client.GET('/api/health');
+    return this.client.GET('/health');
   }
 
   public async *promptClaude({
     messages,
-  }: paths['/api/claude']['post']['requestBody']['content']['application/json']): AsyncGenerator<Chunk, void, unknown> {
+  }: paths['/claude']['post']['requestBody']['content']['application/json']): AsyncGenerator<Chunk, void, unknown> {
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
     };
@@ -47,7 +51,7 @@ export class ContextGptSdk {
       headers['Authorization'] = `Bearer ${this.accessToken}`;
     }
 
-    const response = await fetch(`${this.baseUrl}/api/claude`, {
+    const response = await fetch(`${this.baseUrl}/claude`, {
       method: 'POST',
       headers,
       body: JSON.stringify({ messages }),
