@@ -38,7 +38,14 @@
         },
         "responses": {
           "201": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckTokenOutputDto"
+                }
+              }
+            }
           }
         }
       }
@@ -49,7 +56,14 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthCheckOutputDto"
+                }
+              }
+            }
           }
         }
       }
@@ -70,13 +84,74 @@
   "servers": [],
   "components": {
     "schemas": {
+      "MessageDto": {
+        "type": "object",
+        "properties": {
+          "sender": {
+            "type": "string",
+            "enum": [
+              "User",
+              "Assistant"
+            ]
+          },
+          "content": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "sender",
+          "content"
+        ]
+      },
       "ClaudeRequestDto": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MessageDto"
+            }
+          }
+        },
+        "required": [
+          "messages"
+        ]
       },
       "CheckTokenInputDto": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "token": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "token"
+        ]
+      },
+      "CheckTokenOutputDto": {
+        "type": "object",
+        "properties": {
+          "isValid": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "isValid"
+        ]
+      },
+      "HealthCheckOutputDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "OK"
+            ]
+          }
+        },
+        "required": [
+          "status"
+        ]
       }
     }
   }
