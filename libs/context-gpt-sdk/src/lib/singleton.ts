@@ -1,9 +1,18 @@
 import { ContextGptSdk } from './context-gpt-sdk';
 
 const API_URL = import.meta.env['VITE_API_URL'] || '';
+const API_PREFIX = import.meta.env['VITE_API_PREFIX'] || '';
 
-export function initializeSdkSingleton({ baseUrl }: Config) {
-  const sdk = new ContextGptSdk(baseUrl);
+function combineBaseUrl(url: string, prefix: string): string {
+  const cleanUrl = url.endsWith('/') ? url.slice(0, -1) : url;
+  const cleanPrefix = prefix.startsWith('/') ? prefix.slice(1) : prefix;
+
+  return `${cleanUrl}/${cleanPrefix}`;
+}
+
+export function initializeSdkSingleton({ baseUrl, prefix }: Config) {
+  const combinedBaseUrl = combineBaseUrl(baseUrl, prefix);
+  const sdk = new ContextGptSdk({ baseUrl: combinedBaseUrl });
 
   return {
     getSdk: () => sdk,
@@ -12,6 +21,10 @@ export function initializeSdkSingleton({ baseUrl }: Config) {
 
 export type Config = {
   baseUrl: string;
+  prefix: string;
 };
 
-export const { getSdk } = initializeSdkSingleton({ baseUrl: API_URL });
+export const { getSdk } = initializeSdkSingleton({
+  baseUrl: API_URL,
+  prefix: API_PREFIX,
+});
