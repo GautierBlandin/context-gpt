@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-    "/api/claude": {
+    "/claude": {
         parameters: {
             query?: never;
             header?: never;
@@ -20,7 +20,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/check-token": {
+    "/check-token": {
         parameters: {
             query?: never;
             header?: never;
@@ -36,7 +36,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/health": {
+    "/health": {
         parameters: {
             query?: never;
             header?: never;
