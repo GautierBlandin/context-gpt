@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
-import { ThreadsController } from './chat/threads.controller';
-import { TokenController } from './token/token.controller';
-import { TokenService } from './token/token.service';
+import { ThreadsController } from './threads/threads.controller';
+import { AuthController } from './auth/auth.controller';
+import { AuthService } from './auth/auth.service';
 import { HealthController } from './health/health.controller';
-import { AuthGuard } from './authorization/authorization'; // Add this line
+import { AuthGuard } from './auth/auth.guard'; // Add this line
 
 @Module({
   imports: [],
-  controllers: [ThreadsController, TokenController, HealthController],
-  providers: [TokenService, AuthGuard],
+  controllers: [ThreadsController, AuthController, HealthController],
+  providers: [AuthService, AuthGuard],
 })
 export class AppModule {}

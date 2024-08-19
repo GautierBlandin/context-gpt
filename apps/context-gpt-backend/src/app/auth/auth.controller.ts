@@ -1,10 +1,10 @@
-import { Controller, Post, Body } from '@nestjs/common';
-import { TokenService } from './token.service';
-import { CheckTokenInputDto, CheckTokenOutputDto } from './token.dto';
+import { Body, Controller, Post } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { CheckTokenInputDto, CheckTokenOutputDto } from './auth.dto';
 
 @Controller()
-export class TokenController {
-  constructor(private readonly tokenService: TokenService) {}
+export class AuthController {
+  constructor(private readonly tokenService: AuthService) {}
 
   @Post('check-token')
   async checkToken(@Body() checkTokenInputDto: CheckTokenInputDto): Promise<CheckTokenOutputDto> {

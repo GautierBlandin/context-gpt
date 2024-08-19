@@ -2,7 +2,7 @@ import { Body, Controller, Param, Post, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { Anthropic } from '@anthropic-ai/sdk';
 import { ThreadsIdMessagesRequestPostDto } from './threads.dto';
-import { AuthGuard } from '../authorization/authorization';
+import { AuthGuard } from '../auth/auth.guard';
 
 @UseGuards(AuthGuard)
 @Controller('threads')
