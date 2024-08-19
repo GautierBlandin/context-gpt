@@ -24,7 +24,7 @@ export class LLMProxyFake implements LLMProxy {
 
     for (const chunk of this.responseChunks) {
       if (this.delay > 0) {
-        await new Promise(resolve => setTimeout(resolve, this.delay));
+        await new Promise((resolve) => setTimeout(resolve, this.delay));
       }
       input.addChunkCallback({ content: chunk });
     }

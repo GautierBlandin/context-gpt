@@ -16,7 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@context-gpt/authentication": ["libs/web/auth/src/index.ts"],
-      "@context-gpt/chat": ["libs/chat/src/index.ts"],
+      "@context-gpt/chat": ["libs/web/chat/src/index.ts"],
       "@context-gpt/context-gpt-sdk": ["libs/context-gpt-sdk/src/index.ts"],
       "@context-gpt/di": ["libs/di/src/index.ts"],
       "@context-gpt/shared/ui": ["libs/shared/ui/src/index.ts"]
