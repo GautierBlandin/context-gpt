@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-    "/claude": {
+    "/threads/{id}/messages": {
         parameters: {
             query?: never;
             header?: never;
@@ -87,7 +87,9 @@ export interface operations {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                id: string;
+            };
             cookie?: never;
         };
         requestBody: {

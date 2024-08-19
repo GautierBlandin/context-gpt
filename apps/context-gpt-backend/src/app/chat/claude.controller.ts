@@ -1,14 +1,11 @@
-import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Param, Post, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { Anthropic } from '@anthropic-ai/sdk';
 import { ClaudeRequestDto } from './claude.dto';
 import { AuthGuard } from '../authorization/authorization';
 
-/**
- * This file is SSE voodoo. See https://medium.com/@david.richards.tech/sse-server-sent-events-using-a-post-request-without-eventsource-1c0bd6f14425 for more details.
- */
 @UseGuards(AuthGuard)
-@Controller('claude')
+@Controller('threads')
 export class ClaudeController {
   private readonly anthropic: Anthropic;
 
@@ -20,8 +17,12 @@ export class ClaudeController {
     this.anthropic = new Anthropic({ apiKey });
   }
 
-  @Post()
-  async handleClaudeRequest(@Body() claudeRequestDto: ClaudeRequestDto, @Res() res: Response) {
+  @Post(':id/messages')
+  async handleClaudeRequest(
+    @Param('id') threadId: string,
+    @Body() claudeRequestDto: ClaudeRequestDto,
+    @Res() res: Response,
+  ) {
     // Set headers for SSE
     res.writeHead(200, {
       'Content-Type': 'text/event-stream',

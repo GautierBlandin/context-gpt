@@ -1,10 +1,19 @@
 {
   "openapi": "3.0.0",
   "paths": {
-    "/claude": {
+    "/threads/{id}/messages": {
       "post": {
         "operationId": "ClaudeController_handleClaudeRequest",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {

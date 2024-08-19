@@ -42,7 +42,11 @@ export class ContextGptSdk {
 
   public async *promptClaude({
     messages,
-  }: paths['/claude']['post']['requestBody']['content']['application/json']): AsyncGenerator<Chunk, void, unknown> {
+  }: paths['/threads/{id}/messages']['post']['requestBody']['content']['application/json']): AsyncGenerator<
+    Chunk,
+    void,
+    unknown
+  > {
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
     };
@@ -51,7 +55,7 @@ export class ContextGptSdk {
       headers['Authorization'] = `Bearer ${this.accessToken}`;
     }
 
-    const response = await fetch(`${this.baseUrl}/claude`, {
+    const response = await fetch(`${this.baseUrl}/threads/1/messages`, {
       method: 'POST',
       headers,
       body: JSON.stringify({ messages }),
