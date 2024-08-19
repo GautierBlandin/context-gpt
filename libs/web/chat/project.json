@@ -1,5 +1,5 @@
 {
-  "name": "chat",
+  "name": "libs-web-chat",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/web/chat/src",
   "projectType": "library",
