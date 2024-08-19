@@ -1,12 +1,12 @@
 import { Body, Controller, Param, Post, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { Anthropic } from '@anthropic-ai/sdk';
-import { ClaudeRequestDto } from './claude.dto';
+import { ThreadsIdMessagesRequestPostDto } from './threads.dto';
 import { AuthGuard } from '../authorization/authorization';
 
 @UseGuards(AuthGuard)
 @Controller('threads')
-export class ClaudeController {
+export class ThreadsController {
   private readonly anthropic: Anthropic;
 
   constructor() {
@@ -20,7 +20,7 @@ export class ClaudeController {
   @Post(':id/messages')
   async handleClaudeRequest(
     @Param('id') threadId: string,
-    @Body() claudeRequestDto: ClaudeRequestDto,
+    @Body() claudeRequestDto: ThreadsIdMessagesRequestPostDto,
     @Res() res: Response,
   ) {
     // Set headers for SSE
@@ -47,7 +47,7 @@ export class ClaudeController {
     }
   }
 
-  private async initializeAnthropicStream(claudeRequestDto: ClaudeRequestDto) {
+  private async initializeAnthropicStream(claudeRequestDto: ThreadsIdMessagesRequestPostDto) {
     const { messages } = claudeRequestDto;
 
     return this.anthropic.messages.create({

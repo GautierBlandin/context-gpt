@@ -9,7 +9,7 @@ class MessageDto {
   content: string;
 }
 
-export class ClaudeRequestDto {
+export class ThreadsIdMessagesRequestPostDto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => MessageDto)
