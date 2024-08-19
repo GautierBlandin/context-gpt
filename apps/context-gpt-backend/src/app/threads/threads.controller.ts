@@ -3,7 +3,9 @@ import { Response } from 'express';
 import { Anthropic } from '@anthropic-ai/sdk';
 import { ThreadsIdMessagesRequestPostDto } from './threads.dto';
 import { AuthGuard } from '../auth/auth.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth()
 @UseGuards(AuthGuard)
 @Controller('threads')
 export class ThreadsController {

@@ -3,7 +3,7 @@
   "paths": {
     "/threads/{id}/messages": {
       "post": {
-        "operationId": "ClaudeController_handleClaudeRequest",
+        "operationId": "ThreadsController_handleClaudeRequest",
         "parameters": [
           {
             "name": "id",
@@ -19,7 +19,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ClaudeRequestDto"
+                "$ref": "#/components/schemas/ThreadsIdMessagesRequestPostDto"
               }
             }
           }
@@ -28,12 +28,17 @@
           "201": {
             "description": ""
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
       }
     },
     "/check-token": {
       "post": {
-        "operationId": "TokenController_checkToken",
+        "operationId": "AuthController_checkToken",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -79,19 +84,26 @@
     }
   },
   "info": {
-    "title": "Cats example",
-    "description": "The cats API description 2",
+    "title": "ContextGpt API",
+    "description": "API for interacting with the ContextGpt application",
     "version": "1.0",
     "contact": {}
   },
   "tags": [
     {
-      "name": "cats",
+      "name": "context-gpt",
       "description": ""
     }
   ],
   "servers": [],
   "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
     "schemas": {
       "MessageDto": {
         "type": "object",
@@ -112,7 +124,7 @@
           "content"
         ]
       },
-      "ClaudeRequestDto": {
+      "ThreadsIdMessagesRequestPostDto": {
         "type": "object",
         "properties": {
           "messages": {

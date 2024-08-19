@@ -13,7 +13,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["ClaudeController_handleClaudeRequest"];
+        post: operations["ThreadsController_handleClaudeRequest"];
         delete?: never;
         options?: never;
         head?: never;
@@ -29,7 +29,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["TokenController_checkToken"];
+        post: operations["AuthController_checkToken"];
         delete?: never;
         options?: never;
         head?: never;
@@ -61,7 +61,7 @@ export interface components {
             sender: "User" | "Assistant";
             content: string;
         };
-        ClaudeRequestDto: {
+        ThreadsIdMessagesRequestPostDto: {
             messages: components["schemas"]["MessageDto"][];
         };
         CheckTokenInputDto: {
@@ -83,7 +83,7 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    ClaudeController_handleClaudeRequest: {
+    ThreadsController_handleClaudeRequest: {
         parameters: {
             query?: never;
             header?: never;
@@ -94,7 +94,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["ClaudeRequestDto"];
+                "application/json": components["schemas"]["ThreadsIdMessagesRequestPostDto"];
             };
         };
         responses: {
@@ -106,7 +106,7 @@ export interface operations {
             };
         };
     };
-    TokenController_checkToken: {
+    AuthController_checkToken: {
         parameters: {
             query?: never;
             header?: never;

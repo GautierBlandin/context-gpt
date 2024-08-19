@@ -11,10 +11,11 @@ async function bootstrap() {
   app.enableCors();
 
   const config = new DocumentBuilder()
-    .setTitle('Cats example')
-    .setDescription('The cats API description 2')
+    .setTitle('ContextGpt API')
+    .setDescription('API for interacting with the ContextGpt application')
     .setVersion('1.0')
-    .addTag('cats')
+    .addTag('context-gpt')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
