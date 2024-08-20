@@ -1,4 +1,4 @@
-import { proxy, ref } from 'valtio';
+import { proxy, ref } from 'valtio/vanilla';
 import { AuthenticationState, AuthenticationStateType, AuthToken } from '../core';
 import { LocalTokenStorageSingleton } from '../composition-root/LocalTokenStorage.di';
 import { TokenCheckerSingleton } from '../composition-root/TokenChecker.di';
