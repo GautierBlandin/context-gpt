@@ -1,10 +1,10 @@
-import { Controller, Get } from '@nestjs/common';
-import { HealthCheckOutputDto, HealthStatus } from './health.dto';
+import { Controller, Get, HttpCode } from '@nestjs/common';
 
 @Controller('health')
 export class HealthController {
   @Get()
-  healthCheck(): HealthCheckOutputDto {
-    return { status: HealthStatus.OK };
+  @HttpCode(200)
+  healthCheck(): void {
+    // This method will return 200 OK without a body
   }
 }
