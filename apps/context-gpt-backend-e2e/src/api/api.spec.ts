@@ -1,4 +1,5 @@
 import { ChunkType, ContextGptSdk } from '@context-gpt/context-gpt-sdk';
+import { describe, expect, it } from 'vitest';
 
 const VALID_TOKEN = process.env.API_ACCESS_TOKEN;
 const API_URL = process.env.VITE_API_URL;
