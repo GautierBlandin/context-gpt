@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Headers, Post, UnauthorizedException } from '@nestjs/common';
+import { Body, Controller, Get, Headers, HttpCode, HttpStatus, Post, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { GetAuthValidateOutputDto, PostAuthLoginDto, PostAuthLoginInputDto } from './auth.dto';
 
@@ -18,6 +18,7 @@ export class AuthController {
   }
 
   @Post('login')
+  @HttpCode(HttpStatus.OK)
   async login(@Body() loginInput: PostAuthLoginInputDto): Promise<PostAuthLoginDto> {
     const isValid = await this.authService.validateToken(loginInput.token);
     if (!isValid) {

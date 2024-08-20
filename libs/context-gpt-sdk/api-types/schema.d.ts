@@ -36,6 +36,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/auth/login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["AuthController_login"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/health": {
         parameters: {
             query?: never;
@@ -66,6 +82,12 @@ export interface components {
         };
         GetAuthValidateOutputDto: {
             is_valid: boolean;
+        };
+        PostAuthLoginInputDto: {
+            token: string;
+        };
+        PostAuthLoginDto: {
+            access_token: string;
         };
     };
     responses: never;
@@ -116,6 +138,29 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["GetAuthValidateOutputDto"];
+                };
+            };
+        };
+    };
+    AuthController_login: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PostAuthLoginInputDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PostAuthLoginDto"];
                 };
             };
         };
