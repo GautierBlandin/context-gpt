@@ -24,7 +24,7 @@ describe('contextGptSdk', () => {
       sdk.setAccessToken(VALID_TOKEN);
 
       const result = await sdk.checkToken();
-      expect(result.data).toEqual({ isValid: true });
+      expect(result.data).toEqual({ is_valid: true });
     });
 
     it('should return false for an invalid token', async () => {
@@ -33,7 +33,16 @@ describe('contextGptSdk', () => {
       sdk.setAccessToken('invalid_token');
 
       const result = await sdk.checkToken();
-      expect(result.data).toEqual({ isValid: false });
+      expect(result.data).toEqual({ is_valid: false });
+    });
+  });
+
+  describe('Login Endpoint (/login)', () => {
+    it('should return a valid access token for a valid token', async () => {
+      const { sdk } = setup();
+
+      const result = await sdk.login({ token: VALID_TOKEN });
+      expect(result.data).toEqual({ access_token: VALID_TOKEN });
     });
   });
 

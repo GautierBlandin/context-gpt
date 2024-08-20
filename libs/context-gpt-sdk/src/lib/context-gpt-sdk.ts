@@ -45,6 +45,12 @@ export class ContextGptSdk {
     });
   }
 
+  public async login({ token }: { token: string }) {
+    return this.client.POST('/auth/login', {
+      body: { token },
+    });
+  }
+
   public async healthCheck() {
     return await this.client.GET('/health');
   }
