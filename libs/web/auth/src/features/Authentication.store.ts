@@ -1,4 +1,4 @@
-import { proxy } from 'valtio';
+import { proxy, ref } from 'valtio';
 import { AuthenticationState, AuthenticationStateType, AuthToken } from '../core';
 import { LocalTokenStorageSingleton } from '../composition-root/LocalTokenStorage.di';
 import { TokenCheckerSingleton } from '../composition-root/TokenChecker.di';
@@ -6,8 +6,8 @@ import { TokenCheckerSingleton } from '../composition-root/TokenChecker.di';
 export class AuthenticationStore {
   public authState: AuthenticationState;
 
-  private localTokenStorage = LocalTokenStorageSingleton.getInstance();
-  private tokenChecker = TokenCheckerSingleton.getInstance();
+  private localTokenStorage = ref(LocalTokenStorageSingleton.getInstance());
+  private tokenChecker = ref(TokenCheckerSingleton.getInstance());
 
   constructor() {
     this.authState = { type: AuthenticationStateType.PreInitialization, token: null };
