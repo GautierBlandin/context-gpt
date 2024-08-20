@@ -1,12 +1,17 @@
-import { TokenChecker, TokenCheckerOutput } from './TokenChecker';
+import { AuthTokenHandler, AuthTokenHandlerOutput } from './AuthTokenHandler';
 
-export class TokenCheckerFake implements TokenChecker {
+export class TokenCheckerFake implements AuthTokenHandler {
+  private currentToken: string | null = null;
   private validToken: string | null = null;
   private shouldReturnError = false;
   private errorMessage = 'An error occurred';
   private delay = 0;
 
-  async checkToken({ token }: { token: string }): Promise<TokenCheckerOutput> {
+  setToken({ token }: { token: string }): void {
+    this.currentToken = token;
+  }
+
+  async checkToken(): Promise<AuthTokenHandlerOutput> {
     await this.simulateDelay();
 
     if (this.shouldReturnError) {
@@ -19,7 +24,7 @@ export class TokenCheckerFake implements TokenChecker {
 
     return {
       type: 'success',
-      isValid: token === this.validToken,
+      isValid: this.currentToken === this.validToken,
       error: null,
     };
   }

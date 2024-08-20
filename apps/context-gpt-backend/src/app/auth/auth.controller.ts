@@ -1,14 +1,18 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Controller, Get, Headers, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CheckTokenInputDto, CheckTokenOutputDto } from './auth.dto';
+import { CheckTokenOutputDto } from './auth.dto';
 
-@Controller()
+@Controller('auth')
 export class AuthController {
   constructor(private readonly tokenService: AuthService) {}
 
-  @Post('check-token')
-  async checkToken(@Body() checkTokenInputDto: CheckTokenInputDto): Promise<CheckTokenOutputDto> {
-    const { token } = checkTokenInputDto;
+  @Get('validate')
+  async validateToken(@Headers('Authorization') authHeader: string): Promise<CheckTokenOutputDto> {
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      throw new UnauthorizedException('Invalid Authorization header');
+    }
+
+    const token = authHeader.split(' ')[1];
     const isValid = await this.tokenService.validateToken(token);
     return { isValid };
   }

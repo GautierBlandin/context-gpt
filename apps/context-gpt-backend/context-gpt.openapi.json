@@ -36,22 +36,21 @@
         ]
       }
     },
-    "/check-token": {
-      "post": {
-        "operationId": "AuthController_checkToken",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CheckTokenInputDto"
-              }
+    "/auth/validate": {
+      "get": {
+        "operationId": "AuthController_validateToken",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "required": true,
+            "in": "header",
+            "schema": {
+              "type": "string"
             }
           }
-        },
+        ],
         "responses": {
-          "201": {
+          "200": {
             "description": "",
             "content": {
               "application/json": {
@@ -70,14 +69,7 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HealthCheckOutputDto"
-                }
-              }
-            }
+            "description": ""
           }
         }
       }
@@ -138,17 +130,6 @@
           "messages"
         ]
       },
-      "CheckTokenInputDto": {
-        "type": "object",
-        "properties": {
-          "token": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "token"
-        ]
-      },
       "CheckTokenOutputDto": {
         "type": "object",
         "properties": {
@@ -158,20 +139,6 @@
         },
         "required": [
           "isValid"
-        ]
-      },
-      "HealthCheckOutputDto": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string",
-            "enum": [
-              "OK"
-            ]
-          }
-        },
-        "required": [
-          "status"
         ]
       }
     }

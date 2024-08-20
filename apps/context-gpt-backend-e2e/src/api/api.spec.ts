@@ -1,7 +1,4 @@
-import * as dotenv from 'dotenv';
 import { ChunkType, ContextGptSdk } from '@context-gpt/context-gpt-sdk';
-
-dotenv.config({ path: '.env.e2e' });
 
 const VALID_TOKEN = process.env.API_ACCESS_TOKEN;
 const API_URL = process.env.VITE_API_URL;
@@ -24,24 +21,29 @@ describe('contextGptSdk', () => {
     it('should return true for a valid token', async () => {
       const { sdk } = setup();
 
-      const result = await sdk.checkToken({ token: VALID_TOKEN });
+      sdk.setAccessToken(VALID_TOKEN);
+
+      const result = await sdk.checkToken();
       expect(result.data).toEqual({ isValid: true });
     });
 
     it('should return false for an invalid token', async () => {
       const { sdk } = setup();
 
-      const result = await sdk.checkToken({ token: 'invalid_token' });
+      sdk.setAccessToken('invalid_token');
+
+      const result = await sdk.checkToken();
       expect(result.data).toEqual({ isValid: false });
     });
   });
 
   describe('Health Endpoint (/health)', () => {
-    it('should return OK status', async () => {
+    it('should return 200 OK', async () => {
       const { sdk } = setup();
 
-      const result = await sdk.healthCheck();
-      expect(result.data).toEqual({ status: 'OK' });
+      const { response } = await sdk.healthCheck();
+
+      expect(response.status).toBe(200);
     });
   });
 

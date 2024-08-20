@@ -1,7 +1,7 @@
 import { singletonFactory } from '@context-gpt/di';
 import { TokenCheckerImpl } from '../infrastructure';
-import { TokenChecker } from '../ports';
+import { AuthTokenHandler } from '../ports';
 
-export const TokenCheckerSingleton = singletonFactory<TokenChecker>({
+export const TokenCheckerSingleton = singletonFactory<AuthTokenHandler>({
   factory: () => new TokenCheckerImpl(),
 });

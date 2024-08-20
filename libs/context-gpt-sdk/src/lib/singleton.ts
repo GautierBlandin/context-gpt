@@ -1,4 +1,5 @@
 import { ContextGptSdk } from './context-gpt-sdk';
+import { proxy } from 'valtio';
 
 const API_URL = import.meta.env['VITE_API_URL'] || '';
 const API_PREFIX = import.meta.env['VITE_API_PREFIX'] || '';
@@ -14,8 +15,12 @@ export function initializeSdkSingleton({ baseUrl, prefix }: Config) {
   const combinedBaseUrl = combineBaseUrl(baseUrl, prefix);
   const sdk = new ContextGptSdk({ baseUrl: combinedBaseUrl });
 
+  const state = proxy({
+    sdk,
+  });
+
   return {
-    getSdk: () => sdk,
+    getSdk: () => state.sdk,
   };
 }
 

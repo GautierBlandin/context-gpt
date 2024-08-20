@@ -20,24 +20,35 @@ export interface ConstructorOptions {
 
 export class ContextGptSdk {
   private readonly baseUrl: string;
-  private accessToken: string | null = null;
+  public accessToken: string | null = null;
   private client: Client<paths>;
+  public id = Math.random().toString(36).substr(2, 9);
 
   constructor({ baseUrl }: ConstructorOptions) {
     this.client = createClient<paths>({ baseUrl });
     this.baseUrl = baseUrl;
   }
 
-  public setAccessToken(token: string | null) {
+  public setAccessToken(token: string) {
     this.accessToken = token;
+    console.log('id', this.id);
+    console.log('Setting access token ', token);
   }
 
-  public async checkToken({ token }: paths['/check-token']['post']['requestBody']['content']['application/json']) {
-    return this.client.POST('/check-token', { body: { token } });
+  public async checkToken() {
+    if (!this.accessToken) {
+      throw new Error('Access token is not set. Use setAccessToken() to set the access token.');
+    }
+
+    return this.client.GET('/auth/validate', {
+      params: {
+        header: { Authorization: `Bearer ${this.accessToken}` },
+      },
+    });
   }
 
   public async healthCheck() {
-    return this.client.GET('/health');
+    return await this.client.GET('/health');
   }
 
   public async *promptClaude({
@@ -50,6 +61,9 @@ export class ContextGptSdk {
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
     };
+
+    console.log('id', this.id);
+    console.log('Access token:', this.accessToken);
 
     if (this.accessToken) {
       headers['Authorization'] = `Bearer ${this.accessToken}`;

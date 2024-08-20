@@ -16,14 +16,15 @@ export class AuthenticationStore {
   public async initialize() {
     this.authState = this.determineInitialAuthState();
     if (this.authState.type === AuthenticationStateType.PendingInitialTokenValidation) {
-      await this.handlePendingInitialTokenValidation({ token: this.authState.token });
+      this.handlePendingInitialTokenValidation({ token: this.authState.token });
     }
   }
 
   public async submitToken({ token }: { token: string }) {
     this.localTokenStorage.setToken({ token });
     this.authState = { type: AuthenticationStateType.PendingTokenValidation, token: null };
-    const result = await this.tokenChecker.checkToken({ token });
+    this.tokenChecker.setToken({ token });
+    const result = await this.tokenChecker.checkToken();
     if (!(result.type === 'success') || !result.isValid) {
       this.authState = { type: AuthenticationStateType.Anonymous, token: null };
     } else {
@@ -47,7 +48,8 @@ export class AuthenticationStore {
   }
 
   private handlePendingInitialTokenValidation({ token }: { token: AuthToken }) {
-    this.tokenChecker.checkToken({ token: token.token }).then((result) => {
+    this.tokenChecker.setToken({ token: token.token });
+    this.tokenChecker.checkToken().then((result) => {
       if (!(result.type === 'success') || !result.isValid) {
         this.authState = { type: AuthenticationStateType.Anonymous, token: null };
       } else {

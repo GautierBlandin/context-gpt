@@ -1,15 +1,22 @@
 import { getSdk } from '@context-gpt/context-gpt-sdk';
-import { TokenChecker, TokenCheckerOutput } from '../ports';
+import { AuthTokenHandler, AuthTokenHandlerOutput } from '../ports';
 
-export class TokenCheckerImpl implements TokenChecker {
+export class TokenCheckerImpl implements AuthTokenHandler {
   private readonly sdk = getSdk();
 
-  async checkToken({ token }: { token: string }): Promise<TokenCheckerOutput> {
-    const { data, error } = await this.sdk.checkToken({ token });
+  setToken({ token }: { token: string }): void {
+    this.sdk.setAccessToken(token);
+  }
+
+  async checkToken(): Promise<AuthTokenHandlerOutput> {
+    const { data, error } = await this.sdk.checkToken();
 
     if (error) {
       return { type: 'error', isValid: null, error: 'An error occurred' };
     }
+
+    console.log('sdk token', this.sdk.accessToken);
+    console.log('sdk id', this.sdk.id);
 
     return { type: 'success', isValid: data.isValid, error: null };
   }

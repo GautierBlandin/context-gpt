@@ -20,16 +20,16 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/check-token": {
+    "/auth/validate": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        get: operations["AuthController_validateToken"];
         put?: never;
-        post: operations["AuthController_checkToken"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -64,15 +64,8 @@ export interface components {
         ThreadsIdMessagesRequestPostDto: {
             messages: components["schemas"]["MessageDto"][];
         };
-        CheckTokenInputDto: {
-            token: string;
-        };
         CheckTokenOutputDto: {
             isValid: boolean;
-        };
-        HealthCheckOutputDto: {
-            /** @enum {string} */
-            status: "OK";
         };
     };
     responses: never;
@@ -106,20 +99,18 @@ export interface operations {
             };
         };
     };
-    AuthController_checkToken: {
+    AuthController_validateToken: {
         parameters: {
             query?: never;
-            header?: never;
+            header: {
+                Authorization: string;
+            };
             path?: never;
             cookie?: never;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CheckTokenInputDto"];
-            };
-        };
+        requestBody?: never;
         responses: {
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -142,9 +133,7 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content: {
-                    "application/json": components["schemas"]["HealthCheckOutputDto"];
-                };
+                content?: never;
             };
         };
     };
