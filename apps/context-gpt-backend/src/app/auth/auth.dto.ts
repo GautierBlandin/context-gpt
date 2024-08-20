@@ -10,7 +10,7 @@ export class PostAuthLoginInputDto {
   token: string;
 }
 
-export class CheckTokenOutputDto {
+export class PostAuthLoginDto {
   @IsNotEmpty()
-  isValid: boolean;
+  access_token: string;
 }
