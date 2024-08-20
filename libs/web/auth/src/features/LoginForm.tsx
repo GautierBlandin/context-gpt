@@ -14,7 +14,7 @@ export function LoginForm() {
     setIsLoading(true);
     setError(null);
     try {
-      await authenticationStore.submitToken({ token });
+      await authenticationStore.login({ token });
     } catch (err) {
       setError('Failed to validate token. Please try again.');
     } finally {
