@@ -15,9 +15,6 @@ export class TokenCheckerImpl implements AuthTokenHandler {
       return { type: 'error', isValid: null, error: 'An error occurred' };
     }
 
-    console.log('sdk token', this.sdk.accessToken);
-    console.log('sdk id', this.sdk.id);
-
     return { type: 'success', isValid: data.isValid, error: null };
   }
 }
