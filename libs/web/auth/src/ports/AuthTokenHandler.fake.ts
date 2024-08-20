@@ -1,7 +1,7 @@
-import { AuthTokenHandler, AuthTokenHandlerOutput } from './AuthTokenHandler';
+import { AuthTokenHandler, AuthTokenHandlerOutput, LoginOutput } from './AuthTokenHandler';
 
-export class TokenCheckerFake implements AuthTokenHandler {
-  private currentToken: string | null = null;
+export class AuthTokenHandlerFake implements AuthTokenHandler {
+  public currentToken: string | null = null;
   private validToken: string | null = null;
   private shouldReturnError = false;
   private errorMessage = 'An error occurred';
@@ -17,7 +17,6 @@ export class TokenCheckerFake implements AuthTokenHandler {
     if (this.shouldReturnError) {
       return {
         type: 'error',
-        isValid: null,
         error: this.errorMessage,
       };
     }
@@ -25,8 +24,30 @@ export class TokenCheckerFake implements AuthTokenHandler {
     return {
       type: 'success',
       isValid: this.currentToken === this.validToken,
-      error: null,
     };
+  }
+
+  async login({ token }: { token: string }): Promise<LoginOutput> {
+    await this.simulateDelay();
+
+    if (this.shouldReturnError) {
+      return {
+        type: 'error',
+        error: this.errorMessage,
+      };
+    }
+
+    if (token === this.validToken) {
+      return {
+        type: 'success',
+        accessToken: this.validToken,
+      };
+    } else {
+      return {
+        type: 'error',
+        error: 'Invalid login token',
+      };
+    }
   }
 
   // Additional functions for testing purposes

@@ -1,16 +1,29 @@
 export interface AuthTokenHandler {
   setToken({ token }: { token: string }): void;
   checkToken(): Promise<AuthTokenHandlerOutput>;
+  login({ token }: { token: string }): Promise<LoginOutput>;
 }
 
 export type AuthTokenHandlerOutput =
   | {
       type: 'success';
       isValid: boolean;
-      error: null;
+      error?: never;
     }
   | {
       type: 'error';
-      isValid: null;
+      isValid?: never;
+      error: string;
+    };
+
+export type LoginOutput =
+  | {
+      type: 'success';
+      accessToken: string;
+      error?: never;
+    }
+  | {
+      type: 'error';
+      accessToken?: never;
       error: string;
     };
