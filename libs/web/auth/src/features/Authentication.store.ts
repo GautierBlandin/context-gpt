@@ -20,16 +20,20 @@ export class AuthenticationStore {
     }
   }
 
-  public async submitToken({ token }: { token: string }) {
+  public async login({ token }: { token: string }): Promise<{ error?: string }> {
     this.localTokenStorage.setToken({ token });
     this.authState = { type: AuthenticationStateType.PendingTokenValidation, token: null };
-    this.tokenChecker.setToken({ token });
-    const result = await this.tokenChecker.checkToken();
-    if (!(result.type === 'success') || !result.isValid) {
+
+    const { type, accessToken, error } = await this.tokenChecker.login({ token });
+
+    if (type === 'error') {
       this.authState = { type: AuthenticationStateType.Anonymous, token: null };
-    } else {
-      this.authState = { type: AuthenticationStateType.Authenticated, token: { token } };
+      return { error };
     }
+
+    this.authState = { type: AuthenticationStateType.Authenticated, token: { token: accessToken } };
+    this.tokenChecker.setToken({ token });
+    return {};
   }
 
   private determineInitialAuthState(): AuthenticationState {

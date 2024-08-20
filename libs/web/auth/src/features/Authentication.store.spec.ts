@@ -1,9 +1,10 @@
 import { AuthenticationStore } from './Authentication.store';
-import { TokenCheckerFake } from '../ports/TokenChecker.fake';
+import { AuthTokenHandlerFake } from '../ports/AuthTokenHandler.fake';
 import { LocalTokenStorageFake } from '../ports/LocalTokenStorage.fake';
 import { TokenCheckerSingleton } from '../composition-root/TokenChecker.di';
 import { LocalTokenStorageSingleton } from '../composition-root/LocalTokenStorage.di';
 import { AuthenticationStateType } from '../core';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 describe('Authentication store', () => {
   afterEach(async () => {
@@ -66,38 +67,45 @@ describe('Authentication store', () => {
     expect(store.authState).toEqual({ type: AuthenticationStateType.Anonymous, token: null });
   });
 
-  it('should handle token submission and transition to Authenticated state when valid', async () => {
-    const { store, tokenCheckerFake } = setup();
-    tokenCheckerFake.setValidToken('newValidToken');
+  describe('login', () => {
+    it('should handle successful login and transition to Authenticated state', async () => {
+      const { store, tokenCheckerFake } = setup();
+      tokenCheckerFake.setValidToken('newValidToken');
 
-    store.submitToken({ token: 'newValidToken' });
+      store.login({ token: 'newValidToken' });
 
-    await vi.runAllTimersAsync();
+      await vi.runAllTimersAsync();
 
-    expect(store.authState).toEqual({ type: AuthenticationStateType.Authenticated, token: { token: 'newValidToken' } });
-  });
+      expect(store.authState).toEqual({
+        type: AuthenticationStateType.Authenticated,
+        token: { token: 'newValidToken' },
+      });
 
-  it('should handle token submission and transition to Anonymous state when invalid', async () => {
-    const { store, tokenCheckerFake } = setup();
-    tokenCheckerFake.setValidToken('validToken');
-    tokenCheckerFake.setDelay(1);
+      expect(tokenCheckerFake.currentToken).toEqual('newValidToken');
+    });
 
-    store.submitToken({ token: 'invalidToken' });
+    it('should handle token submission and transition to Anonymous state when invalid', async () => {
+      const { store, tokenCheckerFake } = setup();
+      tokenCheckerFake.setValidToken('validToken');
+      tokenCheckerFake.setDelay(1);
 
-    await vi.runAllTimersAsync();
+      store.login({ token: 'invalidToken' });
 
-    expect(store.authState).toEqual({ type: AuthenticationStateType.Anonymous, token: null });
-  });
+      await vi.runAllTimersAsync();
 
-  it('should handle token checker errors and transition to Anonymous state', async () => {
-    const { store, tokenCheckerFake } = setup();
-    tokenCheckerFake.setReturnError(true, 'Token check failed');
+      expect(store.authState).toEqual({ type: AuthenticationStateType.Anonymous, token: null });
+    });
 
-    store.submitToken({ token: 'someToken' });
+    it('should handle token checker errors and transition to Anonymous state', async () => {
+      const { store, tokenCheckerFake } = setup();
+      tokenCheckerFake.setReturnError(true, 'Token check failed');
 
-    await vi.runAllTimersAsync();
+      store.login({ token: 'someToken' });
 
-    expect(store.authState).toEqual({ type: AuthenticationStateType.Anonymous, token: null });
+      await vi.runAllTimersAsync();
+
+      expect(store.authState).toEqual({ type: AuthenticationStateType.Anonymous, token: null });
+    });
   });
 });
 
@@ -105,7 +113,7 @@ const setup = () => {
   TokenCheckerSingleton.reset();
   LocalTokenStorageSingleton.reset();
 
-  const tokenCheckerFake = new TokenCheckerFake();
+  const tokenCheckerFake = new AuthTokenHandlerFake();
   tokenCheckerFake.setDelay(100);
   const localTokenStorageFake = new LocalTokenStorageFake();
 
