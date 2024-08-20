@@ -31,8 +31,6 @@ export class ContextGptSdk {
 
   public setAccessToken(token: string) {
     this.accessToken = token;
-    console.log('id', this.id);
-    console.log('Setting access token ', token);
   }
 
   public async checkToken() {
@@ -61,9 +59,6 @@ export class ContextGptSdk {
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
     };
-
-    console.log('id', this.id);
-    console.log('Access token:', this.accessToken);
 
     if (this.accessToken) {
       headers['Authorization'] = `Bearer ${this.accessToken}`;
