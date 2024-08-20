@@ -15,6 +15,6 @@ export class TokenCheckerImpl implements AuthTokenHandler {
       return { type: 'error', isValid: null, error: 'An error occurred' };
     }
 
-    return { type: 'success', isValid: data.isValid, error: null };
+    return { type: 'success', isValid: data.is_valid, error: null };
   }
 }

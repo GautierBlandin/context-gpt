@@ -64,8 +64,8 @@ export interface components {
         ThreadsIdMessagesRequestPostDto: {
             messages: components["schemas"]["MessageDto"][];
         };
-        CheckTokenOutputDto: {
-            isValid: boolean;
+        GetAuthValidateOutputDto: {
+            is_valid: boolean;
         };
     };
     responses: never;
@@ -115,7 +115,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["CheckTokenOutputDto"];
+                    "application/json": components["schemas"]["GetAuthValidateOutputDto"];
                 };
             };
         };

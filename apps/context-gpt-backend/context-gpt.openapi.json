@@ -55,7 +55,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CheckTokenOutputDto"
+                  "$ref": "#/components/schemas/GetAuthValidateOutputDto"
                 }
               }
             }
@@ -130,15 +130,15 @@
           "messages"
         ]
       },
-      "CheckTokenOutputDto": {
+      "GetAuthValidateOutputDto": {
         "type": "object",
         "properties": {
-          "isValid": {
+          "is_valid": {
             "type": "boolean"
           }
         },
         "required": [
-          "isValid"
+          "is_valid"
         ]
       }
     }
