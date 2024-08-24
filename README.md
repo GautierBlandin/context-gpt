@@ -42,8 +42,16 @@ Targets can be defined in the `package.json` or `projects.json`. Learn more [in 
 
 ## Testing
 
+### Unit tests
+
 ```
 nx run-many -t test
+```
+
+### E2E
+
+```
+nx run-many -t e2e
 ```
 
 ## Set up CI!
