@@ -2,7 +2,7 @@ import { Body, Controller, Param, Post, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { Anthropic } from '@anthropic-ai/sdk';
 import { ThreadsIdMessagesRequestPostDto } from './threads.dto';
-import { AuthGuard } from '../../../../../libs/server/auth/src/lib/auth.guard';
+import { AuthGuard } from '@context-gpt/server-auth';
 import { ApiBearerAuth } from '@nestjs/swagger';
 
 @ApiBearerAuth()

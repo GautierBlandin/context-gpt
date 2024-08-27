@@ -1,5 +1,5 @@
 import { AuthService } from './auth.service';
-import { EnvFake } from '../../../shared/src/lib/env.fake';
+import { EnvFake } from '@context-gpt/server-shared';
 
 describe('auth service', () => {
   it('returns true when the token is valid', () => {
