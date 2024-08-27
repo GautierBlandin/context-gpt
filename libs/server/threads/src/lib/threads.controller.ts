@@ -4,6 +4,7 @@ import { Anthropic } from '@anthropic-ai/sdk';
 import { ThreadsIdMessagesRequestPostDto } from './threads.dto';
 import { AuthGuard } from '@context-gpt/server-auth';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { Env } from '@context-gpt/server-shared';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard)
@@ -11,8 +12,8 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 export class ThreadsController {
   private readonly anthropic: Anthropic;
 
-  constructor() {
-    const apiKey = process.env.CLAUDE_API_KEY;
+  constructor(private readonly env: Env) {
+    const apiKey = this.env.get('CLAUDE_API_KEY');
     if (!apiKey) {
       throw new Error('CLAUDE_API_KEY is not set in the environment variables');
     }

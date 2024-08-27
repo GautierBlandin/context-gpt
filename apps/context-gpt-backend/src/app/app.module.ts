@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { ThreadsController } from './threads/threads.controller';
+import { ServerAuthModule } from '@context-gpt/server-auth';
+import { ServerThreadsModule } from '@context-gpt/server-threads';
 import { HealthController } from './health/health.controller';
-import { ServerAuthModule } from '@context-gpt/server-auth'; // Import the AuthModule
 
 @Module({
-  imports: [ServerAuthModule],
-  controllers: [ThreadsController, HealthController],
+  imports: [ServerAuthModule, ServerThreadsModule],
+  controllers: [HealthController],
   providers: [],
 })
 export class AppModule {}
