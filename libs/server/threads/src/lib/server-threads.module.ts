@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ThreadsController } from './threads.controller';
 import { ServerSharedModule } from '@context-gpt/server-shared';
+import { ServerAuthModule } from '@context-gpt/server-auth';
 
 @Module({
-  imports: [ServerSharedModule],
+  imports: [ServerSharedModule, ServerAuthModule],
   controllers: [ThreadsController],
-  exports: [ThreadsController],
 })
 export class ServerThreadsModule {}
