@@ -1,24 +1,16 @@
 import { Body, Controller, Param, Post, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
-import { Anthropic } from '@anthropic-ai/sdk';
 import { ThreadsIdMessagesRequestPostDto } from './threads.dto';
 import { AuthGuard } from '@context-gpt/server-auth';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import { Env } from '@context-gpt/server-shared';
+import { LlmFacade } from '../ports/LlmFacade';
+import { Message } from '../core/Message';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard)
 @Controller('threads')
 export class ThreadsController {
-  private readonly anthropic: Anthropic;
-
-  constructor(private readonly env: Env) {
-    const apiKey = this.env.get('CLAUDE_API_KEY');
-    if (!apiKey) {
-      throw new Error('CLAUDE_API_KEY is not set in the environment variables');
-    }
-    this.anthropic = new Anthropic({ apiKey });
-  }
+  constructor(private readonly llmFacade: LlmFacade) {}
 
   @Post(':id/messages')
   async handleClaudeRequest(
@@ -34,33 +26,28 @@ export class ThreadsController {
     });
 
     try {
-      const anthropicStream = await this.initializeAnthropicStream(claudeRequestDto);
+      const mappedMessages: Message[] = claudeRequestDto.messages.map((msg) => ({
+        sender: msg.sender === 'User' ? 'user' : 'assistant',
+        content: msg.content,
+      }));
+      const observable = this.llmFacade.prompt({ messages: mappedMessages });
 
-      for await (const chunk of anthropicStream) {
-        if (chunk.type === 'content_block_delta' && 'text' in chunk.delta) {
-          res.write(`data: ${JSON.stringify({ content: chunk.delta.text })}\n\n`);
-        }
-      }
-
-      res.write('data: [DONE]\n\n');
+      observable.subscribe({
+        next: (chunk) => {
+          res.write(`data: ${JSON.stringify({ content: chunk.content })}\n\n`);
+        },
+        error: (error) => {
+          res.write(`data: ${JSON.stringify({ error })}\n\n`);
+          res.end();
+        },
+        complete: () => {
+          res.write('data: [DONE]\n\n');
+          res.end();
+        },
+      });
     } catch (error) {
       res.write(`data: ${JSON.stringify({ error: 'An error occurred' })}\n\n`);
-    } finally {
       res.end();
     }
-  }
-
-  private async initializeAnthropicStream(claudeRequestDto: ThreadsIdMessagesRequestPostDto) {
-    const { messages } = claudeRequestDto;
-
-    return this.anthropic.messages.create({
-      model: 'claude-3-5-sonnet-20240620',
-      max_tokens: 1000,
-      messages: messages.map((msg) => ({
-        role: msg.sender === 'User' ? 'user' : 'assistant',
-        content: msg.content,
-      })),
-      stream: true,
-    });
   }
 }
