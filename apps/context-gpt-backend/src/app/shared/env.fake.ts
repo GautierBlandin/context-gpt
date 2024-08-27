@@ -1,6 +1,6 @@
 import { Env } from './env';
 
-export class EnvFake implements Env {
+export class EnvFake extends Env {
   private env: Record<string, string | undefined> = {};
 
   set(key: string, value: string): void {

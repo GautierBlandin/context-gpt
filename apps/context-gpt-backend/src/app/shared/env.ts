@@ -1,3 +1,3 @@
-export interface Env {
-  get(key: string): string | undefined;
+export abstract class Env {
+  abstract get(key: string): string | undefined;
 }
