@@ -21,7 +21,7 @@
       "@context-gpt/di": ["libs/di/src/index.ts"],
       "@context-gpt/server-auth": ["libs/server/auth/src/index.ts"],
       "@context-gpt/server-shared": ["libs/server/shared/src/index.ts"],
-      "@context-gpt/shared/ui": ["libs/shared/ui/src/index.ts"]
+      "@context-gpt/shared/ui": ["libs/web/shared/ui/src/index.ts"]
     },
     "esModuleInterop": true
   },
