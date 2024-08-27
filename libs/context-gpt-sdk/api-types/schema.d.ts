@@ -4,16 +4,16 @@
  */
 
 export interface paths {
-    "/threads/{id}/messages": {
+    "/health": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        get: operations["HealthController_healthCheck"];
         put?: never;
-        post: operations["ThreadsController_handleClaudeRequest"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -52,16 +52,16 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/health": {
+    "/threads/{id}/messages": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["HealthController_healthCheck"];
+        get?: never;
         put?: never;
-        post?: never;
+        post: operations["ThreadsController_handleClaudeRequest"];
         delete?: never;
         options?: never;
         head?: never;
@@ -72,14 +72,6 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        MessageDto: {
-            /** @enum {string} */
-            sender: "User" | "Assistant";
-            content: string;
-        };
-        ThreadsIdMessagesRequestPostDto: {
-            messages: components["schemas"]["MessageDto"][];
-        };
         GetAuthValidateOutputDto: {
             is_valid: boolean;
         };
@@ -88,6 +80,14 @@ export interface components {
         };
         PostAuthLoginDto: {
             access_token: string;
+        };
+        MessageDto: {
+            /** @enum {string} */
+            sender: "User" | "Assistant";
+            content: string;
+        };
+        ThreadsIdMessagesRequestPostDto: {
+            messages: components["schemas"]["MessageDto"][];
         };
     };
     responses: never;
@@ -98,22 +98,16 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    ThreadsController_handleClaudeRequest: {
+    HealthController_healthCheck: {
         parameters: {
             query?: never;
             header?: never;
-            path: {
-                id: string;
-            };
+            path?: never;
             cookie?: never;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ThreadsIdMessagesRequestPostDto"];
-            };
-        };
+        requestBody?: never;
         responses: {
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -165,16 +159,22 @@ export interface operations {
             };
         };
     };
-    HealthController_healthCheck: {
+    ThreadsController_handleClaudeRequest: {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                id: string;
+            };
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ThreadsIdMessagesRequestPostDto"];
+            };
+        };
         responses: {
-            200: {
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };

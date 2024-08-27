@@ -1,39 +1,15 @@
 {
   "openapi": "3.0.0",
   "paths": {
-    "/threads/{id}/messages": {
-      "post": {
-        "operationId": "ThreadsController_handleClaudeRequest",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ThreadsIdMessagesRequestPostDto"
-              }
-            }
-          }
-        },
+    "/health": {
+      "get": {
+        "operationId": "HealthController_healthCheck",
+        "parameters": [],
         "responses": {
-          "201": {
+          "200": {
             "description": ""
           }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ]
+        }
       }
     },
     "/auth/validate": {
@@ -91,15 +67,39 @@
         }
       }
     },
-    "/health": {
-      "get": {
-        "operationId": "HealthController_healthCheck",
-        "parameters": [],
+    "/threads/{id}/messages": {
+      "post": {
+        "operationId": "ThreadsController_handleClaudeRequest",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ThreadsIdMessagesRequestPostDto"
+              }
+            }
+          }
+        },
         "responses": {
-          "200": {
+          "201": {
             "description": ""
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
       }
     }
   },
@@ -125,39 +125,6 @@
       }
     },
     "schemas": {
-      "MessageDto": {
-        "type": "object",
-        "properties": {
-          "sender": {
-            "type": "string",
-            "enum": [
-              "User",
-              "Assistant"
-            ]
-          },
-          "content": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "sender",
-          "content"
-        ]
-      },
-      "ThreadsIdMessagesRequestPostDto": {
-        "type": "object",
-        "properties": {
-          "messages": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/MessageDto"
-            }
-          }
-        },
-        "required": [
-          "messages"
-        ]
-      },
       "GetAuthValidateOutputDto": {
         "type": "object",
         "properties": {
@@ -189,6 +156,39 @@
         },
         "required": [
           "access_token"
+        ]
+      },
+      "MessageDto": {
+        "type": "object",
+        "properties": {
+          "sender": {
+            "type": "string",
+            "enum": [
+              "User",
+              "Assistant"
+            ]
+          },
+          "content": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "sender",
+          "content"
+        ]
+      },
+      "ThreadsIdMessagesRequestPostDto": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MessageDto"
+            }
+          }
+        },
+        "required": [
+          "messages"
         ]
       }
     }
