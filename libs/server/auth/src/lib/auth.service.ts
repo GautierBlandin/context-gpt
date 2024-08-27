@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Env } from '../shared/env';
+import { Env } from '../../../shared/src/lib/env';
 
 @Injectable()
 export class AuthService {

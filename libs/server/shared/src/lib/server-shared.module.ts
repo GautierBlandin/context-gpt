@@ -11,4 +11,4 @@ import { ProcessEnv } from './env.process';
   ],
   exports: [Env],
 })
-export class SharedModule {}
+export class ServerSharedModule {}

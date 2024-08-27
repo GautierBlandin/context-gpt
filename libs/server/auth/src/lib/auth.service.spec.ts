@@ -1,5 +1,5 @@
 import { AuthService } from './auth.service';
-import { EnvFake } from '../shared/env.fake';
+import { EnvFake } from '../../../shared/src/lib/env.fake';
 
 describe('auth service', () => {
   it('returns true when the token is valid', () => {
