@@ -1,1 +1,1 @@
-export * from './lib/server-threads.module';
+export * from './server-threads.module';
