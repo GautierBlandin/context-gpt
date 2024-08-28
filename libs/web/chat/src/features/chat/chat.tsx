@@ -44,7 +44,7 @@ function ChatBody() {
   };
 
   return (
-    <div className="h-screen flex flex-col overflow-hidden" id={'full-chat'}>
+    <div className="bg-neutral-primary h-screen flex flex-col overflow-hidden" id={'full-chat'}>
       <div ref={scrollContainerRef} className="flex-grow overflow-y-auto overflow-x-hidden" onScroll={handleScroll}>
         <div className="h-full w-full px-4">
           <div className="max-w-4xl mx-auto">
@@ -54,7 +54,7 @@ function ChatBody() {
           </div>
         </div>
       </div>
-      <div className="flex-shrink-0 w-full px-4 bg-white">
+      <div className="flex-shrink-0 w-full px-4">
         <div className="max-w-4xl mx-auto">
           <WiredChatInput />
         </div>

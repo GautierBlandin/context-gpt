@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { ChatDomainContext } from './chat-domain.context';
 import { useStore } from 'zustand';
-import { Message } from '../../core/Message';
+import { Message } from '../../core';
 import { Markdown } from '@context-gpt/shared/ui';
 
 export const ChatMessages: React.FC = () => {
@@ -16,8 +16,11 @@ export const ChatMessages: React.FC = () => {
       {messages.map((message: Message, index: number) => (
         <div key={index} className={`flex w-full ${message.sender === 'User' ? 'justify-start' : 'justify-end'}`}>
           <div
-            className={`${message.sender === 'User' ? 'max-w-[70%] bg-blue-100' : 'w-full bg-gray-200'} rounded-lg p-3
-text-black`}
+            className={`${
+message.sender === 'User'
+                ? 'max-w-[70%] bg-main-primary text-main-onprimary'
+                : 'w-full bg-neutral-primary text-neutral-primary hover:bg-neutral-primary-hover'
+} rounded-lg p-3`}
           >
             <Markdown content={message.content} />
           </div>

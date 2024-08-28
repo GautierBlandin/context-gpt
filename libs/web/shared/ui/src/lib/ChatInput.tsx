@@ -48,8 +48,8 @@ export function ChatInput({
   return (
     <form onSubmit={handleSubmit} className="relative">
       <div
-        className="flex items-start rounded-lg shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2
-focus-within:ring-indigo-600 p-3"
+        className="flex items-start rounded-lg shadow-sm ring-1 ring-inset ring-secondary focus-within:ring-2
+focus-within:ring-primary p-3"
       >
         <textarea
           ref={textareaRef}
@@ -58,16 +58,17 @@ focus-within:ring-indigo-600 p-3"
           onKeyDown={handleKeyDown}
           rows={1}
           placeholder={placeholder}
-          className="flex-grow w-full resize-none border-0 bg-transparent p-0 text-gray-900 placeholder:text-gray-400
-sm:text-sm sm:leading-6 min-h-[7em] max-h-[200px] overflow-y-auto focus:ring-0 focus:outline-none"
+          className="flex-grow w-full resize-none border-0 bg-transparent p-0 text-neutral-primary
+placeholder:text-neutral-muted sm:text-sm sm:leading-6 min-h-[7em] max-h-[200px] overflow-y-auto focus:ring-0
+focus:outline-none"
         />
         <div className="flex-shrink-0">
           <button
             type="submit"
             disabled={submitDisabled}
-            className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white
-shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
-focus-visible:outline-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex items-center rounded-md bg-main-primary px-3 py-2 text-sm font-semibold
+text-main-onprimary shadow-sm hover:bg-main-primary-hover focus-visible:outline focus-visible:outline-2
+focus-visible:outline-offset-2 focus-visible:outline-highlight disabled:opacity-70 disabled:cursor-not-allowed"
           >
             Send
           </button>
