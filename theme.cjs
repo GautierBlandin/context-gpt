@@ -26,5 +26,8 @@ module.exports = {
     "neutral-emphasis": globalColors.neutral[900],
     "neutral-muted": globalColors.neutral[400],
     "main-onprimary": colors.white,
+  },
+  ringColor: {
+    "main-primary": globalColors.main[600],
   }
 };

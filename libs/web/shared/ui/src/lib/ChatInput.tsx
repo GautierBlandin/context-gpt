@@ -48,7 +48,7 @@ export function ChatInput({
   return (
     <form onSubmit={handleSubmit} className="relative">
       <div
-        className="flex items-start rounded-lg shadow-sm ring-1 ring-inset ring-secondary focus-within:ring-2
+        className="flex items-start rounded-lg shadow-sm ring-1 ring-inset ring-main-primary focus-within:ring-2
 focus-within:ring-primary p-3"
       >
         <textarea
