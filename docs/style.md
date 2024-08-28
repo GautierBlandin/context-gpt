@@ -48,6 +48,11 @@ interface Bar {
 - Fields must be declared before methods
 - Every field and method should have an explicit access modifier
 
+## Interfaces
+
+- Do not prefix interface names with `I`. Instead, prefer prefixing implementations with relevant words,
+  e.g `DynamoDbUserRepository`, `FakeUserRepository`.
+
 ## React components
 
 - Prefer the `function` keyword for top-level React components, eg:
@@ -65,7 +70,16 @@ export function MyComponent({ name }: MyComponentProps) {
 ## CSS
 
 - Use Tailwind CSS
+- Avoid using margins. See [this article](https://mxstbr.com/thoughts/margin) as to why
 
 ## Exports
 
 - Prefer named exports over default exports
+
+## Testing
+
+- Do not import globals, instead import directly from `vitest`, e.g
+
+```ts
+import { expect, it, describe } from 'vitest';
+```
