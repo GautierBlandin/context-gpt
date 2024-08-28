@@ -29,6 +29,10 @@ We follow these code style rules in our codebase:
 
 Below is the details of what I need your help for.
 </programmersBasePrompt>
+
+<userPrompt>
+YOUR PROMPT GOES HERE
+</userPrompt>
 `;
 
 // Function to read file contents
