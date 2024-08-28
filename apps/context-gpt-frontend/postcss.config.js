@@ -9,7 +9,7 @@ const __dirname = import.meta.dirname;
 export default {
   plugins: {
     tailwindcss: {
-      config: join(__dirname, 'tailwind.config.js'),
+      config: join(__dirname, 'tailwind.config.cjs'),
     },
     autoprefixer: {},
   },
