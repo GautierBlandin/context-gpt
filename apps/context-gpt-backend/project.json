@@ -22,6 +22,10 @@
         }
       }
     },
+    "run-postgres": {
+      "command": "docker-compose -f ./apps/context-gpt-backend/docker-compose.yml up -d"
+    }
+    ,
     "build-docker": {
       "executor": "nx:run-commands",
       "cache": true,
