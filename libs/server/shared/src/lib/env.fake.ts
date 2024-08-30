@@ -7,6 +7,10 @@ export class EnvFake extends Env {
     this.env[key] = value;
   }
 
+  clear(key: string): void {
+    delete this.env[key];
+  }
+
   get(key: string): string | undefined {
     return this.env[key];
   }
