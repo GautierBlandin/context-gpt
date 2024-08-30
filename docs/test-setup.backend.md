@@ -5,18 +5,23 @@ Tests are made up of three parts:
 - Act
 - Assert
 
-We include a setup function in the test that is called at the beginning of each test to provide
-the necessary dependencies for the test.
-
 We use the object mother pattern when we need to create complex objects for testing purposes.
 
 Example of a test file:
 
 ```typescript
 describe('PostMessageUseCase', () => {
+  let useCase: PostMessageUseCase;
+  let threadRepository: ThreadsRepositoryFake;
+  let llmFacade: LlmFacadeFake;
+  
+  beforeEach(() => {
+    threadRepository = new ThreadsRepositoryFake();
+    llmFacade = new LlmFacadeFake();
+    useCase = new PostMessageUseCase(threadRepository, llmFacade);
+  });
+  
   it('add a new message to the thread', async () => {
-    const { threadRepository, llmFacade, useCase } = setup();
-    
     const thread = ThreadMother.emptyThread('thread-id');
     threadRepository.save(thread);
     
@@ -32,16 +37,4 @@ describe('PostMessageUseCase', () => {
     });
   })
 })
-
-const setup = () => {
-  const threadRepository = new ThreadsRepositoryFake();
-  const llmFacade = new LlmFacadeFake();
-  const useCase = new PostMessageUseCase(threadRepository, llmFacade);
-  
-  return {
-    threadRepository,
-    llmFacade,
-    useCase,
-  };
-}
 ```
