@@ -1,5 +1,5 @@
 import * as jwt from 'jsonwebtoken';
-import { Env } from '@context-gpt/server-shared';
+import { Env } from '@context-gpt/server-shared-env';
 
 export class TokenService {
   constructor(private readonly env: Env) {}

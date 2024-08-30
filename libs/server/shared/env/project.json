@@ -1,5 +1,5 @@
 {
-  "name": "server-shared",
+  "name": "server-shared-env",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/server/shared/env/src",
   "projectType": "library",

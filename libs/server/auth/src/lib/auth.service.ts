@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Env } from '@context-gpt/server-shared';
+import { Env } from '@context-gpt/server-shared-env';
 
 @Injectable()
 export class AuthService {

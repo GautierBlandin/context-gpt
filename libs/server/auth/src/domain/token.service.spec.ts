@@ -1,5 +1,5 @@
 import { TokenService } from './token.service';
-import { EnvFake } from '@context-gpt/server-shared';
+import { EnvFake } from '@context-gpt/server-shared-env';
 
 describe('TokenService', () => {
   it('generates a valid token', () => {

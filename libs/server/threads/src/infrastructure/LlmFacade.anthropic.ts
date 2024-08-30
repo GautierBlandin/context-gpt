@@ -1,7 +1,7 @@
 import { Message } from '../core/Message';
 import { Observable } from 'rxjs';
 import { Anthropic } from '@anthropic-ai/sdk';
-import { Env } from '@context-gpt/server-shared';
+import { Env } from '@context-gpt/server-shared-env';
 import { Chunk, LlmFacade } from '../ports/LlmFacade';
 import { Injectable } from '@nestjs/common';
 
