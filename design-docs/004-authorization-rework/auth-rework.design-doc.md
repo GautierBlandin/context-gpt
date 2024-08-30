@@ -7,12 +7,12 @@ graph TD
   AuthController --> ValidateTokenUseCase[Validate Token Use Case]
   ValidateTokenUseCase --> TokenService[Token Service]
   AuthMiddleware[Auth Middleware] --> ValidateTokenUseCase
-  LoginUserUseCase --> UserRepository[User Repository]
+  LoginUserUseCase --> UsersRepository[User Repository]
   LoginUserUseCase --> UserAggregate[User Aggregate]
   LoginUserUseCase --> TokenService
-  RegisterUserUseCase --> UserRepository
+  RegisterUserUseCase --> UsersRepository
   RegisterUserUseCase --> UserAggregate
-  UserRepository -.Implemented by.-> InMemoryUserRepository[In-Memory User Repository]
+  UsersRepository -.Implemented by.-> InMemoryUserRepository[In-Memory User Repository]
 
 ```
 
@@ -64,14 +64,14 @@ The solution provides a clear separation of concerns, making it easy to extend o
 2. Implement the Domain layer
    - [X] Create the User Aggregate
      - [X] Implement methods for creating a user and validating credentials
-   - [ ] Create the Token Service
-     - [ ] Implement methods for generating and validating session tokens
+   - [X] Create the Token Service
+     - [X] Implement methods for generating and validating session tokens
 3. Define the Ports
-   - [ ] Create the User Repository interface
-     - [ ] Define methods for saving a user and retrieving a user by email.
+   - [X] Create the User Repository abstract class
+     - [X] Define methods for saving a user and retrieving a user by email.
 4. Implement the Infrastructure layer
-   - [ ] Create the In-Memory User Repository
-     - [ ] Implement the User Repository interface using in-memory storage
+   - [X] Create the In-Memory User Repository
+     - [X] Implement the User Repository interface using in-memory storage
 5. Implement the Use Cases
    - [ ] Create the Register User Use Case
      - [ ] Implement logic to create a new user using the User Aggregate and User Repository
