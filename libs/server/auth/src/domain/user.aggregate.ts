@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import * as bcrypt from 'bcrypt';
+import { DomainError } from '@context-gpt/server-shared-errors';
 
 interface UserState {
   type: 'active';
@@ -13,11 +14,11 @@ export class User {
 
   static create(params: { email: string; password: string }): User {
     if (!this.isValidEmail(params.email)) {
-      throw new Error('Invalid email');
+      throw new DomainError('Invalid email');
     }
 
     if (params.password.length < 8) {
-      throw new Error('Password must be at least 8 characters long');
+      throw new DomainError('Password must be at least 8 characters long');
     }
 
     const hashedPassword = bcrypt.hashSync(params.password, 10);
