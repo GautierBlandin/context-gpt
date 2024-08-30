@@ -7,6 +7,9 @@ Tests are made up of three parts:
 
 We use the object mother pattern when we need to create complex objects for testing purposes.
 
+Avoid using 'should' in test names. Instead, prefer the imperative form. 
+For example, instead of ```it('should save a thread')```, use ```it('saves a thread')```.
+
 Example of a test file:
 
 ```typescript
@@ -21,7 +24,7 @@ describe('PostMessageUseCase', () => {
     useCase = new PostMessageUseCase(threadRepository, llmFacade);
   });
   
-  it('add a new message to the thread', async () => {
+  it('adds a new message to the thread', async () => {
     const thread = ThreadMother.emptyThread('thread-id');
     threadRepository.save(thread);
     
