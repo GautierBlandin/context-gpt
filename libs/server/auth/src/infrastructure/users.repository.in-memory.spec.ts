@@ -8,19 +8,19 @@ describe('InMemoryUserRepository', () => {
     repository = new InMemoryUserRepository();
   });
 
-  it('should save a user', async () => {
+  it('saves a user', async () => {
     const user = User.create({ email: 'test@example.com', password: 'password123' });
     await repository.save(user);
     const savedUser = await repository.getByEmail(user.state.email);
     expect(savedUser).toEqual(user);
   });
 
-  it('should return null for non-existent email', async () => {
+  it('returns null for non-existent email', async () => {
     const user = await repository.getByEmail('nonexistent@example.com');
     expect(user).toBeNull();
   });
 
-  it('should update an existing user', async () => {
+  it('updates an existing user', async () => {
     const user = User.create({ email: 'test@example.com', password: 'password123' });
     await repository.save(user);
 
