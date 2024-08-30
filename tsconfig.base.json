@@ -20,7 +20,7 @@
       "@context-gpt/context-gpt-sdk": ["libs/context-gpt-sdk/src/index.ts"],
       "@context-gpt/di": ["libs/web/shared/di/src/index.ts"],
       "@context-gpt/server-auth": ["libs/server/auth/src/index.ts"],
-      "@context-gpt/server-shared": ["libs/server/shared/src/index.ts"],
+      "@context-gpt/server-shared": ["libs/server/shared/env/src/index.ts"],
       "@context-gpt/server-threads": ["libs/server/threads/src/index.ts"],
       "@context-gpt/shared/ui": ["libs/web/shared/ui/src/index.ts"]
     },
