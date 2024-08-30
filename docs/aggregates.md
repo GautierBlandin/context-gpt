@@ -10,6 +10,9 @@ Here are the typical methods found in an aggregate:
 - Static factory method: Initial command that creates an instance of the aggregate.
 - Commands: Public methods that mutate the state of the aggregate and maintain its invariants.
 
+The state of the aggregate should be stored under a state property in the aggregate.
+Aggregate states should have a type, with clear allowed transitions. More on this in the State Types section.
+
 # Use-case / aggregate sequence diagram
 
 The following diagram shows the typical interaction between a use-case, an aggregate, and a repository.
@@ -30,7 +33,7 @@ sequenceDiagram
   UseCase ->> UseCase: (optional) Emit cross-bounded-context event
 ```
 
-# State types
+## State types
 
 Aggregate states should have a type, with clear allowed transitions. For example,
 a `Thread` aggregate could have the following states:
