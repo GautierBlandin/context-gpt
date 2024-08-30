@@ -73,8 +73,8 @@ The solution provides a clear separation of concerns, making it easy to extend o
    - [X] Create the In-Memory User Repository
      - [X] Implement the User Repository interface using in-memory storage
 5. Implement the Use Cases
-   - [ ] Create the Register User Use Case
-     - [ ] Implement logic to create a new user using the User Aggregate and User Repository
+   - [X] Create the Register User Use Case
+     - [X] Implement logic to create a new user using the User Aggregate and User Repository
    - [ ] Create the Login User Use Case
      - [ ] Implement logic to validate credentials and generate a session token
    - [ ] Create the Validate Token Use Case
