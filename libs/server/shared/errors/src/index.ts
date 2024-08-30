@@ -1,1 +1,1 @@
-export * from './lib/server-shared-errors';
+export * from './lib/domain-error';
