@@ -15,7 +15,7 @@ These errors should be returned as HTTP 500 Internal Server Error.
 Domain errors are thrown using the `DomainError` class:
 
 ```ts
-import { DomainError } from '@context-gpt/server-shared/errors';
+import { DomainError } from '@context-gpt/server-shared-errors';
 
 if (user.password.length < 8) {
   throw new DomainError('Password must be at least 8 characters long');

@@ -36,6 +36,12 @@ In the following section, you will find details about how we write test files.
 { test files content, located at ./test-setup.backend.md }
 </testFiles>
 
+In the following section, you will find details about our error handling strategy.
+
+<errorHandling>
+{ error handling content, located at ./error-handling.md }
+</errorHandling>
+
 In the following section, you will find the code style guidelines for the backend project.
 
 <codeStyle>
@@ -74,21 +80,25 @@ async function generateAndCopyPrompt() {
   const aggregatesAndUseCasesPath = path.join(__dirname, 'aggregates.md');
   const repositoriesPath = path.join(__dirname, 'repositories.md');
   const testFilesPath = path.join(__dirname, 'test-setup.backend.md');
+  const errorHandlingPath = path.join(__dirname, 'error-handling.md');
 
-  const [projectStructure, codeStyle, aggregatesAndUseCases, repositories, testFiles] = await Promise.all([
-    readFileContent(projectStructurePath),
-    readFileContent(codeStylePath),
-    readFileContent(aggregatesAndUseCasesPath),
-    readFileContent(repositoriesPath),
-    readFileContent(testFilesPath),
-  ]);
+  const [projectStructure, codeStyle, aggregatesAndUseCases, repositories, testFiles, errorHandling] =
+    await Promise.all([
+      readFileContent(projectStructurePath),
+      readFileContent(codeStylePath),
+      readFileContent(aggregatesAndUseCasesPath),
+      readFileContent(repositoriesPath),
+      readFileContent(testFilesPath),
+      readFileContent(errorHandlingPath),
+    ]);
 
   const finalPrompt = basePrompt
     .replace('{ project structure content, located at ./project-structure.server.md }', projectStructure)
     .replace('{ code style content, located at ./style.md }', codeStyle)
     .replace('{ aggregates and use-cases content, located at ./aggregates.md }', aggregatesAndUseCases)
     .replace('{ repositories content, located at ./repositories.md }', repositories)
-    .replace('{ test files content, located at ./test-setup.backend.md }', testFiles);
+    .replace('{ test files content, located at ./test-setup.backend.md }', testFiles)
+    .replace('{ error handling content, located at ./error-handling.md }', errorHandling);
 
   await clipboard.write(finalPrompt);
   console.log('Base prompt has been copied to clipboard!');
