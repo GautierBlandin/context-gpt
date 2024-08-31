@@ -5,6 +5,7 @@ import { DomainError } from '@context-gpt/server-shared-errors';
 import { LoginUserUseCase } from '../use-cases/login-user.use-case';
 import { ValidateTokenUseCase } from '../use-cases/validate-token.use-case';
 import { BadRequestException, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import { InvalidTokenError } from '../domain/errors';
 
 interface MockUseCase {
   execute: jest.Mock;
@@ -14,6 +15,7 @@ describe('AuthController', () => {
   let authController: AuthController;
   let registerUserUseCase: MockUseCase;
   let loginUserUseCase: MockUseCase;
+  let validateTokenUseCase: MockUseCase;
 
   beforeEach(async () => {
     const mockRegisterUserUseCase: MockUseCase = {
@@ -21,6 +23,10 @@ describe('AuthController', () => {
     };
 
     const mockLoginUserUseCase: MockUseCase = {
+      execute: jest.fn(),
+    };
+
+    const mockValidateTokenUseCase: MockUseCase = {
       execute: jest.fn(),
     };
 
@@ -37,7 +43,7 @@ describe('AuthController', () => {
         },
         {
           provide: ValidateTokenUseCase,
-          useValue: {},
+          useValue: mockValidateTokenUseCase,
         },
       ],
     }).compile();
@@ -45,6 +51,7 @@ describe('AuthController', () => {
     authController = module.get<AuthController>(AuthController);
     registerUserUseCase = mockRegisterUserUseCase;
     loginUserUseCase = mockLoginUserUseCase;
+    validateTokenUseCase = mockValidateTokenUseCase;
   });
 
   describe('register', () => {
@@ -117,6 +124,41 @@ describe('AuthController', () => {
       loginUserUseCase.execute.mockRejectedValue(new Error('Internal error'));
 
       await expect(authController.login(loginDto)).rejects.toThrow(InternalServerErrorException);
+    });
+  });
+
+  describe('validate', () => {
+    it('returns 200 OK when token is valid', async () => {
+      const authHeader = 'Bearer valid_token';
+      const userId = 'user_id';
+
+      validateTokenUseCase.execute.mockResolvedValue({ userId });
+
+      const response = await authController.validate(authHeader);
+
+      expect(response).toEqual(undefined);
+    });
+
+    it('throws UnauthorizedException when token is malformed', async () => {
+      const token = 'invalid_token';
+
+      await expect(authController.validate(token)).rejects.toThrow(UnauthorizedException);
+    });
+
+    it('throws UnauthorizedException when token is invalid', async () => {
+      const invalidToken = 'Bearer invalid_token';
+
+      validateTokenUseCase.execute.mockRejectedValue(new InvalidTokenError('Invalid token'));
+
+      await expect(authController.validate(invalidToken)).rejects.toThrow(UnauthorizedException);
+    });
+
+    it('throws InternalServerErrorException when validation fails due to internal error', async () => {
+      const authHeader = 'Bearer valid_token';
+
+      validateTokenUseCase.execute.mockRejectedValue(new Error('Internal error'));
+
+      await expect(authController.validate(authHeader)).rejects.toThrow(InternalServerErrorException);
     });
   });
 });

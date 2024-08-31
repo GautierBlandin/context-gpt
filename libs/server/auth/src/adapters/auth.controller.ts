@@ -2,6 +2,8 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Get,
+  Headers,
   HttpCode,
   HttpStatus,
   InternalServerErrorException,
@@ -60,5 +62,24 @@ export class AuthController {
     }
   }
 
-  // Validate methods will be implemented later
+  @Get('validate')
+  @HttpCode(HttpStatus.OK)
+  async validate(@Headers('authorization') authHeader: string): Promise<void> {
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      throw new UnauthorizedException('Invalid authorization header');
+    }
+
+    const token = authHeader.split(' ')[1];
+
+    try {
+      await this.validateTokenUseCase.execute({ token });
+      return;
+    } catch (error) {
+      if (error instanceof DomainError) {
+        throw new UnauthorizedException(error.message);
+      } else {
+        throw new InternalServerErrorException('Internal server error');
+      }
+    }
+  }
 }
