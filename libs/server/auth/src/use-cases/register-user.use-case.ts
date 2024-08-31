@@ -1,14 +1,12 @@
 import { UsersRepository } from '../ports/users.repository';
 import { User } from '../domain/user.aggregate';
 import { DomainError } from '@context-gpt/server-shared-errors';
-import { Injectable } from '@nestjs/common';
 
 interface RegisterUserInput {
   email: string;
   password: string;
 }
 
-@Injectable()
 export abstract class RegisterUserUseCase {
   abstract execute(input: RegisterUserInput): Promise<void>;
 }
