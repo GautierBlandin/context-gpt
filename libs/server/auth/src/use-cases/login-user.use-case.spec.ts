@@ -32,7 +32,7 @@ describe('LoginUserUseCase', () => {
     expect(typeof result.token).toBe('string');
   });
 
-  it('throws DomainError when logging in with incorrect password', async () => {
+  it('throws InvalidCredentialError when logging in with incorrect password', async () => {
     const user = User.create({ email: 'test@example.com', password: 'password123' });
     await usersRepository.save(user);
 
@@ -44,7 +44,7 @@ describe('LoginUserUseCase', () => {
     ).rejects.toThrow(InvalidCredentialError);
   });
 
-  it('throws DomainError when logging in a non-existent user', async () => {
+  it('throws InvalidCredentialError when logging in a non-existent user', async () => {
     await expect(
       useCase.execute({
         email: 'nonexistent@example.com',
