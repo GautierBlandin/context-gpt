@@ -30,6 +30,12 @@ In the following section, you will find the expected behavior of repositories.
 { repositories content, located at ./repositories.md }
 </repositories>
 
+In the following section, you will find the expected structure of use-cases.
+
+<useCases>
+{ use-cases content, located at ./use-cases.md }
+</useCases>
+
 In the following section, you will find details about how we write test files.
 
 <testFiles>
@@ -81,8 +87,9 @@ async function generateAndCopyPrompt() {
   const repositoriesPath = path.join(__dirname, 'repositories.md');
   const testFilesPath = path.join(__dirname, 'test-setup.backend.md');
   const errorHandlingPath = path.join(__dirname, 'error-handling.md');
+  const useCasesPath = path.join(__dirname, 'use-cases.md');
 
-  const [projectStructure, codeStyle, aggregatesAndUseCases, repositories, testFiles, errorHandling] =
+  const [projectStructure, codeStyle, aggregatesAndUseCases, repositories, testFiles, errorHandling, useCases] =
     await Promise.all([
       readFileContent(projectStructurePath),
       readFileContent(codeStylePath),
@@ -90,6 +97,7 @@ async function generateAndCopyPrompt() {
       readFileContent(repositoriesPath),
       readFileContent(testFilesPath),
       readFileContent(errorHandlingPath),
+      readFileContent(useCasesPath),
     ]);
 
   const finalPrompt = basePrompt
@@ -98,7 +106,8 @@ async function generateAndCopyPrompt() {
     .replace('{ aggregates and use-cases content, located at ./aggregates.md }', aggregatesAndUseCases)
     .replace('{ repositories content, located at ./repositories.md }', repositories)
     .replace('{ test files content, located at ./test-setup.backend.md }', testFiles)
-    .replace('{ error handling content, located at ./error-handling.md }', errorHandling);
+    .replace('{ error handling content, located at ./error-handling.md }', errorHandling)
+    .replace('{ use-cases content, located at ./use-cases.md }', useCases);
 
   await clipboard.write(finalPrompt);
   console.log('Base prompt has been copied to clipboard!');
