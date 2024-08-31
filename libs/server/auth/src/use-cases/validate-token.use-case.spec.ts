@@ -1,10 +1,10 @@
-import { ValidateTokenUseCase } from './validate-token.use-case';
+import { ValidateTokenUseCaseImpl } from './validate-token.use-case';
 import { TokenService } from '../domain/token.service';
 import { InvalidTokenError } from '../domain/errors';
 import { EnvFake } from '@context-gpt/server-shared-env';
 
 describe('ValidateTokenUseCase', () => {
-  let validateTokenUseCase: ValidateTokenUseCase;
+  let validateTokenUseCase: ValidateTokenUseCaseImpl;
   let tokenService: TokenService;
   let env: EnvFake;
 
@@ -12,7 +12,7 @@ describe('ValidateTokenUseCase', () => {
     env = new EnvFake();
     env.set('JWT_SECRET_KEY', 'test-secret-key');
     tokenService = new TokenService(env);
-    validateTokenUseCase = new ValidateTokenUseCase(tokenService);
+    validateTokenUseCase = new ValidateTokenUseCaseImpl(tokenService);
   });
 
   it('returns userId when token is valid', async () => {
