@@ -1,8 +1,7 @@
-import { ThreadsSdk } from './threads.sdk';
+import { ChunkType, ThreadsSdk } from './threads.sdk';
 import { SharedStateMother } from './share-state.mother';
 import { SharedState } from './shared-state';
 import { describe, expect, it } from 'vitest';
-import { ChunkType } from './context-gpt-sdk';
 import { getValidToken } from './test-token';
 
 describe('Threads sdk', () => {
