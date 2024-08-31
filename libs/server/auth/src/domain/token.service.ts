@@ -1,5 +1,6 @@
 import * as jwt from 'jsonwebtoken';
 import { Env } from '@context-gpt/server-shared-env';
+import { InvalidTokenError } from './errors';
 
 export class TokenService {
   constructor(private readonly env: Env) {}
@@ -30,7 +31,7 @@ export class TokenService {
       const decoded = jwt.verify(token, this.secretKey) as { userId: string };
       return decoded.userId;
     } catch (error) {
-      throw new Error('Invalid token');
+      throw new InvalidTokenError('Invalid token');
     }
   }
 }
