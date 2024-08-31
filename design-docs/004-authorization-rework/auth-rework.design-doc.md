@@ -6,14 +6,15 @@ graph TD
   AuthController --> LoginUserUseCase[Login User Use Case]
   AuthController --> ValidateTokenUseCase[Validate Token Use Case]
   ValidateTokenUseCase --> TokenService[Token Service]
+  ValidateTokenUseCase --> InvalidTokenError[Invalid Token Error]
   AuthMiddleware[Auth Middleware] --> ValidateTokenUseCase
   LoginUserUseCase --> UsersRepository[User Repository]
   LoginUserUseCase --> UserAggregate[User Aggregate]
   LoginUserUseCase --> TokenService
+  LoginUserUseCase --> InvalidCredentialError[Invalid Credential Error]
   RegisterUserUseCase --> UsersRepository
   RegisterUserUseCase --> UserAggregate
   UsersRepository -.Implemented by.-> InMemoryUserRepository[In-Memory User Repository]
-
 ```
 
 The proposed solution follows the hexagonal architecture and consists of the following components:
@@ -75,17 +76,28 @@ The solution provides a clear separation of concerns, making it easy to extend o
 5. Implement the Use Cases
    - [X] Create the Register User Use Case
      - [X] Implement logic to create a new user using the User Aggregate and User Repository
-   - [ ] Create the Login User Use Case
-     - [ ] Implement logic to validate credentials and generate a session token
-   - [ ] Create the Validate Token Use Case
-     - [ ] Implement logic to validate a session token using the Token Service
+   - [X] Create the Login User Use Case
+     - [X] Implement logic to validate credentials and generate a session token
+   - [X] Create the Validate Token Use Case
+     - [X] Implement logic to validate a session token using the Token Service
 
 6. Implement the Adapters
-   - [ ] Create the Auth Controller
-     - [ ] Implement endpoints for registration and login
-     - [ ] Create DTOs for request/response handling
-   - [ ] Create the Auth Middleware
-     - [ ] Implement logic to extract and validate session tokens from incoming requests
+   - [X] Create the Auth Controller
+     - [X] Implement POST /auth/register endpoint
+       - [X] The POST /auth/register should return 201 Created if the registration is successful
+       - [X] The POST /auth/register should not return a body.
+       - [X] The POST /auth/register should return a 400 Bad Request if the registration fails due to invalid input
+     - [X] Implement POST /auth/login endpoint
+       - [X] The POST /auth/login should return 200 OK along with a session token if the credentials are valid, and 401 Unauthorized if the credentials are invalid.
+       - [X] The POST /auth/login should return a 401 Unauthorized error if the credentials are invalid.
+     - [X] Implement GET /auth/validate endpoint
+       - [X] The GET /auth/validate should return 200 OK if the token is valid, and 401 Unauthorized if the token is invalid.
+       - [X] The token should be extracted from the Authorization header
+   - [ ] Create the Auth Guard
+     - [ ] The Auth Guard extracts the session token from the authorization header
+     - [ ] The Auth Guard checks that the token is well-formed (`Bearer <token>`)
+     - [ ] The Auth Guard checks that the token is valid using the Validate Token Use-Case
+     - [ ] The Auth Guard sets the user ID in the request context
 
 7. Configure the Auth Module
    - [ ] Create the auth.module.ts file
@@ -96,4 +108,4 @@ The solution provides a clear separation of concerns, making it easy to extend o
    - [ ] Write unit tests for each component
    - [ ] Write integration tests for the authentication flow
 9. Security Considerations
-   - [ ] Implement password hashing in the User Aggregate
+   - [X] Implement password hashing in the User Aggregate

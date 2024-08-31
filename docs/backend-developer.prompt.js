@@ -36,6 +36,11 @@ In the following section, you will find the expected structure of use-cases.
 { use-cases content, located at ./use-cases.md }
 </useCases>
 
+In the following section, you will find details about the web framework we use.
+<webFramework>
+{ web framework content, located at ./web-framework.server.md }
+</webFramework>
+
 In the following section, you will find details about how we write test files.
 
 <testFiles>
@@ -88,17 +93,27 @@ async function generateAndCopyPrompt() {
   const testFilesPath = path.join(__dirname, 'test-setup.backend.md');
   const errorHandlingPath = path.join(__dirname, 'error-handling.md');
   const useCasesPath = path.join(__dirname, 'use-cases.md');
+  const webFrameworkPath = path.join(__dirname, 'web-framework.server.md');
 
-  const [projectStructure, codeStyle, aggregatesAndUseCases, repositories, testFiles, errorHandling, useCases] =
-    await Promise.all([
-      readFileContent(projectStructurePath),
-      readFileContent(codeStylePath),
-      readFileContent(aggregatesAndUseCasesPath),
-      readFileContent(repositoriesPath),
-      readFileContent(testFilesPath),
-      readFileContent(errorHandlingPath),
-      readFileContent(useCasesPath),
-    ]);
+  const [
+    projectStructure,
+    codeStyle,
+    aggregatesAndUseCases,
+    repositories,
+    testFiles,
+    errorHandling,
+    useCases,
+    webFramework,
+  ] = await Promise.all([
+    readFileContent(projectStructurePath),
+    readFileContent(codeStylePath),
+    readFileContent(aggregatesAndUseCasesPath),
+    readFileContent(repositoriesPath),
+    readFileContent(testFilesPath),
+    readFileContent(errorHandlingPath),
+    readFileContent(useCasesPath),
+    readFileContent(webFrameworkPath),
+  ]);
 
   const finalPrompt = basePrompt
     .replace('{ project structure content, located at ./project-structure.server.md }', projectStructure)
@@ -107,7 +122,8 @@ async function generateAndCopyPrompt() {
     .replace('{ repositories content, located at ./repositories.md }', repositories)
     .replace('{ test files content, located at ./test-setup.backend.md }', testFiles)
     .replace('{ error handling content, located at ./error-handling.md }', errorHandling)
-    .replace('{ use-cases content, located at ./use-cases.md }', useCases);
+    .replace('{ use-cases content, located at ./use-cases.md }', useCases)
+    .replace('{ web framework content, located at ./web-framework.server.md }', webFramework);
 
   await clipboard.write(finalPrompt);
   console.log('Base prompt has been copied to clipboard!');
