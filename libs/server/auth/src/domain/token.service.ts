@@ -2,8 +2,16 @@ import * as jwt from 'jsonwebtoken';
 import { Env } from '@context-gpt/server-shared-env';
 import { InvalidTokenError } from './errors';
 
-export class TokenService {
-  constructor(private readonly env: Env) {}
+export abstract class TokenService {
+  abstract generateToken(userId: string): string;
+  abstract validateToken(token: string): boolean;
+  abstract getUserIdFromToken(token: string): string;
+}
+
+export class TokenServiceImpl extends TokenService {
+  constructor(private readonly env: Env) {
+    super();
+  }
 
   private get secretKey(): string {
     const key = this.env.get('JWT_SECRET_KEY');

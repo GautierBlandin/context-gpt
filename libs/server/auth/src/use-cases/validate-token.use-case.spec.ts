@@ -1,17 +1,17 @@
 import { ValidateTokenUseCaseImpl } from './validate-token.use-case';
-import { TokenService } from '../domain/token.service';
+import { TokenServiceImpl } from '../domain/token.service';
 import { InvalidTokenError } from '../domain/errors';
 import { EnvFake } from '@context-gpt/server-shared-env';
 
 describe('ValidateTokenUseCase', () => {
   let validateTokenUseCase: ValidateTokenUseCaseImpl;
-  let tokenService: TokenService;
+  let tokenService: TokenServiceImpl;
   let env: EnvFake;
 
   beforeEach(() => {
     env = new EnvFake();
     env.set('JWT_SECRET_KEY', 'test-secret-key');
-    tokenService = new TokenService(env);
+    tokenService = new TokenServiceImpl(env);
     validateTokenUseCase = new ValidateTokenUseCaseImpl(tokenService);
   });
 

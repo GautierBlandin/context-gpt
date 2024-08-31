@@ -1,6 +1,6 @@
 import { LoginUserUseCaseImpl } from './login-user.use-case';
 import { User } from '../domain/user.aggregate';
-import { TokenService } from '../domain/token.service';
+import { TokenServiceImpl } from '../domain/token.service';
 import { EnvFake } from '@context-gpt/server-shared-env';
 import { InMemoryUsersRepository } from '../infrastructure/users.repository.in-memory';
 import { InvalidCredentialError } from '../domain/errors';
@@ -8,13 +8,13 @@ import { InvalidCredentialError } from '../domain/errors';
 describe('LoginUserUseCase', () => {
   let useCase: LoginUserUseCaseImpl;
   let usersRepository: InMemoryUsersRepository;
-  let tokenService: TokenService;
+  let tokenService: TokenServiceImpl;
 
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepository();
     const env = new EnvFake();
     env.set('JWT_SECRET_KEY', 'test-secret-key');
-    tokenService = new TokenService(env);
+    tokenService = new TokenServiceImpl(env);
     useCase = new LoginUserUseCaseImpl(usersRepository, tokenService);
   });
 

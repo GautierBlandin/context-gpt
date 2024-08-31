@@ -1,4 +1,4 @@
-import { TokenService } from './token.service';
+import { TokenServiceImpl } from './token.service';
 import { EnvFake } from '@context-gpt/server-shared-env';
 
 describe('TokenService', () => {
@@ -60,6 +60,6 @@ describe('TokenService', () => {
 const setup = () => {
   const envFake = new EnvFake();
   envFake.set('JWT_SECRET_KEY', 'test_secret_key');
-  const tokenService = new TokenService(envFake);
+  const tokenService = new TokenServiceImpl(envFake);
   return { tokenService, envFake };
 };
