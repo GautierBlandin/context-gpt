@@ -2,13 +2,15 @@ import { AuthSdk } from './auth.sdk';
 import { createApiClient } from './test-client';
 import { SharedState } from './shared-state';
 import { expect, it } from 'vitest';
+import { SharedStateMother } from './share-state.mother';
+import { getValidToken } from './test-token';
 
 describe('Auth sdk', () => {
   let authSdk: AuthSdk;
   let sharedState: SharedState;
 
   beforeEach(() => {
-    const testSharedState: SharedState = { accessToken: null };
+    const testSharedState: SharedState = SharedStateMother.getValidSharedState();
     authSdk = new AuthSdk(createApiClient(), testSharedState);
 
     sharedState = testSharedState;
@@ -44,13 +46,3 @@ describe('Auth sdk', () => {
     });
   });
 });
-
-function getValidToken() {
-  const VALID_TOKEN = import.meta.env['API_ACCESS_TOKEN'];
-
-  if (!VALID_TOKEN) {
-    throw new Error('API_ACCESS_TOKEN is not set in the environment variables');
-  }
-
-  return VALID_TOKEN;
-}
