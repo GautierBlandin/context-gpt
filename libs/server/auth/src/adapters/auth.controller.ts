@@ -14,16 +14,7 @@ import { DomainError } from '@context-gpt/server-shared-errors';
 import { RegisterUserUseCase } from '../use-cases/register-user.use-case';
 import { LoginUserUseCase } from '../use-cases/login-user.use-case';
 import { ValidateTokenUseCase } from '../use-cases/validate-token.use-case';
-
-class RegisterDto {
-  email: string;
-  password: string;
-}
-
-class LoginDto {
-  email: string;
-  password: string;
-}
+import { LoginUserInputDto, LoginUserOutputDto, RegisterUserInputDto } from './auth.controller.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -35,7 +26,7 @@ export class AuthController {
 
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
-  async register(@Body() registerDto: RegisterDto): Promise<void> {
+  async register(@Body() registerDto: RegisterUserInputDto): Promise<void> {
     try {
       await this.registerUserUseCase.execute(registerDto);
     } catch (error) {
@@ -49,7 +40,7 @@ export class AuthController {
 
   @Post('login')
   @HttpCode(HttpStatus.OK)
-  async login(@Body() loginDto: LoginDto): Promise<{ token: string }> {
+  async login(@Body() loginDto: LoginUserInputDto): Promise<LoginUserOutputDto> {
     try {
       const result = await this.loginUserUseCase.execute(loginDto);
       return { token: result.token };
