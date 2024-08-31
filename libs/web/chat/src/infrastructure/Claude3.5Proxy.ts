@@ -6,7 +6,7 @@ export class Claude3_5Proxy implements LLMProxy {
 
   async sendPrompt(input: SendPromptInput): Promise<void> {
     try {
-      const generator = this.sdk.promptClaude({ messages: input.messages });
+      const generator = this.sdk.threads.postMessage({ messages: input.messages });
 
       for await (const chunk of generator) {
         switch (chunk.type) {

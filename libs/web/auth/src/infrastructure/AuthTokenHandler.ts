@@ -9,7 +9,7 @@ export class AuthTokenHandlerImpl implements AuthTokenHandler {
   }
 
   async checkToken(): Promise<AuthTokenHandlerOutput> {
-    const { data, error } = await this.sdk.checkToken();
+    const { data, error } = await this.sdk.auth.validate();
 
     if (error) {
       return { type: 'error', error: 'An error occurred' };
@@ -19,7 +19,7 @@ export class AuthTokenHandlerImpl implements AuthTokenHandler {
   }
 
   async login({ token }: { token: string }): Promise<LoginOutput> {
-    const { data, error } = await this.sdk.login({ token });
+    const { data, error } = await this.sdk.auth.login({ token });
 
     if (error) {
       return { type: 'error', error };
