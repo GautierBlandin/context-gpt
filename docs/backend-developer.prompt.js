@@ -86,14 +86,14 @@ async function readFileContent(filePath) {
 
 // Main function
 async function generateAndCopyPrompt() {
-  const projectStructurePath = path.join(__dirname, 'project-structure.server.md');
+  const projectStructurePath = path.join(__dirname, './backend/project-structure.server.md');
   const codeStylePath = path.join(__dirname, 'style.md');
-  const aggregatesAndUseCasesPath = path.join(__dirname, 'aggregates.md');
-  const repositoriesPath = path.join(__dirname, 'repositories.md');
-  const testFilesPath = path.join(__dirname, 'test-setup.backend.md');
-  const errorHandlingPath = path.join(__dirname, 'error-handling.md');
-  const useCasesPath = path.join(__dirname, 'use-cases.md');
-  const webFrameworkPath = path.join(__dirname, 'web-framework.server.md');
+  const aggregatesAndUseCasesPath = path.join(__dirname, './backend/aggregates.md');
+  const repositoriesPath = path.join(__dirname, './backend/repositories.md');
+  const testFilesPath = path.join(__dirname, './backend/test-setup.backend.md');
+  const errorHandlingPath = path.join(__dirname, './backend/error-handling.md');
+  const useCasesPath = path.join(__dirname, './backend/use-cases.md');
+  const webFrameworkPath = path.join(__dirname, './backend/web-framework.server.md');
 
   const [
     projectStructure,

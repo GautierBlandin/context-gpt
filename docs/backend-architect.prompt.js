@@ -85,7 +85,7 @@ async function readFileContent(filePath) {
 
 // Main function
 async function generateAndCopyPrompt() {
-  const projectStructurePath = path.join(__dirname, 'project-structure.server.md');
+  const projectStructurePath = path.join(__dirname, './backend/project-structure.server.md');
 
   const [projectStructure] = await Promise.all([readFileContent(projectStructurePath)]);
 
