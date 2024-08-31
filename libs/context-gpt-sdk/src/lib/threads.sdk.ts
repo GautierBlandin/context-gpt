@@ -1,6 +1,18 @@
 import type { paths } from '../../api-types/schema';
 import { SharedState } from './shared-state';
-import { Chunk, ChunkType } from './context-gpt-sdk';
+
+export enum ChunkType {
+  Start = 'start',
+  Content = 'content',
+  End = 'end',
+  Error = 'error',
+}
+
+export type Chunk =
+  | { type: ChunkType.Start }
+  | { type: ChunkType.Content; content: string }
+  | { type: ChunkType.End }
+  | { type: ChunkType.Error; error: string };
 
 export class ThreadsSdk {
   constructor(private readonly sharedState: SharedState) {}
