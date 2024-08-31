@@ -1,23 +1,21 @@
 import { UsersRepository } from '../ports/users.repository';
 import { InMemoryUsersRepository } from '../infrastructure/users.repository.in-memory';
-import { RegisterUserUseCase } from './register-user.use-case';
+import { RegisterUserUseCaseImpl } from './register-user.use-case';
 
 describe('RegisterUserUseCase', () => {
-  let useCase: RegisterUserUseCase;
+  let useCase: RegisterUserUseCaseImpl;
   let usersRepository: UsersRepository;
 
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepository();
-    useCase = new RegisterUserUseCase(usersRepository);
+    useCase = new RegisterUserUseCaseImpl(usersRepository);
   });
 
   it('registers a new user successfully', async () => {
     const email = 'test@example.com';
     const password = 'password123';
 
-    const userId = await useCase.execute({ email, password });
-
-    expect(userId).toBeDefined();
+    await useCase.execute({ email, password });
 
     const savedUser = await usersRepository.getByEmail(email);
     expect(savedUser).not.toBeNull();
