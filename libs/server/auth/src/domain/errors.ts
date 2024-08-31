@@ -6,3 +6,10 @@ export class InvalidCredentialError extends DomainError {
     this.name = 'InvalidCredentialError';
   }
 }
+
+export class InvalidTokenError extends DomainError {
+  constructor(message: string) {
+    super(message);
+    this.name = 'InvalidTokenError';
+  }
+}
