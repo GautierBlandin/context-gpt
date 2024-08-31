@@ -17,6 +17,14 @@
           "target": "generate-spec"
         }
       ]
+    },
+    "e2e": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
+      "dependsOn": ["context-gpt-backend:build"]
+    },
+    "test": {
+      "command": "echo 'No tests to run for context-gpt-backend-e2e'"
     }
   }
 }
