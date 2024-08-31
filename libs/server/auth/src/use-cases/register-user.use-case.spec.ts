@@ -1,5 +1,5 @@
 import { UsersRepository } from '../ports/users.repository';
-import { InMemoryUserRepository } from '../infrastructure/users.repository.in-memory';
+import { InMemoryUsersRepository } from '../infrastructure/users.repository.in-memory';
 import { RegisterUserUseCase } from './register-user.use-case';
 
 describe('RegisterUserUseCase', () => {
@@ -7,7 +7,7 @@ describe('RegisterUserUseCase', () => {
   let usersRepository: UsersRepository;
 
   beforeEach(() => {
-    usersRepository = new InMemoryUserRepository();
+    usersRepository = new InMemoryUsersRepository();
     useCase = new RegisterUserUseCase(usersRepository);
   });
 

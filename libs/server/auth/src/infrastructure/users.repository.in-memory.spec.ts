@@ -1,11 +1,11 @@
 import { User } from '../domain/user.aggregate';
-import { InMemoryUserRepository } from './users.repository.in-memory';
+import { InMemoryUsersRepository } from './users.repository.in-memory';
 
 describe('InMemoryUserRepository', () => {
-  let repository: InMemoryUserRepository;
+  let repository: InMemoryUsersRepository;
 
   beforeEach(() => {
-    repository = new InMemoryUserRepository();
+    repository = new InMemoryUsersRepository();
   });
 
   it('saves a user', async () => {
