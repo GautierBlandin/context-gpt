@@ -21,3 +21,19 @@ if (user.password.length < 8) {
   throw new DomainError('Password must be at least 8 characters long');
 }
 ```
+
+## Bounded-context specific errors
+
+Bounded context can create their own errors to obtain more granularity in error handling.
+Bounded context errors should extend the DomainError class:
+
+```ts
+import { DomainError } from '@context-gpt/server-shared-errors';
+
+export class InvalidCredentialsError extends DomainError {
+  constructor(message: string) {
+    super(message);
+    this.name = 'InvalidCredentialsError';
+  }
+}
+```
