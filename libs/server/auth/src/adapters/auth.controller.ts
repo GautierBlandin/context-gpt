@@ -6,6 +6,7 @@ import {
   HttpStatus,
   InternalServerErrorException,
   Post,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { DomainError } from '@context-gpt/server-shared-errors';
 import { RegisterUserUseCase } from '../use-cases/register-user.use-case';
@@ -13,6 +14,11 @@ import { LoginUserUseCase } from '../use-cases/login-user.use-case';
 import { ValidateTokenUseCase } from '../use-cases/validate-token.use-case';
 
 class RegisterDto {
+  email: string;
+  password: string;
+}
+
+class LoginDto {
   email: string;
   password: string;
 }
@@ -39,5 +45,20 @@ export class AuthController {
     }
   }
 
-  // Login and validate methods will be implemented later
+  @Post('login')
+  @HttpCode(HttpStatus.OK)
+  async login(@Body() loginDto: LoginDto): Promise<{ token: string }> {
+    try {
+      const result = await this.loginUserUseCase.execute(loginDto);
+      return { token: result.token };
+    } catch (error) {
+      if (error instanceof DomainError) {
+        throw new UnauthorizedException(error.message);
+      } else {
+        throw new InternalServerErrorException('Internal server error');
+      }
+    }
+  }
+
+  // Validate methods will be implemented later
 }
