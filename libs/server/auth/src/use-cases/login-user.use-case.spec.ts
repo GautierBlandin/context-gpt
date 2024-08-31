@@ -1,4 +1,4 @@
-import { LoginUserUseCase } from './login-user.use-case';
+import { LoginUserUseCaseImpl } from './login-user.use-case';
 import { User } from '../domain/user.aggregate';
 import { TokenService } from '../domain/token.service';
 import { EnvFake } from '@context-gpt/server-shared-env';
@@ -6,7 +6,7 @@ import { InMemoryUsersRepository } from '../infrastructure/users.repository.in-m
 import { InvalidCredentialError } from '../domain/errors';
 
 describe('LoginUserUseCase', () => {
-  let useCase: LoginUserUseCase;
+  let useCase: LoginUserUseCaseImpl;
   let usersRepository: InMemoryUsersRepository;
   let tokenService: TokenService;
 
@@ -15,7 +15,7 @@ describe('LoginUserUseCase', () => {
     const env = new EnvFake();
     env.set('JWT_SECRET_KEY', 'test-secret-key');
     tokenService = new TokenService(env);
-    useCase = new LoginUserUseCase(usersRepository, tokenService);
+    useCase = new LoginUserUseCaseImpl(usersRepository, tokenService);
   });
 
   it('successfully logs in a user with correct credentials', async () => {

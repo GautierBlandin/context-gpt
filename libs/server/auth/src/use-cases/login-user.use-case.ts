@@ -11,11 +11,17 @@ interface LoginUserOutput {
   token: string;
 }
 
-export class LoginUserUseCase {
+export abstract class LoginUserUseCase {
+  abstract execute(input: LoginUserInput): Promise<LoginUserOutput>;
+}
+
+export class LoginUserUseCaseImpl extends LoginUserUseCase {
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly tokenService: TokenService,
-  ) {}
+  ) {
+    super();
+  }
 
   async execute(input: LoginUserInput): Promise<LoginUserOutput> {
     const user = await this.usersRepository.getByEmail(input.email);
