@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSnapshot } from 'valtio';
-import { AuthenticationStateType, authenticationStore, LoginForm } from '@context-gpt/authentication';
+import { authenticationStore } from './Authentication.store';
+import { LoginForm } from './LoginForm';
+import { AuthenticationStateType } from '../core';
 
 export function LoginPage() {
   const location = useLocation();
@@ -15,7 +17,7 @@ export function LoginPage() {
   }, [auth.authState, navigate, location]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-neutral-primary">
       <LoginForm />
     </div>
   );

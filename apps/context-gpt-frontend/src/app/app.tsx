@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { LoginPage } from './login/page';
-import { ChatPage } from './chat/page';
+import { LoginPage } from '@context-gpt/authentication';
+import { ChatPage } from '@context-gpt/chat';
 
 export function App() {
   return (

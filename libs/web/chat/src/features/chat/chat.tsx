@@ -5,8 +5,15 @@ import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { WiredChatInput } from './chat-input';
 import { ChatMessages } from './chat-messages';
 import { useStore } from 'zustand';
+import { withAuth } from '@context-gpt/authentication';
 
-export function Chat() {
+export function ChatPage() {
+  const AuthenticatedChat = withAuth(Chat);
+
+  return <AuthenticatedChat />;
+}
+
+function Chat() {
   const store = useMemo(() => createChatDomainStoreFactory(), []);
 
   return (

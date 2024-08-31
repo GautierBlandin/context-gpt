@@ -27,7 +27,7 @@ export function LoginForm() {
   }
 
   return (
-    <div className="p-8 bg-white rounded-lg shadow-md">
+    <div className="p-8 rounded-lg shadow-md">
       <h1 className="mb-6 text-2xl font-bold text-center">Login</h1>
       <form
         onSubmit={(e) => {
