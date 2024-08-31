@@ -1,5 +1,7 @@
 # Test files
 
+Tests on the backend use Jest as the test framework rather than vitest.
+
 Tests are made up of three parts:
 - Arrange
 - Act
