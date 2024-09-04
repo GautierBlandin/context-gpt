@@ -91,6 +91,7 @@
     "autoprefixer": "10.4.19",
     "babel-jest": "^29.7.0",
     "clipboardy": "^4.0.0",
+    "dependency-cruiser": "^16.4.1",
     "esbuild": "^0.19.2",
     "eslint": "^8.56.0",
     "eslint-config-next": "14.2.5",
