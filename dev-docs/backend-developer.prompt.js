@@ -69,9 +69,7 @@ per answer.
 The user prompt is located in the userPrompt tag.
 </basePrompt>
 
-<userPrompt>
-YOUR PROMPT GOES HERE
-</userPrompt>
+{{{ input }}}
 `;
 
 // Function to read file contents

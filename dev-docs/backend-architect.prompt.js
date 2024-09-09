@@ -65,13 +65,9 @@ Example implementation steps:
 - [ ] Create the post-message API request handler in the API controller
 </implementationSteps>
 
-The user prompt is located in the userPrompt tag.
 </basePrompt>
 
-<userPrompt>
-YOUR PROMPT GOES HERE
-</userPrompt>
-`;
+{{{ input }}}`;
 
 // Function to read file contents
 async function readFileContent(filePath) {
