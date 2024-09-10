@@ -20,10 +20,11 @@
       "@context-gpt/context-gpt-sdk": ["libs/context-gpt-sdk/src/index.ts"],
       "@context-gpt/di": ["libs/web/shared/di/src/index.ts"],
       "@context-gpt/server-auth": ["libs/server/auth/src/index.ts"],
-      "@context-gpt/server-shared-errors": ["libs/server/shared/errors/src/index.ts"],
       "@context-gpt/server-shared-env": ["libs/server/shared/env/src/index.ts"],
+      "@context-gpt/server-shared-errors": ["libs/server/shared/errors/src/index.ts"],
       "@context-gpt/server-threads": ["libs/server/threads/src/index.ts"],
-      "@context-gpt/shared/ui": ["libs/web/shared/ui/src/index.ts"]
+      "@context-gpt/shared/ui": ["libs/web/shared/ui/src/index.ts"],
+      "@context-gpt/web-shared-utils": ["libs/web/shared/utils/src/index.ts"]
     },
     "esModuleInterop": true
   },
