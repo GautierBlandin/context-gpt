@@ -29,6 +29,6 @@ import { TokenService, TokenServiceImpl } from './domain/token.service';
       useClass: TokenServiceImpl,
     },
   ],
-  exports: [AuthGuard],
+  exports: [AuthGuard, ValidateTokenUseCase],
 })
 export class ServerAuthModule {}
