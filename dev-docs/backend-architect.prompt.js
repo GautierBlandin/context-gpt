@@ -47,7 +47,7 @@ graph TD
 </mermaidGraph>
 
 <solutionDetails>
-An explanation of the role of the different components of the solution
+An explanation of the role of the different components of the solution. May include typescript interfaces, but no implementation.
 </solutionDetails>
 
 <implementationSteps>
@@ -66,6 +66,12 @@ Example implementation steps:
 </implementationSteps>
 
 </basePrompt>
+
+Here are additional files that the user has opened to provide context:
+
+{{{ open }}}
+
+Here is the user's prompt:
 
 {{{ input }}}`;
 
