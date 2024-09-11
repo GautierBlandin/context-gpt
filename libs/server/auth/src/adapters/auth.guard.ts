@@ -1,4 +1,4 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ValidateTokenUseCase } from '../use-cases/validate-token.use-case';
 import { InvalidTokenError } from '../domain/errors';
 
@@ -11,7 +11,7 @@ export class AuthGuard implements CanActivate {
     const authHeader = request.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return false;
+      throw new UnauthorizedException('Missing or invalid authorization header');
     }
 
     const token = authHeader.split(' ')[1];
@@ -22,8 +22,9 @@ export class AuthGuard implements CanActivate {
       return true;
     } catch (error) {
       if (error instanceof InvalidTokenError) {
-        return false;
+        throw new UnauthorizedException('Invalid token');
       }
+      console.log('error', error);
       throw error;
     }
   }
