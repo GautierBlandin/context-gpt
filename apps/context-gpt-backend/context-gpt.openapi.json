@@ -12,29 +12,23 @@
         }
       }
     },
-    "/auth/validate": {
-      "get": {
-        "operationId": "AuthController_validateToken",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "required": true,
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetAuthValidateOutputDto"
-                }
+    "/auth/register": {
+      "post": {
+        "operationId": "AuthController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterUserInputDto"
               }
             }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
           }
         }
       }
@@ -48,7 +42,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PostAuthLoginInputDto"
+                "$ref": "#/components/schemas/LoginUserInputDto"
               }
             }
           }
@@ -59,10 +53,30 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PostAuthLoginDto"
+                  "$ref": "#/components/schemas/LoginUserOutputDto"
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/auth/validate": {
+      "get": {
+        "operationId": "AuthController_validate",
+        "parameters": [
+          {
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
           }
         }
       }
@@ -125,18 +139,37 @@
       }
     },
     "schemas": {
-      "GetAuthValidateOutputDto": {
+      "RegisterUserInputDto": {
         "type": "object",
         "properties": {
-          "is_valid": {
-            "type": "boolean"
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
           }
         },
         "required": [
-          "is_valid"
+          "email",
+          "password"
         ]
       },
-      "PostAuthLoginInputDto": {
+      "LoginUserInputDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "LoginUserOutputDto": {
         "type": "object",
         "properties": {
           "token": {
@@ -145,17 +178,6 @@
         },
         "required": [
           "token"
-        ]
-      },
-      "PostAuthLoginDto": {
-        "type": "object",
-        "properties": {
-          "access_token": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "access_token"
         ]
       },
       "MessageDto": {

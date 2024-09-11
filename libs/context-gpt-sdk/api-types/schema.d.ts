@@ -20,16 +20,16 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/auth/validate": {
+    "/auth/register": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["AuthController_validateToken"];
+        get?: never;
         put?: never;
-        post?: never;
+        post: operations["AuthController_register"];
         delete?: never;
         options?: never;
         head?: never;
@@ -46,6 +46,22 @@ export interface paths {
         get?: never;
         put?: never;
         post: operations["AuthController_login"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/validate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AuthController_validate"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -72,14 +88,16 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        GetAuthValidateOutputDto: {
-            is_valid: boolean;
+        RegisterUserInputDto: {
+            email: string;
+            password: string;
         };
-        PostAuthLoginInputDto: {
+        LoginUserInputDto: {
+            email: string;
+            password: string;
+        };
+        LoginUserOutputDto: {
             token: string;
-        };
-        PostAuthLoginDto: {
-            access_token: string;
         };
         MessageDto: {
             /** @enum {string} */
@@ -115,24 +133,24 @@ export interface operations {
             };
         };
     };
-    AuthController_validateToken: {
+    AuthController_register: {
         parameters: {
             query?: never;
-            header: {
-                Authorization: string;
-            };
+            header?: never;
             path?: never;
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegisterUserInputDto"];
+            };
+        };
         responses: {
-            200: {
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content: {
-                    "application/json": components["schemas"]["GetAuthValidateOutputDto"];
-                };
+                content?: never;
             };
         };
     };
@@ -145,7 +163,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["PostAuthLoginInputDto"];
+                "application/json": components["schemas"]["LoginUserInputDto"];
             };
         };
         responses: {
@@ -154,8 +172,27 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["PostAuthLoginDto"];
+                    "application/json": components["schemas"]["LoginUserOutputDto"];
                 };
+            };
+        };
+    };
+    AuthController_validate: {
+        parameters: {
+            query?: never;
+            header: {
+                authorization: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };
