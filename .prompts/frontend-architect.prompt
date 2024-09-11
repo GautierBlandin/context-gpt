@@ -113,6 +113,34 @@ graph TD
 
 </frontendProjectStructure>
 
+In the following section, you will find the technologies used in the frontend project.
+
+<frontendTechnologies>
+# Main framework
+
+The project is built using React
+
+# Styling
+
+Tailwind is used to handle the styling of the project
+
+# Component library
+
+Shadcn components are used as a baseline
+
+# State management
+
+## Remote state
+
+Remote state is accessed through a port/infrastructure architecture, with react-query being used to manage the
+associated meta-state (isPending, isLoading, etc.)
+
+## Local / shared state
+
+Valtio proxies are used to manage local state
+
+</frontendTechnologies>
+
 The deliverable of your task is a design document that describes the software components involved in the solution,
 a mermaid graph diagram that summarizes how the components interact, and a list of practical implementation steps
 that can be followed to implement the solution. Developers will follow your design document to implement the solution.

@@ -18,6 +18,12 @@ In the following section, you will find a description of the structure of the fr
 { project structure }
 </frontendProjectStructure>
 
+In the following section, you will find the technologies used in the frontend project.
+
+<frontendTechnologies>
+{ frontend technologies }
+</frontendTechnologies>
+
 The deliverable of your task is a design document that describes the software components involved in the solution,
 a mermaid graph diagram that summarizes how the components interact, and a list of practical implementation steps
 that can be followed to implement the solution. Developers will follow your design document to implement the solution.
@@ -87,10 +93,16 @@ async function readFileContent(filePath) {
 // Main function
 async function generateAndCopyPrompt() {
   const projectStructurePath = path.join(__dirname, './frontend/project-structure.frontend.md');
+  const technologiesPath = path.join(__dirname, './frontend/technologies.md');
 
-  const [projectStructure] = await Promise.all([readFileContent(projectStructurePath)]);
+  const [projectStructure, technologies] = await Promise.all([
+    readFileContent(projectStructurePath),
+    readFileContent(technologiesPath),
+  ]);
 
-  const finalPrompt = basePrompt.replace('{ project structure }', projectStructure);
+  const finalPrompt = basePrompt
+    .replace('{ project structure }', projectStructure)
+    .replace('{ frontend technologies }', technologies);
 
   await clipboard.write(finalPrompt);
   console.log('Base prompt has been copied to clipboard!');
