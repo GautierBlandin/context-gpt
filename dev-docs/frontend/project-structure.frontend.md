@@ -20,15 +20,19 @@ Let's start by looking at the overall folder structure, then we will break it do
 │   │   ├── threads.repository.singleton.ts
 │   ├── features
 │   │   ├── chat
-│   │   │   ├── chat.controller.tsx
-│   │   │   ├── chat.controller.spec.tsx
+│   │   │   ├── chat-input
+│   │   │   │   ├── chat-input.tsx
+│   │   │   │   ├── chat-input.spec.tsx
+│   │   │   ├── chat-messages
+│   │   │   │   ├── chat-messages.tsx
+│   │   │   │   ├── chat-messages.spec.tsx
+│   │   │   ├── chat.tsx
+│   │   │   ├── chat.spec.tsx
 │   │   │   ├── chat.view.tsx
 │   │   │   ├── chat.state.tsx
 │   │   │   ├── chat.presenter.ts
 │   │   │   ├── chat.presenter.spec.ts
 │   │   │   ├── index.ts
-│   │   ├── chat-history
-│   │   ├── chat-page
 │   ├── remote-state
 │   │   ├── use-list-threads.query.tsx
 │   │   ├── use-get-thread.query.tsx
