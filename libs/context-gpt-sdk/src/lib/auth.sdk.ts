@@ -8,9 +8,15 @@ export class AuthSdk {
     private readonly sharedState: SharedState,
   ) {}
 
-  public async login({ token }: { token: string }) {
+  public async register({ email, password }: { email: string; password: string }) {
+    return this.client.POST('/auth/register', {
+      body: { email, password },
+    });
+  }
+
+  public async login({ email, password }: { email: string; password: string }) {
     return this.client.POST('/auth/login', {
-      body: { token },
+      body: { email, password },
     });
   }
 
@@ -21,7 +27,7 @@ export class AuthSdk {
 
     return this.client.GET('/auth/validate', {
       params: {
-        header: { Authorization: `Bearer ${this.sharedState.accessToken}` },
+        header: { authorization: `Bearer ${this.sharedState.accessToken}` },
       },
     });
   }

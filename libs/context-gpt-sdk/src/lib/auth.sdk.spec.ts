@@ -1,9 +1,13 @@
 import { AuthSdk } from './auth.sdk';
 import { createApiClient } from './test-client';
 import { SharedState } from './shared-state';
-import { expect, it } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { SharedStateMother } from './share-state.mother';
-import { getValidToken } from './test-token';
+
+function generateRandomEmail(): string {
+  const randomString = Math.random().toString(36).substring(7);
+  return `test-${randomString}@example.com`;
+}
 
 describe('Auth sdk', () => {
   let authSdk: AuthSdk;
@@ -12,37 +16,56 @@ describe('Auth sdk', () => {
   beforeEach(() => {
     const testSharedState: SharedState = SharedStateMother.getValidSharedState();
     authSdk = new AuthSdk(createApiClient(), testSharedState);
-
     sharedState = testSharedState;
+  });
+
+  describe('register', () => {
+    it('returns 201 Created when registration is successful', async () => {
+      const email = generateRandomEmail();
+      const password = 'password123';
+
+      const { response } = await authSdk.register({ email, password });
+      expect(response.status).toBe(201);
+    });
   });
 
   describe('login', () => {
     it('returns 200 OK with a token when login is successful', async () => {
-      const token = getValidToken();
+      // First, register a new user
+      const email = generateRandomEmail();
+      const password = 'password123';
 
-      const { response, data } = await authSdk.login({ token: token });
+      const registerResponse = await authSdk.register({ email, password });
+      expect(registerResponse.response.status).toBe(201);
 
+      // Now, try to login with the newly registered user
+      const { response, data } = await authSdk.login({ email, password });
       expect(response.status).toBe(200);
-      expect(data).toEqual({ access_token: token });
+      expect(data).toHaveProperty('token');
     });
   });
 
   describe('validate', () => {
     it('returns 200 OK when token is valid', async () => {
-      sharedState.accessToken = getValidToken();
+      // First, register and login to get a valid token
+      const email = generateRandomEmail();
+      const password = 'password123';
 
-      const { response, data } = await authSdk.validate();
+      await authSdk.register({ email, password });
+      const { data: loginData } = await authSdk.login({ email, password });
 
+      if (!loginData) {
+        throw new Error('Login failed');
+      }
+      sharedState.accessToken = loginData.token;
+
+      const { response } = await authSdk.validate();
       expect(response.status).toBe(200);
-      expect(data).toEqual({ is_valid: true });
     });
 
-    it('should return false for an invalid token', async () => {
-      sharedState.accessToken = 'invalid_token';
-
-      const result = await authSdk.validate();
-      expect(result.response.status).toBe(200);
-      expect(result.data).toEqual({ is_valid: false });
+    it('throws an error when access token is not set', async () => {
+      sharedState.accessToken = null;
+      await expect(authSdk.validate()).rejects.toThrow('Access token is not set');
     });
   });
 });

@@ -1,8 +1,10 @@
+// libs/context-gpt-sdk/src/lib/threads.sdk.spec.ts
+
 import { ChunkType, ThreadsSdk } from './threads.sdk';
 import { SharedStateMother } from './share-state.mother';
 import { SharedState } from './shared-state';
-import { describe, expect, it } from 'vitest';
-import { getValidToken } from './test-token';
+import { beforeEach, describe, expect, it } from 'vitest';
+import { getValidAuthorizationToken } from './auth-test-helper';
 
 describe('Threads sdk', () => {
   let threadsSdk: ThreadsSdk;
@@ -10,14 +12,14 @@ describe('Threads sdk', () => {
 
   beforeEach(() => {
     const testSharedState = SharedStateMother.getValidSharedState();
-
     threadsSdk = new ThreadsSdk(testSharedState);
     sharedState = testSharedState;
   });
 
   describe('Claude Endpoint (/claude)', () => {
     it('should return the expected response when given valid input', async () => {
-      sharedState.accessToken = getValidToken();
+      // Use the auth-test-helper to get a valid token
+      sharedState.accessToken = await getValidAuthorizationToken();
 
       const messages = [
         {
