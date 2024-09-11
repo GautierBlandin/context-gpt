@@ -6,12 +6,17 @@ import { LoginUserUseCase, LoginUserUseCaseImpl } from './use-cases/login-user.u
 import { RegisterUserUseCase, RegisterUserUseCaseImpl } from './use-cases/register-user.use-case';
 import { ValidateTokenUseCase, ValidateTokenUseCaseImpl } from './use-cases/validate-token.use-case';
 import { TokenService, TokenServiceImpl } from './domain/token.service';
+import { UsersRepository } from './ports/users.repository';
+import { InMemoryUsersRepository } from './infrastructure/users.repository.in-memory';
 
 @Module({
   imports: [ServerSharedModule],
   controllers: [AuthController],
   providers: [
-    AuthGuard,
+    {
+      provide: UsersRepository,
+      useClass: InMemoryUsersRepository,
+    },
     {
       provide: LoginUserUseCase,
       useClass: LoginUserUseCaseImpl,
@@ -28,6 +33,7 @@ import { TokenService, TokenServiceImpl } from './domain/token.service';
       provide: TokenService,
       useClass: TokenServiceImpl,
     },
+    AuthGuard,
   ],
   exports: [AuthGuard, ValidateTokenUseCase],
 })

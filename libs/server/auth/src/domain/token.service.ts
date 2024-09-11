@@ -1,6 +1,7 @@
 import * as jwt from 'jsonwebtoken';
 import { Env } from '@context-gpt/server-shared-env';
 import { InvalidTokenError } from './errors';
+import { Inject } from '@nestjs/common';
 
 export abstract class TokenService {
   abstract generateToken(userId: string): string;
@@ -9,7 +10,7 @@ export abstract class TokenService {
 }
 
 export class TokenServiceImpl extends TokenService {
-  constructor(private readonly env: Env) {
+  constructor(@Inject(Env) private readonly env: Env) {
     super();
   }
 

@@ -1,6 +1,7 @@
 import { UsersRepository } from '../ports/users.repository';
 import { User } from '../domain/user.aggregate';
 import { DomainError } from '@context-gpt/server-shared-errors';
+import { Inject } from '@nestjs/common';
 
 interface RegisterUserInput {
   email: string;
@@ -12,12 +13,13 @@ export abstract class RegisterUserUseCase {
 }
 
 export class RegisterUserUseCaseImpl extends RegisterUserUseCase {
-  constructor(private readonly usersRepository: UsersRepository) {
+  constructor(@Inject(UsersRepository) private usersRepository: UsersRepository) {
     super();
   }
 
   async execute(input: RegisterUserInput): Promise<void> {
     const existingUser = await this.usersRepository.getByEmail(input.email);
+
     if (existingUser) {
       throw new DomainError('Email already exists');
     }

@@ -1,6 +1,7 @@
 import { UsersRepository } from '../ports/users.repository';
 import { TokenService } from '../domain/token.service';
 import { InvalidCredentialError } from '../domain/errors';
+import { Inject } from '@nestjs/common';
 
 interface LoginUserInput {
   email: string;
@@ -17,8 +18,8 @@ export abstract class LoginUserUseCase {
 
 export class LoginUserUseCaseImpl extends LoginUserUseCase {
   constructor(
-    private readonly usersRepository: UsersRepository,
-    private readonly tokenService: TokenService,
+    @Inject(UsersRepository) private readonly usersRepository: UsersRepository,
+    @Inject(TokenService) private readonly tokenService: TokenService,
   ) {
     super();
   }

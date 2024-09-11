@@ -1,4 +1,5 @@
 import { TokenService } from '../domain/token.service';
+import { Inject } from '@nestjs/common';
 
 interface ValidateTokenInput {
   token: string;
@@ -13,7 +14,7 @@ export abstract class ValidateTokenUseCase {
 }
 
 export class ValidateTokenUseCaseImpl extends ValidateTokenUseCase {
-  constructor(private readonly tokenService: TokenService) {
+  constructor(@Inject(TokenService) private readonly tokenService: TokenService) {
     super();
   }
 
