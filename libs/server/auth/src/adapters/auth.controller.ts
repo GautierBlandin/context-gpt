@@ -33,6 +33,7 @@ export class AuthController {
       if (error instanceof DomainError) {
         throw new BadRequestException(error.message);
       } else {
+        console.log('error', error);
         throw new InternalServerErrorException('Internal server error');
       }
     }
@@ -48,6 +49,7 @@ export class AuthController {
       if (error instanceof DomainError) {
         throw new UnauthorizedException(error.message);
       } else {
+        console.log('error', error);
         throw new InternalServerErrorException('Internal server error');
       }
     }
@@ -69,6 +71,7 @@ export class AuthController {
       if (error instanceof DomainError) {
         throw new UnauthorizedException(error.message);
       } else {
+        console.log('error', error);
         throw new InternalServerErrorException('Internal server error');
       }
     }
