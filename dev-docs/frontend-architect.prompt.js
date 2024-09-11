@@ -86,14 +86,11 @@ async function readFileContent(filePath) {
 
 // Main function
 async function generateAndCopyPrompt() {
-  const projectStructurePath = path.join(__dirname, './backend/project-structure.server.md');
+  const projectStructurePath = path.join(__dirname, './frontend/project-structure.frontend.md');
 
   const [projectStructure] = await Promise.all([readFileContent(projectStructurePath)]);
 
-  const finalPrompt = basePrompt.replace(
-    '{ project structure content, located at ./project-structure.server.md }',
-    projectStructure,
-  );
+  const finalPrompt = basePrompt.replace('{ project structure }', projectStructure);
 
   await clipboard.write(finalPrompt);
   console.log('Base prompt has been copied to clipboard!');
