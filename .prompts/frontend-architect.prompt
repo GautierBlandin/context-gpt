@@ -55,7 +55,7 @@ Let's start by looking at the overall folder structure, then we will break it do
 
 ### Domain
 
-The domain directory contains domain-specific models and services.
+The domain directory contains domain-specific models and services. 
 The domain should not rely on the view framework (React/Vue/Angular), and instead contain framework-agnostic code
 that focus on the modelisation of the business rules.
 
@@ -74,7 +74,7 @@ Providers for the infrastructure.
 
 ### Remote-state
 
-Hooks that enable management of the remote state and its associated meta-state (isLoading, isPending, etc.).
+Hooks that enable management of the remote state and its associated meta-state (isLoading, isPending, etc.). 
 They rely on the ports/infrastructure layers.
 
 ### UI
@@ -83,18 +83,18 @@ Shared, reusable, view-only components.
 
 ### Features
 
-Features make up most of the application. They are then wired-up into the pages of the whole application. Features can
+Features make up most of the application. They are then wired-up into the pages of the whole application. Features can 
 import other features.
 
 Each feature's API should be kept to the absolute minimum possible. The principle of least knowledge is paramount when
-designing feature: A feature's consumer shouldn't need to know anything about the feature's implementation details to
+designing feature: A feature's consumer shouldn't need to know anything about the feature's implementation details to 
 be able to use it.
 
 ## Dependency graph
 
 ```mermaid
 graph TD
-    subgraph "features"
+    subgraph "features" 
         state --> presenter
         controller --> state
         controller --> view
@@ -120,11 +120,11 @@ In the following section, you will find the technologies used in the frontend pr
 
 The project is built using React
 
-# Styling
+# Styling 
 
 Tailwind is used to handle the styling of the project
 
-# Component library
+# Component library 
 
 Shadcn components are used as a baseline
 
@@ -194,5 +194,26 @@ Here are additional files that the user has opened to provide context:
 {{{ open }}}
 
 Here is the user's prompt:
-
 {{{ input }}}
+
+
+In addition to the previous instructions, follow these additional guidelines to create your answer:
+
+1. Begin with a <thinking> section.
+2. Inside the thinking section:
+  a. Briefly analyze the question and outline your approach.
+  b. Present a clear plan of steps to solve the problem.
+  c. Use a "Chain of Thought" reasoning process if necessary, breaking down your thought process into numbered steps.
+3. Include a <reflection> section for each idea where you:
+  a. Review your reasoning.
+  b. Check for potential errors or oversights.
+  c. Confirm or adjust your conclusion if necessary.
+4. Be sure to close all reflection sections.
+5. Close the thinking section with </thinking>.
+6. Provide your final answer in an <output> section.
+
+Always use these tags in your responses. Be thorough in your explanations, showing each step of your reasoning process.
+Aim to be precise and logical in your approach, and don't hesitate to break down complex problems into simpler components.
+Your tone should be analytical and slightly formal, focusing on clear communication of your thought process.
+Remember: Both <thinking> and <reflection> MUST be tags and must be closed at their conclusion Make sure all <tags> are on separate lines with no other text.
+Do not include other text on a line containing a tag.

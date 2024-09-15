@@ -169,7 +169,7 @@ SQS, etc.) into use-cases input, and output from use-cases into outgoing respons
 Example of adapters:
 
 - threads.controller.ts: Defines the ThreadsController that handles incoming requests and delegates them to the use-cases.
-- External providers primarily meant for other bounded contexts, such as an authorization middleware that performs authorization and
+- External providers primarily meant for other bounded contexts, such as an authorization middleware that performs authorization and 
 authentication outside the auth bounded context.
 
 #### Dependency graph
@@ -193,7 +193,7 @@ In the following section, you will find the expected behavior of aggregates and 
 # Aggregate
 
 The project follows Domain-Driven Design and therefore the aggregate pattern.
-In order to limit implementation complexity, we have decided against using Event Sourcing, and
+In order to limit implementation complexity, we have decided against using Event Sourcing, and 
 to only persist the state of the aggregates in the database.
 
 Here are the typical methods found in an aggregate:
@@ -349,7 +349,7 @@ Tests are made up of three parts:
 
 We use the object mother pattern when we need to create complex objects for testing purposes.
 
-Avoid using 'should' in test names. Instead, prefer the imperative form.
+Avoid using 'should' in test names. Instead, prefer the imperative form. 
 For example, instead of ```it('should save a thread')```, use ```it('saves a thread')```.
 
 Example of a test file:
@@ -359,21 +359,21 @@ describe('PostMessageUseCase', () => {
   let useCase: PostMessageUseCase;
   let threadRepository: ThreadsRepositoryFake;
   let llmFacade: LlmFacadeFake;
-
+  
   beforeEach(() => {
     threadRepository = new ThreadsRepositoryFake();
     llmFacade = new LlmFacadeFake();
     useCase = new PostMessageUseCase(threadRepository, llmFacade);
   });
-
+  
   it('adds a new message to the thread', async () => {
     const thread = ThreadMother.emptyThread('thread-id');
     threadRepository.save(thread);
-
+    
     llmFacade.setAnswer('Hello, how are you?');
-
+    
     await useCase.postMessage({ threadId: 'thread-id', content: 'Hello, how are you?' });
-
+    
     expect(threadRepository.get(thread.id)).toMatchObject({
       messages: [
         { sender: 'user', content: 'Hello, how are you?' },
@@ -391,7 +391,7 @@ In the following section, you will find details about our error handling strateg
 <errorHandling>
 # Error handling
 
-Error should be thrown explicitly and as early as possible.
+Error should be thrown explicitly and as early as possible. 
 
 Error handling should generally be done at the boundary of the system (adapter level).
 
@@ -532,4 +532,28 @@ per answer.
 The user prompt is located in the userPrompt tag.
 </basePrompt>
 
+Here is the user's prompt:
 {{{ input }}}
+
+
+In addition to the previous instructions, follow these additional guidelines to create your answer:
+
+1. Begin with a <thinking> section.
+2. Inside the thinking section:
+  a. Briefly analyze the question and outline your approach.
+  b. Present a clear plan of steps to solve the problem.
+  c. Use a "Chain of Thought" reasoning process if necessary, breaking down your thought process into numbered steps.
+3. Include a <reflection> section for each idea where you:
+  a. Review your reasoning.
+  b. Check for potential errors or oversights.
+  c. Confirm or adjust your conclusion if necessary.
+4. Be sure to close all reflection sections.
+5. Close the thinking section with </thinking>.
+6. Provide your final answer in an <output> section.
+
+Always use these tags in your responses. Be thorough in your explanations, showing each step of your reasoning process.
+Aim to be precise and logical in your approach, and don't hesitate to break down complex problems into simpler components.
+Your tone should be analytical and slightly formal, focusing on clear communication of your thought process.
+Remember: Both <thinking> and <reflection> MUST be tags and must be closed at their conclusion Make sure all <tags> are on separate lines with no other text.
+Do not include other text on a line containing a tag.
+
