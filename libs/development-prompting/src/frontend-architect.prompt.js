@@ -1,13 +1,7 @@
-import fs from 'fs/promises';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import clipboard from 'clipboardy';
+import { reflectionPrompt } from './reflection.prompt.js';
+import * as aliases from './prompt-aliases.js';
 
-// Get the directory name of the current module
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-// Base prompt template
-const basePrompt = `
+export const frontendArchitectPrompt = `
 <basePrompt>
 Act as a frontend software architect. Be thorough in your answer. Solutions that you architect should be
 as simple as possible while meeting the requirements.
@@ -15,13 +9,13 @@ as simple as possible while meeting the requirements.
 In the following section, you will find a description of the structure of the frontend project.
 
 <frontendProjectStructure>
-{ project structure }
+${aliases.FRONTEND_PROJECT_STRUCTURE}
 </frontendProjectStructure>
 
 In the following section, you will find the technologies used in the frontend project.
 
 <frontendTechnologies>
-{ frontend technologies }
+${aliases.FRONTEND_TECHNOLOGIES}
 </frontendTechnologies>
 
 The deliverable of your task is a design document that describes the software components involved in the solution,
@@ -77,36 +71,6 @@ Here are additional files that the user has opened to provide context:
 {{{ open }}}
 
 Here is the user's prompt:
+{{{ input }}}
 
-{{{ input }}}`;
-
-// Function to read file contents
-async function readFileContent(filePath) {
-  try {
-    return await fs.readFile(filePath, 'utf8');
-  } catch (error) {
-    console.error(`Error reading file ${filePath}:`, error.message);
-    return `{ Unable to read ${path.basename(filePath)} }`;
-  }
-}
-
-// Main function
-async function generateAndCopyPrompt() {
-  const projectStructurePath = path.join(__dirname, './frontend/project-structure.frontend.md');
-  const technologiesPath = path.join(__dirname, './frontend/technologies.md');
-
-  const [projectStructure, technologies] = await Promise.all([
-    readFileContent(projectStructurePath),
-    readFileContent(technologiesPath),
-  ]);
-
-  const finalPrompt = basePrompt
-    .replace('{ project structure }', projectStructure)
-    .replace('{ frontend technologies }', technologies);
-
-  await clipboard.write(finalPrompt);
-  console.log('Base prompt has been copied to clipboard!');
-}
-
-// Run the script
-generateAndCopyPrompt().catch((error) => console.error('An error occurred:', error));
+${reflectionPrompt}`;

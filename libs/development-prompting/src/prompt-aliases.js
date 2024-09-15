@@ -1,0 +1,10 @@
+export const BACKEND_PROJECT_STRUCTURE = '{ backend project structure }';
+export const CODE_STYLE = '{ code style }';
+export const AGGREGATES_AND_USE_CASES = '{ aggregates and use-cases }';
+export const BACKEND_REPOSITORIES = '{ backend repositories }';
+export const BACKEND_TEST_FILES = '{ backend test files }';
+export const BACKEND_ERROR_HANDLING = '{ backend error handling }';
+export const USE_CASES = '{ use-cases }';
+export const WEB_FRAMEWORK = '{ web framework }';
+export const FRONTEND_PROJECT_STRUCTURE = '{ frontend project structure }';
+export const FRONTEND_TECHNOLOGIES = '{ frontend technologies }';
