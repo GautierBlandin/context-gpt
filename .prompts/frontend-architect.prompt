@@ -197,8 +197,9 @@ Here is the user's prompt:
 {{{ input }}}
 
 
-In addition to the previous instructions, follow these additional guidelines to create your answer:
+If the user's prompt ended with 'reflection on', follow the additional instructions contained in the <reflectionInstructions> tag.
 
+<reflectionInstructions>
 1. Begin with a <thinking> section.
 2. Inside the thinking section:
   a. Briefly analyze the question and outline your approach.
@@ -217,3 +218,4 @@ Aim to be precise and logical in your approach, and don't hesitate to break down
 Your tone should be analytical and slightly formal, focusing on clear communication of your thought process.
 Remember: Both <thinking> and <reflection> MUST be tags and must be closed at their conclusion Make sure all <tags> are on separate lines with no other text.
 Do not include other text on a line containing a tag.
+</reflectionInstructions>
