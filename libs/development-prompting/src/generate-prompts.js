@@ -1,10 +1,10 @@
 // generate-prompts.js
 
 import { generateAndWritePrompt } from './prompt-generator.js';
-import { backendDeveloperPrompt } from './backend-developer.prompt.js';
-import { frontendArchitectPrompt } from './frontend-architect.prompt.js';
-import { genericPrompt } from './generic.prompt.js';
-import { backendArchitectPrompt } from './backend-architect.prompt.js';
+import { backendDeveloperPrompt } from './prompts/backend-developer.prompt.js';
+import { frontendArchitectPrompt } from './prompts/frontend-architect.prompt.js';
+import { genericPrompt } from './prompts/generic.prompt.js';
+import { backendArchitectPrompt } from './prompts/backend-architect.prompt.js';
 import path from 'path';
 
 const rootPath = process.cwd();

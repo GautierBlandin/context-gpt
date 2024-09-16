@@ -1,4 +1,4 @@
-import { reflectionPrompt } from './reflection.prompt.js';
+import { reflectionPrompt } from '../reflection.prompt.js';
 
 export const genericPrompt = `
 <basePrompt>

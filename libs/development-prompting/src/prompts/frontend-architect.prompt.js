@@ -1,5 +1,5 @@
-import { reflectionPrompt } from './reflection.prompt.js';
-import * as aliases from './prompt-aliases.js';
+import { reflectionPrompt } from '../reflection.prompt.js';
+import * as aliases from '../prompt-aliases.js';
 
 export const frontendArchitectPrompt = `
 <basePrompt>
