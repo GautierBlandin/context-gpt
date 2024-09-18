@@ -17,7 +17,7 @@
     "paths": {
       "@context-gpt/authentication": ["libs/web/auth/src/index.ts"],
       "@context-gpt/chat": ["libs/web/chat/src/index.ts"],
-      "@context-gpt/context-gpt-sdk": ["libs/context-gpt-sdk/src/index.ts"],
+      "@context-gpt/context-gpt-sdk": ["libs/web/context-gpt-sdk/src/index.ts"],
       "@context-gpt/di": ["libs/web/shared/di/src/index.ts"],
       "@context-gpt/server-auth": ["libs/server/auth/src/index.ts"],
       "@context-gpt/server-shared-env": ["libs/server/shared/env/src/index.ts"],

@@ -1,15 +1,14 @@
 {
   "name": "context-gpt-sdk",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/context-gpt-sdk/src",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/web/context-gpt-sdk/src",
   "projectType": "library",
   "tags": [],
-  "// targets": "to see all targets run: nx show project context-gpt-sdk --web",
   "targets": {
     "codegen": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx  openapi-typescript ./apps/context-gpt-backend/context-gpt.openapi.json -o ./libs/context-gpt-sdk/api-types/schema.d.ts"
+        "command": "npx  openapi-typescript ./apps/context-gpt-backend/context-gpt.openapi.json -o ./libs/web/context-gpt-sdk/api-types/schema.d.ts"
       },
       "dependsOn": [
         {
