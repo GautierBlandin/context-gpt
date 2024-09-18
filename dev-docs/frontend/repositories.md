@@ -1,6 +1,7 @@
-# Composition Root
+# Repositories
 
-We use the singleton pattern to provide infrastructure to the application.
+We use the ports/infrastructure architecture to provide driven ports to the application.
+We use the singleton pattern to inject the ports into the application.
 
 Example:
 
@@ -69,24 +70,15 @@ export const threadsRepositorySingleton = singletonFactory<ThreadRepository>({
 ```
 
 ```ts
-// remote-state/use-get-thread.query.tsx
-import { useQuery } from 'react-query';
-import { threadsRepositorySingleton } from '../composition-root/threads.repository.singleton';
+// test file of a consumer of the repository
 
-const useGetThread = (id: string) => {
-  return useQuery(['threads', id], () => threadsRepositorySingleton.get().getThread(id));
-}
-```
-
-```ts
-// test file
 import { threadsRepositorySingleton } from '../composition-root/threads.repository.singleton';
 import { FakeThreadsRepository } from '../ports/threads.repository.fake';
 
 const setup = () => {
   const threadsRepository = new FakeThreadsRepository();
   threadsRepositorySingleton.override(threadsRepository);
-  
+
   return {
     threadsRepository,
   }
