@@ -11,13 +11,13 @@ describe('Authentication store', () => {
     await vi.runAllTimersAsync();
   });
 
-  it('should initialize with PreInitialization state', () => {
+  it('initializes with PreInitialization state', () => {
     const { store } = setup();
 
     expect(store.authState).toEqual({ type: AuthenticationStateType.PreInitialization, token: null });
   });
 
-  it('should initialize as Anonymous when no token is present after calling initialize', async () => {
+  it('initializes as Anonymous when no token is present after calling initialize', async () => {
     const { localTokenStorageFake } = setup();
 
     localTokenStorageFake.clearToken();
@@ -28,7 +28,7 @@ describe('Authentication store', () => {
     expect(store.authState).toEqual({ type: AuthenticationStateType.Anonymous, token: null });
   });
 
-  it('should initialize as PendingInitialTokenValidation when a token is present after calling initialize', async () => {
+  it('initializes as PendingInitialTokenValidation when a token is present after calling initialize', async () => {
     const { localTokenStorageFake } = setup();
     localTokenStorageFake.setToken({ token: 'initialToken' });
 
@@ -41,7 +41,7 @@ describe('Authentication store', () => {
     });
   });
 
-  it('should transition to Authenticated state when initial token is valid', async () => {
+  it('transitions to Authenticated state when initial token is valid', async () => {
     const { localTokenStorageFake, authRepoFake } = setup();
     localTokenStorageFake.setToken({ token: 'validToken' });
     authRepoFake.setValidToken('validToken');
@@ -54,7 +54,7 @@ describe('Authentication store', () => {
     expect(newStore.authState).toEqual({ type: AuthenticationStateType.Authenticated, token: { token: 'validToken' } });
   });
 
-  it('should transition to Anonymous state when initial token is invalid', async () => {
+  it('transitions to Anonymous state when initial token is invalid', async () => {
     const { localTokenStorageFake, authRepoFake } = setup();
     localTokenStorageFake.setToken({ token: 'invalidToken' });
     authRepoFake.setValidToken('validToken');
@@ -68,7 +68,7 @@ describe('Authentication store', () => {
   });
 
   describe('login', () => {
-    it('should handle successful login and transition to Authenticated state', async () => {
+    it('handles successful login and transition to Authenticated state', async () => {
       const { store, authRepoFake } = setup();
       authRepoFake.setValidToken('newValidToken');
 
@@ -86,7 +86,7 @@ describe('Authentication store', () => {
       expect(authRepoFake.currentToken).toMatch(/^fake_token_\d+$/);
     });
 
-    it('should handle login failure and transition to Anonymous state', async () => {
+    it('handles login failure and transition to Anonymous state', async () => {
       const { store, authRepoFake } = setup();
       authRepoFake.setReturnError(true, 'Invalid credentials');
 
