@@ -1,4 +1,5 @@
 import { AuthTokenHandler, AuthTokenHandlerOutput, LoginOutput } from './AuthTokenHandler';
+import { err, success } from '@context-gpt/errors';
 
 export class AuthTokenHandlerFake implements AuthTokenHandler {
   public currentToken: string | null = null;
@@ -15,38 +16,23 @@ export class AuthTokenHandlerFake implements AuthTokenHandler {
     await this.simulateDelay();
 
     if (this.shouldReturnError) {
-      return {
-        type: 'error',
-        error: this.errorMessage,
-      };
+      return err({ message: this.errorMessage });
     }
 
-    return {
-      type: 'success',
-      isValid: this.currentToken === this.validToken,
-    };
+    return success({ isValid: this.currentToken === this.validToken });
   }
 
-  async login({ token }: { token: string }): Promise<LoginOutput> {
+  async login({ email, password }: { email: string; password: string }): Promise<LoginOutput> {
     await this.simulateDelay();
 
     if (this.shouldReturnError) {
-      return {
-        type: 'error',
-        error: this.errorMessage,
-      };
+      return err({ message: this.errorMessage });
     }
 
-    if (token === this.validToken) {
-      return {
-        type: 'success',
-        accessToken: this.validToken,
-      };
+    if (email && password) {
+      return success({ token: 'fake_token_' + Date.now() });
     } else {
-      return {
-        type: 'error',
-        error: 'Invalid login token',
-      };
+      return err({ message: 'Invalid email or password' });
     }
   }
 
