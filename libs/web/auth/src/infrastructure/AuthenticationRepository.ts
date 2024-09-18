@@ -1,5 +1,5 @@
 import { getSdk } from '@context-gpt/context-gpt-sdk';
-import { AuthenticationRepository, LoginOutput, ValidateTokenOutput } from '../ports';
+import { AuthenticationRepository, LoginOutput, RegisterOutput, ValidateTokenOutput } from '../ports';
 import { err, success } from '@context-gpt/errors';
 
 export class AuthenticationRepositoryImpl implements AuthenticationRepository {
@@ -27,5 +27,15 @@ export class AuthenticationRepositoryImpl implements AuthenticationRepository {
     }
 
     return success({ token: data.token });
+  }
+
+  async register({ email, password }: { email: string; password: string }): Promise<RegisterOutput> {
+    const { error } = await this.sdk.auth.register({ email, password });
+
+    if (error) {
+      return err({ message: error.message });
+    }
+
+    return success(undefined);
   }
 }

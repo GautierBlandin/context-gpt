@@ -1,4 +1,4 @@
-import { AuthenticationRepository, LoginOutput, ValidateTokenOutput } from './AuthenticationRepository';
+import { AuthenticationRepository, LoginOutput, RegisterOutput, ValidateTokenOutput } from './AuthenticationRepository';
 import { err, success } from '@context-gpt/errors';
 
 export class AuthenticationRepositoryFake implements AuthenticationRepository {
@@ -31,6 +31,20 @@ export class AuthenticationRepositoryFake implements AuthenticationRepository {
 
     if (email && password) {
       return success({ token: 'fake_token_' + Date.now() });
+    } else {
+      return err({ message: 'Invalid email or password' });
+    }
+  }
+
+  async register({ email, password }: { email: string; password: string }): Promise<RegisterOutput> {
+    await this.simulateDelay();
+
+    if (this.shouldReturnError) {
+      return err({ message: this.errorMessage });
+    }
+
+    if (email && password) {
+      return success(undefined);
     } else {
       return err({ message: 'Invalid email or password' });
     }
