@@ -14,9 +14,11 @@ import { DomainError } from '@context-gpt/server-shared-errors';
 import { RegisterUserUseCase } from '../use-cases/register-user.use-case';
 import { LoginUserUseCase } from '../use-cases/login-user.use-case';
 import { ValidateTokenUseCase } from '../use-cases/validate-token.use-case';
-import { LoginUserInputDto, LoginUserOutputDto, RegisterUserInputDto } from './auth.controller.dto';
+import { ErrorResponseDto, LoginUserInputDto, LoginUserOutputDto, RegisterUserInputDto } from './auth.controller.dto';
+import { ApiResponse } from '@nestjs/swagger';
 
 @Controller('auth')
+@ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, description: 'Internal server error', type: ErrorResponseDto })
 export class AuthController {
   constructor(
     private readonly registerUserUseCase: RegisterUserUseCase,
@@ -26,6 +28,7 @@ export class AuthController {
 
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad request', type: ErrorResponseDto })
   async register(@Body() registerDto: RegisterUserInputDto): Promise<void> {
     try {
       await this.registerUserUseCase.execute(registerDto);
@@ -41,6 +44,7 @@ export class AuthController {
 
   @Post('login')
   @HttpCode(HttpStatus.OK)
+  @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized', type: ErrorResponseDto })
   async login(@Body() loginDto: LoginUserInputDto): Promise<LoginUserOutputDto> {
     try {
       const result = await this.loginUserUseCase.execute(loginDto);
@@ -57,6 +61,7 @@ export class AuthController {
 
   @Get('validate')
   @HttpCode(HttpStatus.OK)
+  @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized', type: ErrorResponseDto })
   async validate(@Headers('authorization') authHeader: string): Promise<void> {
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       throw new UnauthorizedException('Invalid authorization header');
