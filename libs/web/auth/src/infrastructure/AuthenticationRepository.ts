@@ -1,15 +1,15 @@
 import { getSdk } from '@context-gpt/context-gpt-sdk';
-import { AuthTokenHandler, AuthTokenHandlerOutput, LoginOutput } from '../ports';
+import { AuthenticationRepository, LoginOutput, ValidateTokenOutput } from '../ports';
 import { err, success } from '@context-gpt/errors';
 
-export class AuthTokenHandlerImpl implements AuthTokenHandler {
+export class AuthenticationRepositoryImpl implements AuthenticationRepository {
   private readonly sdk = getSdk();
 
   setToken({ token }: { token: string }): void {
     this.sdk.setAccessToken(token);
   }
 
-  async checkToken(): Promise<AuthTokenHandlerOutput> {
+  async validateToken(): Promise<ValidateTokenOutput> {
     const { error } = await this.sdk.auth.validate();
 
     if (error) {

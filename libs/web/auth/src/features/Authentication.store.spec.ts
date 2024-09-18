@@ -1,7 +1,7 @@
 import { AuthenticationStore } from './Authentication.store';
-import { AuthTokenHandlerFake } from '../ports/AuthTokenHandler.fake';
+import { AuthTokenHandlerFake } from '../ports/AuthenticationRepository.fake';
 import { LocalTokenStorageFake } from '../ports/LocalTokenStorage.fake';
-import { TokenCheckerSingleton } from '../composition-root/TokenChecker.di';
+import { TokenCheckerSingleton } from '../composition-root/AuthenticationRepository.singleton';
 import { LocalTokenStorageSingleton } from '../composition-root/LocalTokenStorage.di';
 import { AuthenticationStateType } from '../core';
 import { afterEach, describe, expect, it, vi } from 'vitest';

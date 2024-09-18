@@ -1,2 +1,2 @@
 export * from './LocalTokenStorage';
-export * from './AuthTokenHandler';
+export * from './AuthenticationRepository';

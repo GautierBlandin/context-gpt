@@ -1,7 +1,7 @@
-import { AuthTokenHandler, AuthTokenHandlerOutput, LoginOutput } from './AuthTokenHandler';
+import { AuthenticationRepository, LoginOutput, ValidateTokenOutput } from './AuthenticationRepository';
 import { err, success } from '@context-gpt/errors';
 
-export class AuthTokenHandlerFake implements AuthTokenHandler {
+export class AuthenticationRepositoryFake implements AuthenticationRepository {
   public currentToken: string | null = null;
   private validToken: string | null = null;
   private shouldReturnError = false;
@@ -12,7 +12,7 @@ export class AuthTokenHandlerFake implements AuthTokenHandler {
     this.currentToken = token;
   }
 
-  async checkToken(): Promise<AuthTokenHandlerOutput> {
+  async validateToken(): Promise<ValidateTokenOutput> {
     await this.simulateDelay();
 
     if (this.shouldReturnError) {
