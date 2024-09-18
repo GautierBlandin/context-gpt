@@ -1,5 +1,4 @@
-export const reflectionPrompt = `
-If the user's prompt ended with 'reflection on', follow the additional instructions contained in the <reflectionInstructions> tag.
+export const reflectionPrompt = `In addition to the user's prompt, please follow these additional instructions:
 
 <reflectionInstructions>
 1. Begin with a <thinking> section.
