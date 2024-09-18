@@ -1,13 +1,13 @@
 import { proxy, ref } from 'valtio/vanilla';
 import { AuthenticationState, AuthenticationStateType, AuthToken } from '../core';
 import { LocalTokenStorageSingleton } from '../composition-root/LocalTokenStorage.di';
-import { TokenCheckerSingleton } from '../composition-root/AuthenticationRepository.singleton';
+import { AuthenticationRepositorySingleton } from '../composition-root/AuthenticationRepository.singleton';
 
 export class AuthenticationStore {
   public authState: AuthenticationState;
 
   private localTokenStorage = ref(LocalTokenStorageSingleton.getInstance());
-  private tokenChecker = ref(TokenCheckerSingleton.getInstance());
+  private authenticationRepository = ref(AuthenticationRepositorySingleton.getInstance());
 
   constructor() {
     this.authState = { type: AuthenticationStateType.PreInitialization, token: null };
@@ -20,19 +20,20 @@ export class AuthenticationStore {
     }
   }
 
-  public async login({ token }: { token: string }): Promise<{ error?: string }> {
-    this.localTokenStorage.setToken({ token });
+  public async login({ email, password }: { email: string; password: string }): Promise<{ error?: string }> {
     this.authState = { type: AuthenticationStateType.PendingTokenValidation, token: null };
 
-    const { type, accessToken, error } = await this.tokenChecker.login({ token });
+    const result = await this.authenticationRepository.login({ email, password });
 
-    if (type === 'error') {
+    if (result.type === 'error') {
       this.authState = { type: AuthenticationStateType.Anonymous, token: null };
-      return { error };
+      return { error: result.error.message };
     }
 
-    this.authState = { type: AuthenticationStateType.Authenticated, token: { token: accessToken } };
-    this.tokenChecker.setToken({ token });
+    const token = result.value.token;
+    this.localTokenStorage.setToken({ token });
+    this.authState = { type: AuthenticationStateType.Authenticated, token: { token } };
+    this.authenticationRepository.setToken({ token });
     return {};
   }
 
@@ -51,15 +52,14 @@ export class AuthenticationStore {
     }
   }
 
-  private handlePendingInitialTokenValidation({ token }: { token: AuthToken }) {
-    this.tokenChecker.setToken({ token: token.token });
-    this.tokenChecker.checkToken().then((result) => {
-      if (!(result.type === 'success') || !result.isValid) {
-        this.authState = { type: AuthenticationStateType.Anonymous, token: null };
-      } else {
-        this.authState = { type: AuthenticationStateType.Authenticated, token };
-      }
-    });
+  private async handlePendingInitialTokenValidation({ token }: { token: AuthToken }) {
+    this.authenticationRepository.setToken({ token: token.token });
+    const result = await this.authenticationRepository.validateToken();
+    if (result.type === 'error' || !result.value.isValid) {
+      this.authState = { type: AuthenticationStateType.Anonymous, token: null };
+    } else {
+      this.authState = { type: AuthenticationStateType.Authenticated, token };
+    }
   }
 }
 

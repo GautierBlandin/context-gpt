@@ -1,7 +1,7 @@
 import { AuthenticationStore } from './Authentication.store';
-import { AuthTokenHandlerFake } from '../ports/AuthenticationRepository.fake';
+import { AuthenticationRepositoryFake } from '../ports/AuthenticationRepository.fake';
 import { LocalTokenStorageFake } from '../ports/LocalTokenStorage.fake';
-import { TokenCheckerSingleton } from '../composition-root/AuthenticationRepository.singleton';
+import { AuthenticationRepositorySingleton } from '../composition-root/AuthenticationRepository.singleton';
 import { LocalTokenStorageSingleton } from '../composition-root/LocalTokenStorage.di';
 import { AuthenticationStateType } from '../core';
 import { afterEach, describe, expect, it, vi } from 'vitest';
@@ -42,9 +42,9 @@ describe('Authentication store', () => {
   });
 
   it('should transition to Authenticated state when initial token is valid', async () => {
-    const { localTokenStorageFake, tokenCheckerFake } = setup();
+    const { localTokenStorageFake, authRepoFake } = setup();
     localTokenStorageFake.setToken({ token: 'validToken' });
-    tokenCheckerFake.setValidToken('validToken');
+    authRepoFake.setValidToken('validToken');
 
     const newStore = new AuthenticationStore();
     newStore.initialize();
@@ -55,9 +55,9 @@ describe('Authentication store', () => {
   });
 
   it('should transition to Anonymous state when initial token is invalid', async () => {
-    const { localTokenStorageFake, tokenCheckerFake } = setup();
+    const { localTokenStorageFake, authRepoFake } = setup();
     localTokenStorageFake.setToken({ token: 'invalidToken' });
-    tokenCheckerFake.setValidToken('validToken');
+    authRepoFake.setValidToken('validToken');
 
     const store = new AuthenticationStore();
     store.initialize();
@@ -69,62 +69,55 @@ describe('Authentication store', () => {
 
   describe('login', () => {
     it('should handle successful login and transition to Authenticated state', async () => {
-      const { store, tokenCheckerFake } = setup();
-      tokenCheckerFake.setValidToken('newValidToken');
+      const { store, authRepoFake } = setup();
+      authRepoFake.setValidToken('newValidToken');
 
-      store.login({ token: 'newValidToken' });
+      const loginPromise = store.login({ email: 'test@example.com', password: 'password' });
 
       await vi.runAllTimersAsync();
+
+      await loginPromise;
 
       expect(store.authState).toEqual({
         type: AuthenticationStateType.Authenticated,
-        token: { token: 'newValidToken' },
+        token: { token: expect.stringMatching(/^fake_token_\d+$/) },
       });
 
-      expect(tokenCheckerFake.currentToken).toEqual('newValidToken');
+      expect(authRepoFake.currentToken).toMatch(/^fake_token_\d+$/);
     });
 
-    it('should handle token submission and transition to Anonymous state when invalid', async () => {
-      const { store, tokenCheckerFake } = setup();
-      tokenCheckerFake.setValidToken('validToken');
-      tokenCheckerFake.setDelay(1);
+    it('should handle login failure and transition to Anonymous state', async () => {
+      const { store, authRepoFake } = setup();
+      authRepoFake.setReturnError(true, 'Invalid credentials');
 
-      store.login({ token: 'invalidToken' });
+      const loginPromise = store.login({ email: 'test@example.com', password: 'wrong_password' });
 
       await vi.runAllTimersAsync();
 
-      expect(store.authState).toEqual({ type: AuthenticationStateType.Anonymous, token: null });
-    });
+      const result = await loginPromise;
 
-    it('should handle token checker errors and transition to Anonymous state', async () => {
-      const { store, tokenCheckerFake } = setup();
-      tokenCheckerFake.setReturnError(true, 'Token check failed');
-
-      store.login({ token: 'someToken' });
-
-      await vi.runAllTimersAsync();
-
+      expect(result).toEqual({ error: 'Invalid credentials' });
       expect(store.authState).toEqual({ type: AuthenticationStateType.Anonymous, token: null });
     });
   });
 });
 
 const setup = () => {
-  TokenCheckerSingleton.reset();
+  AuthenticationRepositorySingleton.reset();
   LocalTokenStorageSingleton.reset();
 
-  const tokenCheckerFake = new AuthTokenHandlerFake();
-  tokenCheckerFake.setDelay(100);
+  const authRepoFake = new AuthenticationRepositoryFake();
+  authRepoFake.setDelay(100);
   const localTokenStorageFake = new LocalTokenStorageFake();
 
-  TokenCheckerSingleton.setOverride(tokenCheckerFake);
+  AuthenticationRepositorySingleton.setOverride(authRepoFake);
   LocalTokenStorageSingleton.setOverride(localTokenStorageFake);
 
   vi.useFakeTimers();
 
   return {
     store: new AuthenticationStore(),
-    tokenCheckerFake,
+    authRepoFake,
     localTokenStorageFake,
   };
 };
