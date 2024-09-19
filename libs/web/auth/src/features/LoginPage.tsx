@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSnapshot } from 'valtio';
 import { authenticationStore } from './Authentication.store';
-import { LoginForm } from './LoginForm';
+import { LoginForm } from './LoginForm/LoginForm';
 import { AuthenticationStateType } from '../core';
 
 export function LoginPage() {

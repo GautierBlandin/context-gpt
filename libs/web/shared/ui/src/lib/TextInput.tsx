@@ -4,9 +4,10 @@ interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
   value?: string;
   setValue?: (value: string) => void;
+  error?: string;
 }
 
-export const TextInput: React.FC<TextInputProps> = ({ label, value: propValue, setValue, ...props }) => {
+export const TextInput: React.FC<TextInputProps> = ({ label, value: propValue, setValue, error, ...props }) => {
   const [localValue, setLocalValue] = useState<string>(propValue || '');
 
   useEffect(() => {
@@ -21,20 +22,32 @@ export const TextInput: React.FC<TextInputProps> = ({ label, value: propValue, s
     }
   };
 
+  const inputId = props.id || props.name || `input-${label.toLowerCase().replace(/\s+/g, '-')}`;
+  const errorId = `${inputId}-error`;
+
   return (
     <div>
-      <label htmlFor={props.id || props.name} className="block text-sm font-medium leading-6 text-gray-900">
+      <label htmlFor={inputId} className="block text-sm font-medium leading-6 text-neutral-emphasis">
         {label}
       </label>
       <div className="mt-2">
         <input
           {...props}
+          id={inputId}
           value={localValue}
           onChange={handleChange}
-          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300
-placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          aria-invalid={error ? 'true' : 'false'}
+          aria-describedby={error ? errorId : undefined}
+          className={`block w-full rounded-md border-0 py-1.5 text-neutral-primary shadow-sm ring-1 ring-inset
+${error ? 'ring-error-primary' : 'ring-neutral-muted'} placeholder:text-neutral-muted focus:ring-2 focus:ring-inset
+focus:ring-main-primary sm:text-sm sm:leading-6`}
         />
       </div>
+      {error && (
+        <p id={errorId} className="mt-2 text-sm text-error-primary">
+          {error}
+        </p>
+      )}
     </div>
   );
 };
