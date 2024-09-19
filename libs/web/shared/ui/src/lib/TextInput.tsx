@@ -7,7 +7,14 @@ interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: string;
 }
 
-export const TextInput: React.FC<TextInputProps> = ({ label, value: propValue, setValue, error, ...props }) => {
+export const TextInput: React.FC<TextInputProps> = ({
+  label,
+  value: propValue,
+  setValue,
+  error,
+  disabled,
+  ...props
+}) => {
   const [localValue, setLocalValue] = useState<string>(propValue || '');
 
   useEffect(() => {
@@ -26,7 +33,7 @@ export const TextInput: React.FC<TextInputProps> = ({ label, value: propValue, s
   const errorId = `${inputId}-error`;
 
   return (
-    <div>
+    <div className="relative">
       <label htmlFor={inputId} className="block text-sm font-medium leading-6 text-neutral-emphasis">
         {label}
       </label>
@@ -36,11 +43,12 @@ export const TextInput: React.FC<TextInputProps> = ({ label, value: propValue, s
           id={inputId}
           value={localValue}
           onChange={handleChange}
+          disabled={disabled}
           aria-invalid={error ? 'true' : 'false'}
           aria-describedby={error ? errorId : undefined}
           className={`block w-full rounded-md border-0 py-1.5 text-neutral-primary shadow-sm ring-1 ring-inset
 ${error ? 'ring-error-primary' : 'ring-neutral-muted'} placeholder:text-neutral-muted focus:ring-2 focus:ring-inset
-focus:ring-main-primary sm:text-sm sm:leading-6`}
+focus:ring-main-primary sm:text-sm sm:leading-6 ${disabled ? 'cursor-not-allowed opacity-50' : ''}`}
         />
       </div>
       {error && (
