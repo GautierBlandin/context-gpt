@@ -49,6 +49,6 @@ export const WithError: Story = {
   args: {
     label: 'Error Input',
     value: 'Invalid input',
-    className: 'border-red-500 focus:ring-red-500',
+    error: 'This input is invalid',
   },
 };
