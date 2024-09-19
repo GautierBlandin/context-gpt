@@ -11,9 +11,9 @@ Additionally, the "Controller layer" is responsible for gluing together the view
 How the layer are represented in code:
 
 - `<component-name>.view.tsx` : View layer
-- `<component-name>.state.tsx` : State layer ("Headless component")
-- `<component-name>.presenter.tsx` : Logic layer
 - `<component-name>.tsx` Controller layer
+- `<component-name>.state.tsx` : State layer
+- `<component-name>.presenter.tsx` : Logic layer
 
 In the most simple cases, a component could group its three layers in a single file. However, 
 the separation of the layers should be seen even in the simplest case, e.g:
