@@ -49,3 +49,12 @@ function increment(count: number) {
   return count + 1;
 }
 ```
+
+## Dependency graph
+
+```mermaid
+graph TD
+  controller --> view
+  controller --> state
+  state --> presenter
+```
