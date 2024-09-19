@@ -54,6 +54,10 @@ function increment(count: number) {
 
 ```mermaid
 graph TD
+  subgraph "Headless component"
+    state
+    presenter
+  end
   controller --> view
   controller --> state
   state --> presenter
