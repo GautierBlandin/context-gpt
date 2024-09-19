@@ -2,7 +2,7 @@ Headless component using valtio:
 ```tsx
 // useCounter.tsx
 
-import { useMemo, useRef } from 'react';
+import { useRef } from 'react';
 import { proxy, useSnapshot } from 'valtio';
 
 class Counter {
@@ -11,15 +11,15 @@ class Counter {
   public increment() {
     this.count++;
   }
+
+  public get doubled() {
+    return this.count * 2;
+  }
 }
 
 export function useCounter() {
   const counterRef = useRef(proxy(new Counter()));
-  const { count } = useSnapshot(counterRef.current);
-
-  const doubled = useMemo(() => {
-    return count * 2;
-  }, [count]);
+  const { count, doubled } = useSnapshot(counterRef.current);
 
   return {
     count,
