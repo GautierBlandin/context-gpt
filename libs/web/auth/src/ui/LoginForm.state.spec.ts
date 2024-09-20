@@ -1,5 +1,5 @@
 import { describe, expect, it, Mock, vi } from 'vitest';
-import { LoginFormState } from './useLoginForm';
+import { LoginFormState } from './LoginForm.state';
 
 describe('LoginFormState', () => {
   let loginFormState: LoginFormState;

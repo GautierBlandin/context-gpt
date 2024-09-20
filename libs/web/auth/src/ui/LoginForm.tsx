@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLoginForm } from './useLoginForm';
+import { useLoginForm } from './LoginForm.state';
 import { SubmitButton, TextInput } from '@context-gpt/shared/ui';
 import { Result } from '@context-gpt/errors';
 
