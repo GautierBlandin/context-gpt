@@ -99,6 +99,33 @@ describe('Authentication store', () => {
       expect(result).toEqual({ type: 'error', error: 'Invalid credentials' });
       expect(store.authState).toEqual({ type: AuthenticationStateType.Anonymous, token: null });
     });
+
+    describe('register', () => {
+      it('handles successful registration', async () => {
+        const { store } = setup();
+
+        const registerPromise = store.register({ email: 'test@example.com', password: 'password' });
+
+        await vi.runAllTimersAsync();
+
+        const result = await registerPromise;
+
+        expect(result).toEqual({ type: 'success', value: undefined });
+      });
+
+      it('handles registration failure', async () => {
+        const { store, authRepoFake } = setup();
+        authRepoFake.setReturnError(true, 'Registration failed');
+
+        const registerPromise = store.register({ email: 'test@example.com', password: 'password' });
+
+        await vi.runAllTimersAsync();
+
+        const result = await registerPromise;
+
+        expect(result).toEqual({ type: 'error', error: 'Registration failed' });
+      });
+    });
   });
 });
 

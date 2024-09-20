@@ -38,6 +38,16 @@ export class AuthenticationStore {
     return { type: 'success', value: undefined };
   }
 
+  public async register({ email, password }: { email: string; password: string }): Promise<Result<void, string>> {
+    const result = await this.authenticationRepository.register({ email, password });
+
+    if (result.type === 'error') {
+      return { type: 'error', error: result.error.message };
+    }
+
+    return { type: 'success', value: undefined };
+  }
+
   private determineInitialAuthState(): AuthenticationState {
     const initialToken = this.localTokenStorage.getToken();
     if (initialToken !== null) {
