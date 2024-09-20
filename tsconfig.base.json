@@ -26,8 +26,9 @@
       "@context-gpt/server-shared-errors": ["libs/server/shared/errors/src/index.ts"],
       "@context-gpt/server-threads": ["libs/server/threads/src/index.ts"],
       "@context-gpt/shared/ui": ["libs/web/shared/ui/src/index.ts"],
+      "@context-gpt/storybook-host": ["libs/web/storybook-host/src/index.ts"],
       "@context-gpt/web-shared-utils": ["libs/web/shared/utils/src/index.ts"]
-    },
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

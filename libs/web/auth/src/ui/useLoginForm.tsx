@@ -1,16 +1,17 @@
 import { Result } from '@context-gpt/errors';
 import { proxy, useSnapshot } from 'valtio';
+import { useRef } from 'react';
 
 export function useLoginForm({ login }: UseLoginFormInput): UseLoginFormOutput {
-  const loginFormState = proxy(new LoginFormState(login));
-  const snapshot = useSnapshot(loginFormState);
+  const loginFormState = useRef(proxy(new LoginFormState(login)));
+  const snapshot = useSnapshot(loginFormState.current);
 
   return {
-    onSubmit: () => loginFormState.onSubmit(),
+    onSubmit: () => loginFormState.current.onSubmit(),
     email: snapshot.email,
-    setEmail: (email: string) => loginFormState.setEmail(email),
+    setEmail: (email: string) => loginFormState.current.setEmail(email),
     password: snapshot.password,
-    setPassword: (password: string) => loginFormState.setPassword(password),
+    setPassword: (password: string) => loginFormState.current.setPassword(password),
     error: snapshot.error,
   };
 }
