@@ -65,7 +65,7 @@ export class RegisterFormState {
     if (!this.email || !this.password || !this.confirmPassword) {
       return 'All fields are required';
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email)) {
+    if (!/@/.test(this.email)) {
       return 'Invalid email format';
     }
     if (this.password.length < 8) {
