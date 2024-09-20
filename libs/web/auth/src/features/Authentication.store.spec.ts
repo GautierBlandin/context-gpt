@@ -96,7 +96,7 @@ describe('Authentication store', () => {
 
       const result = await loginPromise;
 
-      expect(result).toEqual({ error: 'Invalid credentials' });
+      expect(result).toEqual({ type: 'error', error: 'Invalid credentials' });
       expect(store.authState).toEqual({ type: AuthenticationStateType.Anonymous, token: null });
     });
   });

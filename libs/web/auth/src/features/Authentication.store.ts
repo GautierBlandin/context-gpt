@@ -2,6 +2,7 @@ import { proxy, ref } from 'valtio/vanilla';
 import { AuthenticationState, AuthenticationStateType, AuthToken } from '../core';
 import { LocalTokenStorageSingleton } from '../composition-root/LocalTokenStorage.di';
 import { AuthenticationRepositorySingleton } from '../composition-root/AuthenticationRepository.singleton';
+import { Result } from '@context-gpt/errors';
 
 export class AuthenticationStore {
   public authState: AuthenticationState;
@@ -20,21 +21,21 @@ export class AuthenticationStore {
     }
   }
 
-  public async login({ email, password }: { email: string; password: string }): Promise<{ error?: string }> {
+  public async login({ email, password }: { email: string; password: string }): Promise<Result<void, string>> {
     this.authState = { type: AuthenticationStateType.PendingTokenValidation, token: null };
 
     const result = await this.authenticationRepository.login({ email, password });
 
     if (result.type === 'error') {
       this.authState = { type: AuthenticationStateType.Anonymous, token: null };
-      return { error: result.error.message };
+      return { type: 'error', error: result.error.message };
     }
 
     const token = result.value.token;
     this.localTokenStorage.setToken({ token });
     this.authState = { type: AuthenticationStateType.Authenticated, token: { token } };
     this.authenticationRepository.setToken({ token });
-    return {};
+    return { type: 'success', value: undefined };
   }
 
   private determineInitialAuthState(): AuthenticationState {
