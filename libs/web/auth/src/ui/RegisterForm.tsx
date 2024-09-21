@@ -8,8 +8,25 @@ interface RegisterFormProps {
 }
 
 export const RegisterForm: React.FC<RegisterFormProps> = ({ onRegister }) => {
-  const { email, setEmail, password, setPassword, confirmPassword, setConfirmPassword, error, onSubmit } =
-    useRegisterForm({ register: onRegister });
+  const {
+    email,
+    setEmail,
+    password,
+    setPassword,
+    confirmPassword,
+    setConfirmPassword,
+    error,
+    onSubmit,
+    hasSuccessfullyRegistered,
+  } = useRegisterForm({ register: onRegister });
+
+  if (hasSuccessfullyRegistered) {
+    return (
+      <div className="text-center p-4 bg-success-primary rounded-lg">
+        <p className="text-success-primary font-semibold">Registration successful! You can now log in.</p>
+      </div>
+    );
+  }
 
   return (
     <form
