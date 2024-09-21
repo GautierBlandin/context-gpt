@@ -242,9 +242,9 @@ Queries implement the required access patterns for the system to work properly.
 
 ```typescript
 export abstract class ThreadsRepository {
-  abstract save(thread: Thread): Promise<void>;
-  abstract get(id: string): Promise<Thread>;
-  abstract listForUser(userId: string): Promise<Thread[]>;
+  abstract save(thread: Thread): Promise<Result<void, InfrastructureError>>;
+  abstract get(id: string): Promise<Result<Thread, InfrastructureError | DomainError>>;
+  abstract listForUser(userId: string): Promise<Result<Thread[], InfrastructureError | DomainError>>;
 }
 ```
 
@@ -269,11 +269,11 @@ interface UseCaseNameOutput {
 }
 
 export abstract class UseCaseName {
-  abstract execute(input: UseCaseNameInput): Promise<UseCaseNameOutput>;
+  abstract execute(input: UseCaseNameInput): Promise<Result<UseCaseNameOutput, Error>>;
 }
 
 export class UseCaseNameImpl extends UseCaseName {
-  async execute(input: UseCaseNameInput): Promise<UseCaseNameOutput> {
+  async execute(input: UseCaseNameInput): Promise<Result<UseCaseNameOutput, Error>> {
     // Implementation of the use-case
   }
 }
