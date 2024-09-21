@@ -60,8 +60,8 @@ then the implementation file.
 Separate the deliverables into multiple answers. Only include one component (e.g interfaces, test, and implementation)
 per answer.
 
-The user prompt is located in the userPrompt tag.
-</basePrompt>
+Here are the user's currently open files:
+{{{ open }}}
 
 Here is the user's prompt:
 {{{ input }}}
