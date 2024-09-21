@@ -43,7 +43,7 @@ that sets up the Postgres container and exposes the port 5432.
 
 # Implementation steps
 
-- [ ] Create the ThreadAggregate
+- [X] Create the ThreadAggregate
 - [ ] Create the ThreadsRepository
   - [ ] Create the ThreadsRepository port (abstract class)
   - [ ] Create a fake ThreadsRepository implementation
