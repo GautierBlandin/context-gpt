@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { LoginPage } from '@context-gpt/authentication';
+import { LoginPage, RegisterPage } from '@context-gpt/authentication';
 import { ChatPage } from '@context-gpt/chat';
 
 export function App() {
@@ -8,6 +8,7 @@ export function App() {
       <Route path="/" element={<Navigate to="/chat" replace />} />
       <Route path="/chat" element={<ChatPage />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
     </Routes>
   );
 }
