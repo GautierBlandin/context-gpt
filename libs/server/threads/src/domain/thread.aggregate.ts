@@ -4,16 +4,18 @@ interface ThreadState {
   id: string;
   createdAt: Date;
   status: 'WaitingForUserMessage';
+  createdBy: string;
 }
 
 export class ThreadAggregate {
   private constructor(public readonly state: ThreadState) {}
 
-  static createThread(): ThreadAggregate {
+  static createThread(userId: string): ThreadAggregate {
     const state: ThreadState = {
       id: uuidv4(),
       createdAt: new Date(),
       status: 'WaitingForUserMessage',
+      createdBy: userId,
     };
     return new ThreadAggregate(state);
   }
