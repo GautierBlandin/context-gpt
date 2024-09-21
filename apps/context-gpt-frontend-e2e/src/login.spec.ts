@@ -6,5 +6,5 @@ test('login page', async ({ page }) => {
 
   // Check if the string "Access Token" is present somewhere on the page
   const pageContent = await page.textContent('body');
-  expect(pageContent).toContain('Access Token');
+  expect(pageContent).toContain('Log in');
 });
