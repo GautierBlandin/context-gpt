@@ -1,6 +1,46 @@
 # Error handling
 
-Error should be thrown explicitly and as early as possible. 
+We do not throw errors. Instead, we return them using the `Result` utility type, imported from `@context-gpt/errors`:
+
+```ts
+export type Result<SUCCESS_TYPE, ERROR_TYPE> =
+| {
+type: 'success';
+value: SUCCESS_TYPE;
+error?: never;
+}
+| {
+type: 'error';
+error: ERROR_TYPE;
+value?: never;
+};
+
+export function success<SUCCESS_TYPE>(value: SUCCESS_TYPE): Result<SUCCESS_TYPE, never> {
+return {
+type: 'success',
+value,
+};
+}
+
+export function err<ERROR_TYPE>(error: ERROR_TYPE): Result<never, ERROR_TYPE> {
+return {
+type: 'error',
+error,
+};
+}
+```
+
+This strategy enables us to have get type-safe error handling, and enables control flows that look as follows:
+
+```ts
+const {type, value, error} = getUserById(id);
+
+if (type === 'error') {
+  // Handle error and return
+}
+
+// value is guaranteed to be defined here
+```
 
 Error handling should generally be done at the boundary of the system (adapter level).
 
@@ -18,7 +58,7 @@ Domain errors are thrown using the `DomainError` class:
 import { DomainError } from '@context-gpt/server-shared-errors';
 
 if (user.password.length < 8) {
-  throw new DomainError('Password must be at least 8 characters long');
+  return err(new DomainError('Password must be at least 8 characters long'));
 }
 ```
 
