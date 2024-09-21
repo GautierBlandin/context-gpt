@@ -15,8 +15,8 @@ Queries implement the required access patterns for the system to work properly.
 
 ```typescript
 export abstract class ThreadsRepository {
-  abstract save(thread: Thread): Promise<void>;
-  abstract get(id: string): Promise<Thread>;
-  abstract listForUser(userId: string): Promise<Thread[]>;
+  abstract save(thread: Thread): Promise<Result<void, InfrastructureError>>;
+  abstract get(id: string): Promise<Result<Thread, InfrastructureError | DomainError>>;
+  abstract listForUser(userId: string): Promise<Result<Thread[], InfrastructureError | DomainError>>;
 }
 ```
