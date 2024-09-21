@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthGuard } from './auth.guard';
 import { ValidateTokenUseCase } from '../use-cases/validate-token.use-case';
-import { ExecutionContext } from '@nestjs/common';
+import { ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import { InvalidTokenError } from '../domain/errors';
 
 describe('AuthGuard', () => {
@@ -35,12 +35,10 @@ describe('AuthGuard', () => {
     expect(validateTokenUseCase.execute).toHaveBeenCalledWith({ token: 'valid_token' });
   });
 
-  it('checks that the token is well-formed', async () => {
+  it('throws UnauthorizedException when the token is not well-formed', async () => {
     const mockContext = createMockExecutionContext('invalid_token');
-    const result = await authGuard.canActivate(mockContext);
 
-    expect(result).toBe(false);
-    expect(validateTokenUseCase.execute).not.toHaveBeenCalled();
+    await expect(authGuard.canActivate(mockContext)).rejects.toThrow(UnauthorizedException);
   });
 
   it('checks that the token is valid using the Validate Token Use-Case', async () => {
@@ -66,9 +64,7 @@ describe('AuthGuard', () => {
     const mockContext = createMockExecutionContext('Bearer invalid_token');
     validateTokenUseCase.execute.mockRejectedValue(new InvalidTokenError('Invalid token'));
 
-    const result = await authGuard.canActivate(mockContext);
-
-    expect(result).toBe(false);
+    await expect(authGuard.canActivate(mockContext)).rejects.toThrow(UnauthorizedException);
   });
 
   it('rethrows the error if an internal error happens', async () => {
