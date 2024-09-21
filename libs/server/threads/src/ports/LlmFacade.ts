@@ -1,4 +1,4 @@
-import { Message } from '../core/Message';
+import { Message } from '../domain/Message';
 import { Observable } from 'rxjs';
 
 export abstract class LlmFacade {

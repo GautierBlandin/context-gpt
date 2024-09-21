@@ -1,4 +1,4 @@
-import { Message } from '../core/Message';
+import { Message } from '../domain/Message';
 import { Observable } from 'rxjs';
 import { Anthropic } from '@anthropic-ai/sdk';
 import { Env } from '@context-gpt/server-shared-env';

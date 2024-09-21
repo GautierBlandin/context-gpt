@@ -4,7 +4,7 @@ import { ThreadsIdMessagesRequestPostDto } from './threads.dto';
 import { AuthGuard } from '@context-gpt/server-auth';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { LlmFacade } from '../ports/LlmFacade';
-import { Message } from '../core/Message';
+import { Message } from '../domain/Message';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard)

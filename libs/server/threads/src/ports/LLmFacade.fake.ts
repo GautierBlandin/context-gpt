@@ -1,6 +1,6 @@
 import { Chunk, LlmFacade } from './LlmFacade';
 import { from, Observable, throwError } from 'rxjs';
-import { Message } from '../core/Message';
+import { Message } from '../domain/Message';
 
 export class LlmFacadeFake extends LlmFacade {
   private chunks: Chunk[] = [];
