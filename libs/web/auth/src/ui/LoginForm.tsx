@@ -13,6 +13,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
     <form
       onSubmit={(e) => {
         e.preventDefault();
+        onSubmit();
       }}
       className="space-y-6 max-w-sm mx-auto"
     >
@@ -26,7 +27,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
         autoComplete="current-password"
       />
       {error && <p className="text-error-primary text-sm">{error}</p>}
-      <SubmitButton onClick={onSubmit}>Log in</SubmitButton>
+      <SubmitButton>Log in</SubmitButton>
     </form>
   );
 };

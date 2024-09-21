@@ -54,7 +54,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onRegister }) => {
         autoComplete="new-password"
       />
       {error && <p className="text-error-primary text-sm">{error}</p>}
-      <SubmitButton onClick={onSubmit}>Register</SubmitButton>
+      <SubmitButton>Register</SubmitButton>
     </form>
   );
 };
