@@ -37,11 +37,6 @@ jobs:
           echo "VITE_API_URL=http://localhost:8000" >> .env
           echo "VITE_API_PREFIX=api" >> .env
 
-      - name: Use Claude API Key
-        env:
-          CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
-        run: echo "Claude API key is set"
-
       - name: Unit tests
         run: npx nx run-many -t test
 
