@@ -18,6 +18,7 @@ module.exports = {
     "neutral-primary": globalColors.neutral[50],
     "neutral-primary-hover": globalColors.neutral[100],
     "error-primary": globalColors.error[50],
+    "success-primary": globalColors.success[50],
   },
   borderColor: {
     "brand-primary": globalColors.main[400],
@@ -29,6 +30,7 @@ module.exports = {
     "neutral-muted": globalColors.neutral[400],
     "main-onprimary": colors.white,
     "error-primary": globalColors.error[600],
+    "success-primary": globalColors.success[600],
   },
   ringColor: {
     "main-primary": globalColors.main[600],
