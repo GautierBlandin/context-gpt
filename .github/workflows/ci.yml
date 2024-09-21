@@ -37,11 +37,6 @@ jobs:
           echo "VITE_API_URL=http://localhost:8000" >> .env
           echo "VITE_API_PREFIX=api" >> .env
 
-      - name: Use API Access Token
-        env:
-          API_ACCESS_TOKEN: ${{ secrets.API_ACCESS_TOKEN }}
-        run: echo "API token is set"
-
       - name: Use Claude API Key
         env:
           CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
