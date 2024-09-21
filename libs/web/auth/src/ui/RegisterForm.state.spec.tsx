@@ -74,4 +74,19 @@ describe('RegisterFormState', () => {
     });
     expect(registerFormState.error).toBe(errorMessage);
   });
+
+  it('clears fields and sets isRegistered to true on successful registration', async () => {
+    mockRegister.mockResolvedValue({ type: 'success', value: undefined });
+    registerFormState.setEmail('test@example.com');
+    registerFormState.setPassword('password123');
+    registerFormState.setConfirmPassword('password123');
+
+    await registerFormState.onSubmit();
+
+    expect(registerFormState.email).toBe('');
+    expect(registerFormState.password).toBe('');
+    expect(registerFormState.confirmPassword).toBe('');
+    expect(registerFormState.hasSuccessfullyRegistered).toBe(true);
+    expect(registerFormState.error).toBeNull();
+  });
 });
