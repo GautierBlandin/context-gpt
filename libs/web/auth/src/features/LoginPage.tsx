@@ -4,6 +4,7 @@ import { useSnapshot } from 'valtio';
 import { authenticationStore } from './Authentication.store';
 import { LoginFormController } from './LoginFormController';
 import { AuthenticationStateType } from '../core';
+import { CenteredLayout } from '@context-gpt/shared/ui';
 
 export function LoginPage() {
   const location = useLocation();
@@ -18,8 +19,8 @@ export function LoginPage() {
   }, [auth.authState, navigate, location]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-neutral-primary">
+    <CenteredLayout>
       <LoginFormController />
-    </div>
+    </CenteredLayout>
   );
 }
