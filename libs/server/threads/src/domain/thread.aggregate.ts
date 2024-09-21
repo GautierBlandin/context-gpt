@@ -22,4 +22,3 @@ export class ThreadAggregate {
     return new ThreadAggregate(state);
   }
 }
-5;
