@@ -8,32 +8,11 @@ In the following section, you will find a description of the structure of the ba
 <backendProjectStructure>
 # Project structure
 
-Recommended project structures for monorepos.
+Recommended structure for backend projects
 
-## Example
+# Overall philosophy
 
-Here is an example project structure
-
-```
-.
-├── apps
-│   ├── server
-│   ├── server-e2e
-│   ├── web
-│   ├── web-e2e
-├── libs
-│   ├── server
-│   │   ├── auth
-│   │   ├── threads
-│   ├── web
-│   │   ├── shared
-│   │   │   ├── ui
-│   │   │   ├── utils
-│   │   ├── auth
-│   │   ├── chat
-├── package.json
-├── README.md
-```
+Build a **modular** monolith until you absolutely need microservices.
 
 ## Apps
 
@@ -43,46 +22,31 @@ on their own. It is at the app level that end-to-end tests are performed.
 Apps should be kept as small as possible. They should not contain business logic, and instead focus
 on composing the libraries.
 
-Let's zoom in on the `server` app:
+Example structure:
 
 ```
 .
 ├── src
-│   ├── app
-│   │   ├── app.module.ts
+│   │── app.module.ts
 │   ├── main.ts
 ├── Dockerfile
-├── project.json
 ```
 
-It contains just enough code to run the application and deploy it to a docker image,
-as well as a project.json file to configure targets for the app. However, most of the
-code is contained in the libraries, and is simply imported in the app.module.ts file.
+It contains just enough code to run the application and deploy it as a docker image. However, most of the
+code is contained in the libraries, and is simply composed in the app.module.ts file.
 
 ## Libraries
 
-Libraries are the building blocks of the application. Backend libraries export modules.
-Frontend libraries export pages or self-contained components.
+Libraries are the building blocks of the application. Backend libraries export modules. A library corresponds to a bounded context.
 
-Libraries are of two types:
-- Domain-oriented libraries
-- Supporting libraries
+We aim at minimizing the API surface of libraries. They should only export three types of components:
+- Controllers, that expose a REST, GraphQL, etc... API, meant to be consumed by external systems such as a web app
+- Internal APIs, enabling interactions with other libraries
+- Integration events for message-based communication with other libraries
 
-### Domain-oriented libraries
+### Folder structure
 
-Domain-oriented libraries correspond to what DDD calls a bounded context. They should be
-structured following hexagonal architecture.
-
-### Supporting libraries
-
-Supporting libraries are shared libraries that can be used by multiple domain-oriented libraries.
-Common examples are:
-- Shared UI components that are purely presentational, and help provide a consistent look and feel
-- Shared utils or providers that are purely technical and not related to the domain
-
-### Server-side libraries folder structure
-
-Let's zoom in on the `threads` library:
+Let's zoom in on the `threads` library and break down its components:
 
 ```
 .
@@ -110,7 +74,7 @@ Let's zoom in on the `threads` library:
 │   ├── adapters
 │   │   ├── threads.controller.ts
 │   ├── threads.module.ts
-│   ├── index.ts
+│   ├── index.ts (public API of the library)
 ```
 
 #### Domain
@@ -125,7 +89,7 @@ Type of files in the domain directory:
 - <aggregate_name>.event.ts: Event types. These files define the events that are emitted by the aggregates.
 - <value_object_name>.value-object.ts: Value objects.
 - <service_name>.service.ts: Domain services that encapsulate business logic that does not interact with external systems,
-and cannot directly be part of an aggregate.
+  and cannot directly be part of an aggregate.
 
 Example of domain files:
 - thread.aggregate.ts: Defines the Thread aggregate and its behaviors.
@@ -169,20 +133,20 @@ SQS, etc.) into use-cases input, and output from use-cases into outgoing respons
 Example of adapters:
 
 - threads.controller.ts: Defines the ThreadsController that handles incoming requests and delegates them to the use-cases.
-- External providers primarily meant for other bounded contexts, such as an authorization middleware that performs authorization and 
-authentication outside the auth bounded context.
+- External providers primarily meant for other bounded contexts, such as an authorization middleware that performs authorization and
+  authentication outside the auth bounded context.
 
 #### Dependency graph
 
 ```mermaid
 graph TD
-    useCases[use-cases] --> domain
-    useCases --> ports
-    infrastructure -.implements.-> ports
-    ports --> domain
-    adapters --> useCases
-    module --> adapters
-    module --> infrastructure
+  useCases[use-cases] --> domain
+  useCases --> ports
+  infrastructure -.implements.-> ports
+  ports --> domain
+  adapters --> useCases
+  module --> adapters
+  module --> infrastructure
 ```
 
 </backendProjectStructure>
