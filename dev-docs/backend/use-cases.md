@@ -14,11 +14,11 @@ interface UseCaseNameOutput {
 }
 
 export abstract class UseCaseName {
-  abstract execute(input: UseCaseNameInput): Promise<UseCaseNameOutput>;
+  abstract execute(input: UseCaseNameInput): Promise<Result<UseCaseNameOutput, Error>>;
 }
 
 export class UseCaseNameImpl extends UseCaseName {
-  async execute(input: UseCaseNameInput): Promise<UseCaseNameOutput> {
+  async execute(input: UseCaseNameInput): Promise<Result<UseCaseNameOutput, Error>> {
     // Implementation of the use-case
   }
 }
