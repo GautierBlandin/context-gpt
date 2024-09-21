@@ -8,7 +8,7 @@
     "serve": {
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
-      "dependsOn": ["build"],
+      "dependsOn": ["build", "start-db"],
       "options": {
         "buildTarget": "context-gpt-backend:build",
         "runBuildTargetDependencies": false
@@ -22,10 +22,6 @@
         }
       }
     },
-    "run-postgres": {
-      "command": "docker-compose -f ./apps/context-gpt-backend/docker-compose.yml up -d"
-    }
-    ,
     "build-docker": {
       "executor": "nx:run-commands",
       "cache": true,
@@ -52,6 +48,9 @@
         "command": "bash ./apps/context-gpt-backend/generate-spec.sh"
       },
       "dependsOn": ["build"]
+    },
+    "start-db": {
+      "command": "docker-compose -f ./apps/context-gpt-backend/docker-compose.yml up -d"
     }
   }
 }
