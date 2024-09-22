@@ -25,9 +25,6 @@ jobs:
       - name: Install dependencies
         run: npm i --force
 
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-
       - name: Create .env file
         run: |
           echo "JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}" >> .env
@@ -39,10 +36,13 @@ jobs:
           echo "POSTGRES_DB={{ secrets.POSTGRES_DB }}" >> .env
 
           echo "DATABASE_URL=postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@localhost:5432/${{ secrets.POSTGRES_DB }}?schema=public" >> .env
-          echo TEST_DATABASE_URL=postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@localhost:5433/${{ secrets.POSTGRES_DB }}?schema=public >> .env
+          echo "TEST_DATABASE_URL=postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@localhost:5433/${{ secrets.POSTGRES_DB }}?schema=public" >> .env
 
           echo "VITE_API_URL=http://localhost:8000" >> .env
           echo "VITE_API_PREFIX=api" >> .env
+
+      - name: cat .env
+        run: cat .env
 
       - name: Start test db
         run: npx nx run test-db:start-test-db
@@ -55,6 +55,9 @@ jobs:
 
       - name: Start db
         run: npx nx run context-gpt-backend:start-db
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
 
       - name: E2E tests
         run: |
