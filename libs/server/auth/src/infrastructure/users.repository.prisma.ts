@@ -1,17 +1,15 @@
 import { UsersRepository } from '../ports/users.repository';
 import { User } from '../domain/user.aggregate';
-import { PrismaClient, User as PrismaUser, UserType } from '@prisma/client';
+import { User as PrismaUser, UserType } from '@prisma-client/auth';
+import { PrismaService } from './prisma/prisma.service';
+import { Inject } from '@nestjs/common';
 
 export class PrismaUsersRepository implements UsersRepository {
-  private prisma: PrismaClient;
-
-  constructor() {
-    this.prisma = new PrismaClient();
-  }
+  constructor(@Inject() private readonly prismaService: PrismaService) {}
 
   async save(user: User): Promise<void> {
     const { id, email, hashedPassword } = user.state;
-    await this.prisma.user.upsert({
+    await this.prismaService.user.upsert({
       where: { email },
       update: {
         hashedPassword,
@@ -27,7 +25,7 @@ export class PrismaUsersRepository implements UsersRepository {
   }
 
   async getByEmail(email: string): Promise<User | null> {
-    const user = await this.prisma.user.findUnique({
+    const user = await this.prismaService.user.findUnique({
       where: { email },
     });
 

@@ -8,6 +8,7 @@ import { ValidateTokenUseCase, ValidateTokenUseCaseImpl } from './use-cases/vali
 import { TokenService, TokenServiceImpl } from './domain/token.service';
 import { UsersRepository } from './ports/users.repository';
 import { PrismaUsersRepository } from './infrastructure/users.repository.prisma';
+import { PrismaService } from './infrastructure/prisma/prisma.service';
 
 @Module({
   imports: [ServerSharedModule],
@@ -34,6 +35,7 @@ import { PrismaUsersRepository } from './infrastructure/users.repository.prisma'
       useClass: TokenServiceImpl,
     },
     AuthGuard,
+    PrismaService,
   ],
   exports: [AuthGuard, ValidateTokenUseCase],
 })
