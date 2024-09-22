@@ -35,6 +35,12 @@ In the following section, you will find details about the web framework we use.
 ${aliases.WEB_FRAMEWORK}
 </webFramework>
 
+In the following section, you will find details about our data persistence strategy.
+
+<persistence>
+${aliases.BACKEND_PERSISTENCE}
+</persistence>
+
 In the following section, you will find details about how we write test files.
 
 <testFiles>

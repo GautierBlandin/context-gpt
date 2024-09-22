@@ -22,6 +22,7 @@ async function generatePrompt(promptTemplate) {
     [aliases.BACKEND_REPOSITORIES]: docPaths.backendRepositoriesPath,
     [aliases.BACKEND_TEST_FILES]: docPaths.backendTestFilesPath,
     [aliases.BACKEND_ERROR_HANDLING]: docPaths.backendErrorHandlingPath,
+    [aliases.BACKEND_PERSISTENCE]: docPaths.backendPersistencePath,
     [aliases.USE_CASES]: docPaths.useCasesPath,
     [aliases.WEB_FRAMEWORK]: docPaths.webFrameworkPath,
     [aliases.FRONTEND_PROJECT_STRUCTURE]: docPaths.frontendProjectStructurePath,
