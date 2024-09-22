@@ -1,0 +1,25 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["auth"]
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+enum UserType {
+  ACTIVE
+
+  @@schema("auth")
+}
+
+model User {
+  id             String   @id
+  email          String   @unique
+  hashedPassword String
+  type           UserType @default(ACTIVE)
+
+  @@schema("auth")
+}

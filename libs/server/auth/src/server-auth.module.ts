@@ -7,7 +7,7 @@ import { RegisterUserUseCase, RegisterUserUseCaseImpl } from './use-cases/regist
 import { ValidateTokenUseCase, ValidateTokenUseCaseImpl } from './use-cases/validate-token.use-case';
 import { TokenService, TokenServiceImpl } from './domain/token.service';
 import { UsersRepository } from './ports/users.repository';
-import { InMemoryUsersRepository } from './infrastructure/users.repository.in-memory';
+import { PrismaUsersRepository } from './infrastructure/users.repository.prisma';
 
 @Module({
   imports: [ServerSharedModule],
@@ -15,7 +15,7 @@ import { InMemoryUsersRepository } from './infrastructure/users.repository.in-me
   providers: [
     {
       provide: UsersRepository,
-      useClass: InMemoryUsersRepository,
+      useClass: PrismaUsersRepository,
     },
     {
       provide: LoginUserUseCase,
