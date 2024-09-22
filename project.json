@@ -13,17 +13,23 @@
       }
     },
     "build": {
-    "executor": "nx:run-commands",
-    "options": {
-      "commands": [
-        "nx build context-gpt-backend",
-        "nx build context-gpt-frontend"
-      ],
-      "parallel": true
-    }
-  },
-  "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx build context-gpt-backend",
+          "nx build context-gpt-frontend"
+        ],
+        "parallel": true
+      }
+    },
+    "deploy": {
       "command": "nx run infrastructure:deploy"
+    },
+    "test-all": {
+      "command": "nx run-many -t test",
+      "dependsOn": [
+        "server-auth:run-test-migrations"
+      ]
     }
   }
 }
