@@ -8,7 +8,10 @@
     "serve": {
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
-      "dependsOn": ["build", "start-db"],
+      "dependsOn": [
+        "build",
+        "server-auth:run-migrations"
+      ],
       "options": {
         "buildTarget": "context-gpt-backend:build",
         "runBuildTargetDependencies": false
@@ -25,32 +28,47 @@
     "build-docker": {
       "executor": "nx:run-commands",
       "cache": true,
-      "inputs": ["{projectRoot}/context-gpt-backend/Dockerfile", "{projectRoot}/dist/apps/context-gpt-backend/**/*"],
+      "inputs": [
+        "{projectRoot}/context-gpt-backend/Dockerfile",
+        "{projectRoot}/dist/apps/context-gpt-backend/**/*"
+      ],
       "options": {
         "commands": [
           "docker buildx build --platform linux/amd64 -t context-gpt-backend -f ./apps/context-gpt-backend/Dockerfile ."
         ]
       },
-      "dependsOn": ["build"]
+      "dependsOn": [
+        "build"
+      ]
     },
     "push-ecr": {
       "executor": "nx:run-commands",
       "cache": true,
-      "inputs": ["{projectRoot}/context-gpt-backend/Dockerfile", "{projectRoot}/dist/apps/context-gpt-backend/**/*"],
+      "inputs": [
+        "{projectRoot}/context-gpt-backend/Dockerfile",
+        "{projectRoot}/dist/apps/context-gpt-backend/**/*"
+      ],
       "options": {
         "command": "node ./apps/context-gpt-backend/scripts/push-to-ecr.js"
       },
-      "dependsOn": ["build-docker"]
+      "dependsOn": [
+        "build-docker"
+      ]
     },
     "generate-spec": {
       "executor": "nx:run-commands",
       "options": {
         "command": "bash ./apps/context-gpt-backend/generate-spec.sh"
       },
-      "dependsOn": ["build"]
+      "dependsOn": [
+        "build"
+      ]
     },
     "start-db": {
       "command": "docker-compose -f ./apps/context-gpt-backend/docker-compose.yml up -d"
+    },
+    "stop-db": {
+      "command": "docker-compose -f ./apps/context-gpt-backend/docker-compose.yml down -v"
     }
   }
 }
