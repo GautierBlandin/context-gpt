@@ -65,10 +65,10 @@
       ]
     },
     "start-db": {
-      "command": "docker-compose -f ./apps/context-gpt-backend/docker-compose.yml up -d"
+      "command": "docker compose -f ./apps/context-gpt-backend/docker-compose.yml up -d"
     },
     "stop-db": {
-      "command": "docker-compose -f ./apps/context-gpt-backend/docker-compose.yml down -v"
+      "command": "docker compose -f ./apps/context-gpt-backend/docker-compose.yml down -v"
     }
   }
 }

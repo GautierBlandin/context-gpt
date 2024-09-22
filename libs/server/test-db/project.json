@@ -7,10 +7,10 @@
   "// targets": "to see all targets run: nx show project test-db --web",
   "targets": {
     "start-test-db": {
-      "command": "docker-compose -f ./libs/server/test-db/docker-compose.test.yml up -d"
+      "command": "docker compose -f ./libs/server/test-db/docker-compose.test.yml up -d"
     },
     "stop-test-db": {
-      "command": "docker-compose -f ./libs/server/test-db/docker-compose.test.yml down"
+      "command": "docker compose -f ./libs/server/test-db/docker-compose.test.yml down"
     }
   }
 }
