@@ -45,8 +45,8 @@ that sets up the Postgres container and exposes the port 5432.
 
 - [X] Create the ThreadAggregate
 - [ ] Create the ThreadsRepository
-  - [ ] Create the ThreadsRepository port (abstract class)
-  - [ ] Create a fake ThreadsRepository implementation
+  - [X] Create the ThreadsRepository port (abstract class)
+  - [X] Create a fake ThreadsRepository implementation
   - [ ] Setup Postgres
     - [ ] Create a docker-compose.yml file
     - [ ] Create an nx target to start the Postgres container
