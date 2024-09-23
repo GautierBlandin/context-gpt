@@ -1,0 +1,28 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL_THREADS")
+  schemas  = ["auth", "threads"]
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+  output          = "../../../../../../node_modules/@prisma-client/threads"
+}
+
+enum ThreadStatus {
+  WaitingForUserMessage
+
+  @@schema("threads")
+}
+
+model Thread {
+  id        String       @id @default(uuid())
+  createdAt DateTime     @default(now())
+  status    ThreadStatus
+  createdBy String
+  messages  Json         @default("[]")
+
+  @@index([createdBy])
+  @@schema("threads")
+}
