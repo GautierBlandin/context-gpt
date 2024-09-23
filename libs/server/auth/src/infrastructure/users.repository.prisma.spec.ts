@@ -8,7 +8,7 @@ describe('PrismaUsersRepository', () => {
 
   beforeEach(async () => {
     prismaService = new PrismaService({
-      datasourceUrl: process.env['TEST_DATABASE_URL'],
+      datasourceUrl: process.env['TEST_DATABASE_URL_AUTH'],
     });
     repository = new PrismaUsersRepository(prismaService);
 
