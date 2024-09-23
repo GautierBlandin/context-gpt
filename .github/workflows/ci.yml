@@ -27,16 +27,19 @@ jobs:
 
       - name: Create .env file
         run: |
+          echo "API_PREFIX=api" >> .env
           echo "JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}" >> .env
           echo "CLAUDE_API_KEY=${{ secrets.CLAUDE_API_KEY }}" >> .env
-          echo "API_PREFIX=api" >> .env
 
           echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env
           echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
-          echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> .env
+          echo "POSTGRES_DB_AUTH=${{ secrets.POSTGRES_DB_AUTH }}" >> .env
+          echo "POSTGRES_DB_THREADS=${{ secrets.POSTGRES_DB_THREADS }}" >> .env
 
-          echo "DATABASE_URL=postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@localhost:5432/${{ secrets.POSTGRES_DB }}?schema=public" >> .env
-          echo "TEST_DATABASE_URL=postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@localhost:5433/${{ secrets.POSTGRES_DB }}?schema=public" >> .env
+          echo "DATABASE_URL_AUTH=${{ secrets.DATABASE_URL_AUTH }}" >> .env
+          echo "TEST_DATABASE_URL_AUTH=${{ secrets.TEST_DATABASE_URL_AUTH }}" >> .env
+          echo "DATABASE_URL_THREADS=${{ secrets.DATABASE_URL_THREADS }}" >> .env
+          echo "TEST_DATABASE_URL_THREADS=${{ secrets.TEST_DATABASE_URL_THREADS }}" >> .env
 
           echo "VITE_API_URL=http://localhost:8000" >> .env
           echo "VITE_API_PREFIX=api" >> .env
