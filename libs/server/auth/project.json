@@ -11,6 +11,9 @@
     },
     "run-migrations": {
       "command": "npx prisma db push --schema ./libs/server/auth/src/infrastructure/prisma/schema.prisma --accept-data-loss"
+    },
+    "generate-prisma-client": {
+      "command": "npx prisma generate --schema ./libs/server/auth/src/infrastructure/prisma/schema.prisma"
     }
   }
 }
