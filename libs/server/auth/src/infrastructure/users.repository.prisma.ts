@@ -4,8 +4,10 @@ import { User as PrismaUser, UserType } from '@prisma-client/auth';
 import { PrismaService } from './prisma/prisma.service';
 import { Inject } from '@nestjs/common';
 
-export class PrismaUsersRepository implements UsersRepository {
-  constructor(@Inject() private readonly prismaService: PrismaService) {}
+export class PrismaUsersRepository extends UsersRepository {
+  constructor(@Inject() private readonly prismaService: PrismaService) {
+    super();
+  }
 
   async save(user: User): Promise<void> {
     const { id, email, hashedPassword } = user.state;
