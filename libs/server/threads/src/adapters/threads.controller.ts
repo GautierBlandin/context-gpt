@@ -1,16 +1,53 @@
-import { Body, Controller, Param, Post, Res, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpStatus,
+  InternalServerErrorException,
+  Param,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { Response } from 'express';
-import { ThreadsIdMessagesRequestPostDto } from './threads.dto';
-import { AuthGuard } from '@context-gpt/server-auth';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { CreateThreadResponseDto, ThreadsIdMessagesRequestPostDto } from './threads.dto';
+import { AuthGuard, WithAuthUser } from '@context-gpt/server-auth';
+import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
 import { LlmFacade } from '../ports/LlmFacade';
 import { Message } from '../domain/Message';
+import { ErrorResponseDto } from '@context-gpt/server-shared-errors';
+import { CreateThreadUseCase } from '../use-cases/create-thread.use-case';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard)
 @Controller('threads')
 export class ThreadsController {
-  constructor(private readonly llmFacade: LlmFacade) {}
+  constructor(
+    private readonly llmFacade: LlmFacade,
+    private readonly createThreadUseCase: CreateThreadUseCase,
+  ) {}
+
+  @Post()
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'Thread created successfully',
+    type: CreateThreadResponseDto,
+  })
+  @ApiResponse({
+    status: HttpStatus.INTERNAL_SERVER_ERROR,
+    description: 'Internal server error',
+    type: ErrorResponseDto,
+  })
+  async createThread(@Req() request: WithAuthUser<Request>): Promise<CreateThreadResponseDto> {
+    const userId = request.user.userId;
+    const result = await this.createThreadUseCase.execute({ userId });
+
+    if (result.type === 'error') {
+      throw new InternalServerErrorException(result.error.message);
+    }
+
+    return { threadId: result.value.threadId };
+  }
 
   @Post(':id/messages')
   async handleClaudeRequest(
