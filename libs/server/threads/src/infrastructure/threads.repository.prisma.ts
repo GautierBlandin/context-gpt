@@ -5,7 +5,7 @@ import { DomainError, InfrastructureError } from '@context-gpt/server-shared-err
 import { Inject } from '@nestjs/common';
 import { PrismaService } from './prisma/prisma.service';
 
-export class ThreadsRepositoryPrisma extends ThreadsRepository {
+export class PrismaThreadsRepository extends ThreadsRepository {
   constructor(@Inject() private readonly prismaService: PrismaService) {
     super();
   }

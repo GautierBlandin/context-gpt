@@ -1,17 +1,17 @@
 import { PrismaService } from './prisma/prisma.service';
-import { ThreadNotFoundError, ThreadsRepositoryPrisma } from './threads.repository.prisma';
+import { PrismaThreadsRepository, ThreadNotFoundError } from './threads.repository.prisma';
 import { ThreadAggregate } from '../domain/thread.aggregate';
 import { InfrastructureError } from '@context-gpt/server-shared-errors';
 
-describe('ThreadsRepositoryPrisma', () => {
+describe('PrismaThreadsRepository', () => {
   let prismaService: PrismaService;
-  let repository: ThreadsRepositoryPrisma;
+  let repository: PrismaThreadsRepository;
 
   beforeEach(async () => {
     prismaService = new PrismaService({
       datasourceUrl: process.env['TEST_DATABASE_URL_THREADS'],
     });
-    repository = new ThreadsRepositoryPrisma(prismaService);
+    repository = new PrismaThreadsRepository(prismaService);
 
     await prismaService.thread.deleteMany();
   });
