@@ -2,6 +2,16 @@ import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from
 import { ValidateTokenUseCase } from '../use-cases/validate-token.use-case';
 import { InvalidTokenError } from '../domain/errors';
 
+export interface AuthUser {
+  userId: string;
+}
+
+export type WithAuthUser<T extends Request> = T & { user: AuthUser };
+
+export function withMockAuthUser<T extends Request>(request: T, userId?: string): WithAuthUser<T> {
+  return { ...request, user: { userId: userId ?? 'user123' } };
+}
+
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(private readonly validateTokenUseCase: ValidateTokenUseCase) {}

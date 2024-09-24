@@ -1,4 +1,4 @@
-import { IsArray, IsNotEmpty, ValidateNested } from 'class-validator';
+import { IsArray, IsNotEmpty, IsUUID, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 
 class MessageDto {
@@ -14,6 +14,11 @@ export class ThreadsIdMessagesRequestPostDto {
   @ValidateNested({ each: true })
   @Type(() => MessageDto)
   messages: MessageDto[];
+}
+
+export class CreateThreadResponseDto {
+  @IsUUID()
+  threadId: string;
 }
 
 enum UserRole {
