@@ -53,7 +53,7 @@ that sets up the Postgres container and exposes the port 5432.
     - [X] Figure out how to create a Threads table using Prisma
   - [X] Create a postgres ThreadsRepository implementation using Prisma
   - [X] Register the ThreadsRepository in the threads module
-- [ ] Create the CreateThreadUseCase
-  - [ ] Create the CreateThreadUseCase abstract class
-  - [ ] Create the CreateThreadUseCase implementation
+- [X] Create the CreateThreadUseCase
+  - [X] Create the CreateThreadUseCase abstract class
+  - [X] Create the CreateThreadUseCase implementation
 - [ ] Update the ThreadsController to handle the POST /threads endpoint
