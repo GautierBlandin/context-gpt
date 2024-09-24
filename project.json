@@ -26,10 +26,7 @@
       "command": "nx run infrastructure:deploy"
     },
     "test-all": {
-      "command": "nx run-many -t test",
-      "dependsOn": [
-        "server-auth:run-test-migrations"
-      ]
+      "command": "nx run-many -t test"
     }
   }
 }
