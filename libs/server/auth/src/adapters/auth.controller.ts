@@ -10,11 +10,11 @@ import {
   Post,
   UnauthorizedException,
 } from '@nestjs/common';
-import { DomainError } from '@context-gpt/server-shared-errors';
+import { DomainError, ErrorResponseDto } from '@context-gpt/server-shared-errors';
 import { RegisterUserUseCase } from '../use-cases/register-user.use-case';
 import { LoginUserUseCase } from '../use-cases/login-user.use-case';
 import { ValidateTokenUseCase } from '../use-cases/validate-token.use-case';
-import { ErrorResponseDto, LoginUserInputDto, LoginUserOutputDto, RegisterUserInputDto } from './auth.controller.dto';
+import { LoginUserInputDto, LoginUserOutputDto, RegisterUserInputDto } from './auth.controller.dto';
 import { ApiResponse } from '@nestjs/swagger';
 
 @Controller('auth')
