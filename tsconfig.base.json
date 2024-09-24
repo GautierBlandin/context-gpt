@@ -22,6 +22,7 @@
       "@context-gpt/di": ["libs/web/shared/di/src/index.ts"],
       "@context-gpt/errors": ["libs/crossplatform/utils/errors/src/index.ts"],
       "@context-gpt/server-auth": ["libs/server/auth/src/index.ts"],
+      "@context-gpt/server-http": ["libs/server/shared/http/src/index.ts"],
       "@context-gpt/server-shared-env": ["libs/server/shared/env/src/index.ts"],
       "@context-gpt/server-shared-errors": ["libs/server/shared/errors/src/index.ts"],
       "@context-gpt/server-threads": ["libs/server/threads/src/index.ts"],
