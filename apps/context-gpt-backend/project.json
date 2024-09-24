@@ -10,7 +10,7 @@
       "defaultConfiguration": "development",
       "dependsOn": [
         "build",
-        "server-auth:run-migrations"
+        "^run-migrations"
       ],
       "options": {
         "buildTarget": "context-gpt-backend:build",
