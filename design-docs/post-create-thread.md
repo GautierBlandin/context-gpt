@@ -44,16 +44,15 @@ that sets up the Postgres container and exposes the port 5432.
 # Implementation steps
 
 - [X] Create the ThreadAggregate
-- [ ] Create the ThreadsRepository
+- [X] Create the ThreadsRepository
   - [X] Create the ThreadsRepository port (abstract class)
   - [X] Create a fake ThreadsRepository implementation
-  - [ ] Setup Postgres
-    - [ ] Create a docker-compose.yml file
-    - [ ] Create an nx target to start the Postgres container
-    - [ ] Make the new target a dependency of the serve target
-    - [ ] Figure out how to create a Threads table using Prisma
-  - [ ] Create a postgres ThreadsRepository implementation using Prisma
-  - [ ] Register the ThreadsRepository in the threads module
+  - [X] Setup Postgres
+    - [X] Create a docker-compose.yml file
+    - [X] Create an nx target to start the Postgres container
+    - [X] Figure out how to create a Threads table using Prisma
+  - [X] Create a postgres ThreadsRepository implementation using Prisma
+  - [X] Register the ThreadsRepository in the threads module
 - [ ] Create the CreateThreadUseCase
   - [ ] Create the CreateThreadUseCase abstract class
   - [ ] Create the CreateThreadUseCase implementation
