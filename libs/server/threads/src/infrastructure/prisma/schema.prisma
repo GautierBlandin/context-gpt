@@ -21,8 +21,19 @@ model Thread {
   createdAt DateTime     @default(now())
   status    ThreadStatus
   createdBy String
-  messages  Json         @default("[]")
+  messages  Message[]
 
   @@index([createdBy])
+  @@schema("threads")
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  threadId  String
+  thread    Thread   @relation(fields: [threadId], references: [id])
+  sender    String
+  content   String
+  createdAt DateTime @default(now())
+
   @@schema("threads")
 }
