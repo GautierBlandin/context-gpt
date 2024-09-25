@@ -5,6 +5,7 @@ import { SharedStateMother } from './share-state.mother';
 import { SharedState } from './shared-state';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { getValidAuthorizationToken } from './auth-test-helper';
+import { createApiClient } from './test-client';
 
 describe('Threads sdk', () => {
   let threadsSdk: ThreadsSdk;
@@ -12,8 +13,21 @@ describe('Threads sdk', () => {
 
   beforeEach(() => {
     const testSharedState = SharedStateMother.getValidSharedState();
-    threadsSdk = new ThreadsSdk(testSharedState);
+    threadsSdk = new ThreadsSdk(testSharedState, createApiClient());
     sharedState = testSharedState;
+  });
+
+  describe('createThread', () => {
+    it('should return the expected response when given valid input', async () => {
+      // Use the auth-test-helper to get a valid token
+      sharedState.accessToken = await getValidAuthorizationToken();
+
+      const { response, data, error } = await threadsSdk.createThread();
+
+      expect(error).toBeUndefined();
+      expect(data?.threadId).toBeDefined();
+      expect(response.status).toBe(201);
+    });
   });
 
   describe('Claude Endpoint (/claude)', () => {

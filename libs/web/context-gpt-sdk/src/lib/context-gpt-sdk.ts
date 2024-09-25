@@ -24,7 +24,7 @@ export class ContextGptSdk {
     };
     this.client = createClient<paths>({ baseUrl });
     this.auth = new AuthSdk(this.client, this.sharedState);
-    this.threads = new ThreadsSdk(this.sharedState);
+    this.threads = new ThreadsSdk(this.sharedState, this.client);
     this.health = new HealthSdk(this.client);
   }
 
