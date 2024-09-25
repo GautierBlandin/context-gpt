@@ -20,6 +20,11 @@ import { CreateThreadUseCase } from '../use-cases/create-thread.use-case';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard)
+@ApiResponse({
+  status: HttpStatus.UNAUTHORIZED,
+  description: 'Unauthorized',
+  type: ErrorResponseDto,
+})
 @Controller('threads')
 export class ThreadsController {
   constructor(
