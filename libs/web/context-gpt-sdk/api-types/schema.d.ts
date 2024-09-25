@@ -120,13 +120,16 @@ export interface components {
         LoginUserOutputDto: {
             token: string;
         };
-        CreateThreadResponseDto: {
-            threadId: string;
-        };
         MessageDto: {
             /** @enum {string} */
             sender: "User" | "Assistant";
             content: string;
+        };
+        ThreadDto: {
+            threadId: string;
+            createdAt: string;
+            createdBy: string;
+            messages: components["schemas"]["MessageDto"][];
         };
         ThreadsIdMessagesRequestPostDto: {
             messages: components["schemas"]["MessageDto"][];
@@ -289,7 +292,16 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["CreateThreadResponseDto"];
+                    "application/json": components["schemas"]["ThreadDto"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
                 };
             };
             /** @description Internal server error */
@@ -323,6 +335,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
             };
         };
     };
