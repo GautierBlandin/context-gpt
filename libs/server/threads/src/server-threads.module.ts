@@ -7,6 +7,7 @@ import { AnthropicLlmFacade } from './infrastructure/LlmFacade.anthropic';
 import { PrismaService } from './infrastructure/prisma/prisma.service';
 import { ThreadsRepository } from './ports/threads.repository';
 import { PrismaThreadsRepository } from './infrastructure/threads.repository.prisma';
+import { CreateThreadUseCase, CreateThreadUseCaseImpl } from './use-cases/create-thread.use-case';
 
 @Module({
   imports: [ServerSharedModule, ServerAuthModule],
@@ -19,6 +20,10 @@ import { PrismaThreadsRepository } from './infrastructure/threads.repository.pri
     {
       provide: LlmFacade,
       useClass: AnthropicLlmFacade,
+    },
+    {
+      provide: CreateThreadUseCase,
+      useClass: CreateThreadUseCaseImpl,
     },
   ],
   controllers: [ThreadsController],
