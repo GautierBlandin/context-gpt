@@ -7,6 +7,7 @@ import { err, success } from '@context-gpt/errors';
 import { DomainError } from '@context-gpt/server-shared-errors';
 import { AuthGuard, withMockAuthUser } from '@context-gpt/server-auth';
 import { mockRequest } from '@context-gpt/server-http';
+import { ThreadAggregate } from '../domain/thread.aggregate';
 
 class MockAuthGuard implements CanActivate {
   canActivate(): boolean {
@@ -42,12 +43,11 @@ describe('ThreadsController', () => {
 
   describe('createThread', () => {
     it('creates a thread successfully', async () => {
-      const threadId = '123e4567-e89b-12d3-a456-426614174000';
-      createThreadUseCase.execute.mockResolvedValue(success({ threadId }));
+      createThreadUseCase.execute.mockResolvedValue(success({ thread: ThreadAggregate.createThread('user123').state }));
 
       const result = await controller.createThread(withMockAuthUser(mockRequest(), 'user123'));
 
-      expect(result).toEqual({ threadId });
+      expect(result).toMatchObject({ createdBy: 'user123' });
       expect(createThreadUseCase.execute).toHaveBeenCalledWith({ userId: 'user123' });
     });
 

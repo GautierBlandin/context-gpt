@@ -10,7 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { CreateThreadResponseDto, ThreadsIdMessagesRequestPostDto } from './threads.dto';
+import { convertThreadStateToDto, ThreadDto, ThreadsIdMessagesRequestPostDto } from './threads.dto';
 import { AuthGuard, WithAuthUser } from '@context-gpt/server-auth';
 import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
 import { LlmFacade } from '../ports/LlmFacade';
@@ -36,14 +36,14 @@ export class ThreadsController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'Thread created successfully',
-    type: CreateThreadResponseDto,
+    type: ThreadDto,
   })
   @ApiResponse({
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     description: 'Internal server error',
     type: ErrorResponseDto,
   })
-  async createThread(@Req() request: WithAuthUser<Request>): Promise<CreateThreadResponseDto> {
+  async createThread(@Req() request: WithAuthUser<Request>): Promise<ThreadDto> {
     const userId = request.user.userId;
     const result = await this.createThreadUseCase.execute({ userId });
 
@@ -51,7 +51,7 @@ export class ThreadsController {
       throw new InternalServerErrorException(result.error.message);
     }
 
-    return { threadId: result.value.threadId };
+    return convertThreadStateToDto(result.value.thread);
   }
 
   @Post(':id/messages')
