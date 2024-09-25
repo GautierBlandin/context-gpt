@@ -151,7 +151,17 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CreateThreadResponseDto"
+                  "$ref": "#/components/schemas/ThreadDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
                 }
               }
             }
@@ -200,6 +210,16 @@
         "responses": {
           "201": {
             "description": ""
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -292,17 +312,6 @@
           "token"
         ]
       },
-      "CreateThreadResponseDto": {
-        "type": "object",
-        "properties": {
-          "threadId": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "threadId"
-        ]
-      },
       "MessageDto": {
         "type": "object",
         "properties": {
@@ -320,6 +329,32 @@
         "required": [
           "sender",
           "content"
+        ]
+      },
+      "ThreadDto": {
+        "type": "object",
+        "properties": {
+          "threadId": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MessageDto"
+            }
+          }
+        },
+        "required": [
+          "threadId",
+          "createdAt",
+          "createdBy",
+          "messages"
         ]
       },
       "ThreadsIdMessagesRequestPostDto": {
