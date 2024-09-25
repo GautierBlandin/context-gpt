@@ -9,13 +9,7 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "npx  openapi-typescript ./apps/context-gpt-backend/context-gpt.openapi.json -o ./libs/web/context-gpt-sdk/api-types/schema.d.ts"
-      },
-      "dependsOn": [
-        {
-          "projects": "context-gpt-backend",
-          "target": "generate-spec"
-        }
-      ]
+      }
     },
     "e2e": {
       "executor": "@nx/vite:test",
