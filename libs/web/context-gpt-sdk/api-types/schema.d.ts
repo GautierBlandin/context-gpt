@@ -280,7 +280,9 @@ export interface operations {
     ThreadsController_createThread: {
         parameters: {
             query?: never;
-            header?: never;
+            header: {
+                authorization: string;
+            };
             path?: never;
             cookie?: never;
         };
@@ -318,7 +320,9 @@ export interface operations {
     ThreadsController_handleClaudeRequest: {
         parameters: {
             query?: never;
-            header?: never;
+            header: {
+                authorization: string;
+            };
             path: {
                 id: string;
             };
