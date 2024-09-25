@@ -12,6 +12,7 @@ generator client {
 
 enum ThreadStatus {
   WaitingForUserMessage
+  WaitingForChatbotResponse
 
   @@schema("threads")
 }
