@@ -1,10 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
+import { Message } from './Message';
 
-interface ThreadState {
+export interface ThreadState {
   id: string;
   createdAt: Date;
   status: 'WaitingForUserMessage';
   createdBy: string;
+  messages: Message[];
 }
 
 export class ThreadAggregate {
@@ -16,6 +18,7 @@ export class ThreadAggregate {
       createdAt: new Date(),
       status: 'WaitingForUserMessage',
       createdBy: userId,
+      messages: [],
     };
     return new ThreadAggregate(state);
   }

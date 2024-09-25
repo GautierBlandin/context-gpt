@@ -31,9 +31,16 @@ model Message {
   id        String   @id @default(uuid())
   threadId  String
   thread    Thread   @relation(fields: [threadId], references: [id])
-  sender    String
+  sender    Sender
   content   String
   createdAt DateTime @default(now())
+
+  @@schema("threads")
+}
+
+enum Sender {
+  user
+  assistant
 
   @@schema("threads")
 }

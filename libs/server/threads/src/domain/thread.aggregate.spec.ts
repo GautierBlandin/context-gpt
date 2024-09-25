@@ -20,6 +20,7 @@ describe('ThreadAggregate', () => {
         createdAt: new Date('2023-01-01T00:00:00.000Z'),
         status: 'WaitingForUserMessage' as const,
         createdBy: 'user456',
+        messages: [],
       };
 
       const thread = ThreadAggregate.from(state);

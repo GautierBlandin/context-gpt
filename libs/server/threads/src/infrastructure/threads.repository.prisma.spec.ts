@@ -28,18 +28,21 @@ describe('PrismaThreadsRepository', () => {
 
       expect(result.type).toBe('success');
 
-      const savedThread = await prismaService.thread.findUnique({
-        where: { id: thread.state.id },
-      });
+      const { error, value: savedThread } = await repository.get(thread.state.id);
+
+      if (error) {
+        throw new Error('Error getting thread in test');
+      }
 
       expect(savedThread).toBeDefined();
-      expect(savedThread?.id).toBe(thread.state.id);
-      expect(savedThread?.createdBy).toBe('user123');
-      expect(savedThread?.status).toBe('WaitingForUserMessage');
+      expect(savedThread.state.id).toBe(thread.state.id);
+      expect(savedThread.state.createdBy).toBe('user123');
+      expect(savedThread.state.status).toBe('WaitingForUserMessage');
+      expect(savedThread.state.messages).toEqual([]);
     });
 
     it('handles save errors', async () => {
-      jest.spyOn(prismaService.thread, 'upsert').mockRejectedValueOnce(new Error('Database error'));
+      jest.spyOn(prismaService, '$transaction').mockRejectedValueOnce(new Error('Database error'));
 
       const thread = ThreadAggregate.createThread('user123');
       const result = await repository.save(thread);
