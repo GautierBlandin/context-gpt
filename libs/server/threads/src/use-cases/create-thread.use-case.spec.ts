@@ -19,11 +19,11 @@ describe('CreateThreadUseCase', () => {
     if (result.type !== 'success') {
       throw new Error('Unexpected result type');
     }
-    expect(result.value.threadId).toBeDefined();
-    expect(typeof result.value.threadId).toBe('string');
+    expect(result.value.thread).toBeDefined();
+    expect(typeof result.value.thread.id).toBe('string');
 
     // Check that the thread was saved in the repository
-    const savedThread = await threadsRepository.get(result.value.threadId);
+    const savedThread = await threadsRepository.get(result.value.thread.id);
     expect(savedThread.type).toBe('success');
     if (savedThread.type === 'success') {
       expect(savedThread.value.state.createdBy).toBe('user-123');

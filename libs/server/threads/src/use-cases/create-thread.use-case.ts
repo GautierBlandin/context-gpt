@@ -1,6 +1,6 @@
 import { Result } from '@context-gpt/errors';
 import { ThreadsRepository } from '../ports/threads.repository';
-import { ThreadAggregate } from '../domain/thread.aggregate';
+import { ThreadAggregate, ThreadState } from '../domain/thread.aggregate';
 import { DomainError, InfrastructureError } from '@context-gpt/server-shared-errors';
 import { Inject } from '@nestjs/common';
 
@@ -9,7 +9,7 @@ export interface CreateThreadUseCaseInput {
 }
 
 export interface CreateThreadUseCaseOutput {
-  threadId: string;
+  thread: ThreadState;
 }
 
 export abstract class CreateThreadUseCase {
@@ -35,7 +35,7 @@ export class CreateThreadUseCaseImpl extends CreateThreadUseCase {
 
     return {
       type: 'success',
-      value: { threadId: thread.state.id },
+      value: { thread: thread.state },
     };
   }
 }
