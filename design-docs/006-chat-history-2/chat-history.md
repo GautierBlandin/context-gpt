@@ -11,8 +11,8 @@ A: Creating a thread, list the threads, viewing the content of a thread, posting
 
 Q: What endpoints does the API need to support the above actions ?  
 A: 
-- Create a thread: POST /threads
-- Post a message to a thread: POST /threads/{id}/messages
-- View a thread: GET /threads/{id}
-- List threads: GET /threads
-- Delete a thread: DELETE /threads/{id}
+- [X] Create a thread: POST /threads
+- [ ] Post a message to a thread: POST /threads/{id}/messages
+- [ ] View a thread: GET /threads/{id}
+- [ ] List threads: GET /threads
+- [ ] Delete a thread: DELETE /threads/{id}
