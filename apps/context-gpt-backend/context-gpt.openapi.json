@@ -141,6 +141,39 @@
         }
       }
     },
+    "/threads": {
+      "post": {
+        "operationId": "ThreadsController_createThread",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Thread created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateThreadResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
     "/threads/{id}/messages": {
       "post": {
         "operationId": "ThreadsController_handleClaudeRequest",
@@ -257,6 +290,17 @@
         },
         "required": [
           "token"
+        ]
+      },
+      "CreateThreadResponseDto": {
+        "type": "object",
+        "properties": {
+          "threadId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "threadId"
         ]
       },
       "MessageDto": {
