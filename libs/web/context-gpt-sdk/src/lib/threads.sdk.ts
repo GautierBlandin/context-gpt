@@ -1,3 +1,4 @@
+import { Client } from 'openapi-fetch';
 import type { paths } from '../../api-types/schema';
 import { SharedState } from './shared-state';
 
@@ -15,7 +16,18 @@ export type Chunk =
   | { type: ChunkType.Error; error: string };
 
 export class ThreadsSdk {
-  constructor(private readonly sharedState: SharedState) {}
+  constructor(
+    private readonly sharedState: SharedState,
+    private readonly client: Client<paths>,
+  ) {}
+
+  public async createThread() {
+    return this.client.POST('/threads', {
+      params: {
+        header: { authorization: `Bearer ${this.sharedState.accessToken}` },
+      },
+    });
+  }
 
   public async *postMessage({
     messages,
