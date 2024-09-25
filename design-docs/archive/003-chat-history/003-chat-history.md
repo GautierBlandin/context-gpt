@@ -4,7 +4,7 @@ Have a chat history that persists across sessions.
 
 # Wireframe
 
-![Chat History Wireframe](./003-chat-history.mockup.png)
+![Chat History Wireframe](003-chat-history.mockup.png)
 
 # Design
 
@@ -19,7 +19,7 @@ Have a chat history that persists across sessions.
 ![Event flow](003-chat-history.storm.flow.png)
 
 ### Aggregate
-![Thread aggregate](./003-chat-history.storm.aggregate.png)
+![Thread aggregate](003-chat-history.storm.aggregate.png)
 
 # Implementation steps
 
