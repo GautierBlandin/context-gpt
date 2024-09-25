@@ -12,7 +12,7 @@ import {
 import { Response } from 'express';
 import { convertThreadStateToDto, ThreadDto, ThreadsIdMessagesRequestPostDto } from './threads.dto';
 import { AuthGuard, WithAuthUser } from '@context-gpt/server-auth';
-import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiHeader, ApiResponse } from '@nestjs/swagger';
 import { LlmFacade } from '../ports/LlmFacade';
 import { Message } from '../domain/Message';
 import { ErrorResponseDto } from '@context-gpt/server-shared-errors';
@@ -25,6 +25,7 @@ import { CreateThreadUseCase } from '../use-cases/create-thread.use-case';
   description: 'Unauthorized',
   type: ErrorResponseDto,
 })
+@ApiHeader({ name: 'authorization' })
 @Controller('threads')
 export class ThreadsController {
   constructor(
