@@ -11,7 +11,7 @@ export interface ThreadState {
 }
 
 export class ThreadAggregate {
-  private constructor(public readonly state: ThreadState) {}
+  private constructor(public state: ThreadState) {}
 
   static createThread(userId: string): ThreadAggregate {
     const state: ThreadState = {
@@ -42,13 +42,12 @@ export class ThreadAggregate {
       content: content.trim(),
     };
 
-    const newState: ThreadState = {
+    this.state = {
       ...this.state,
       status: 'WaitingForChatbotResponse',
       messages: [...this.state.messages, newMessage],
     };
-
-    return new ThreadAggregate(newState);
+    return this;
   }
 
   addChatbotResponse(content: string): ThreadAggregate {
@@ -65,12 +64,12 @@ export class ThreadAggregate {
       content: content.trim(),
     };
 
-    const newState: ThreadState = {
+    this.state = {
       ...this.state,
       status: 'WaitingForUserMessage',
       messages: [...this.state.messages, newMessage],
     };
 
-    return new ThreadAggregate(newState);
+    return this;
   }
 }
