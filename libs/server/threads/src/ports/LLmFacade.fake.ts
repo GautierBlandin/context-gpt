@@ -13,6 +13,10 @@ export class LlmFacadeFake extends LlmFacade {
     this.chunks = chunks;
   }
 
+  public setChunkContents(contents: string[]) {
+    this.chunks = contents.map((content) => ({ content }));
+  }
+
   public setError(err: string) {
     this.error = err;
   }
