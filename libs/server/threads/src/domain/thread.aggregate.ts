@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Message } from './Message';
 import { DomainError } from '@context-gpt/server-shared-errors';
+import { err, Result, success } from '@context-gpt/errors';
 
 export interface ThreadState {
   id: string;
@@ -28,13 +29,13 @@ export class ThreadAggregate {
     return new ThreadAggregate(state);
   }
 
-  addUserMessage(content: string): ThreadAggregate {
+  addUserMessage(content: string): Result<ThreadAggregate, DomainError> {
     if (!content || content.trim().length === 0) {
-      throw new DomainError('User message content cannot be empty');
+      return err(new DomainError('User message content cannot be empty'));
     }
 
     if (this.state.status !== 'WaitingForUserMessage') {
-      throw new DomainError('Cannot add user message when not waiting for user input');
+      return err(new DomainError('Cannot add user message when not waiting for user input'));
     }
 
     const newMessage: Message = {
@@ -47,16 +48,16 @@ export class ThreadAggregate {
       status: 'WaitingForChatbotResponse',
       messages: [...this.state.messages, newMessage],
     };
-    return this;
+    return success(this);
   }
 
-  addChatbotResponse(content: string): ThreadAggregate {
+  addChatbotResponse(content: string): Result<ThreadAggregate, DomainError> {
     if (!content || content.trim().length === 0) {
-      throw new DomainError('Chatbot response content cannot be empty');
+      return err(new DomainError('Chatbot response content cannot be empty'));
     }
 
     if (this.state.status !== 'WaitingForChatbotResponse') {
-      throw new DomainError('Cannot add chatbot response when not waiting for it');
+      return err(new DomainError('Cannot add chatbot response when not waiting for it'));
     }
 
     const newMessage: Message = {
@@ -70,6 +71,6 @@ export class ThreadAggregate {
       messages: [...this.state.messages, newMessage],
     };
 
-    return this;
+    return success(this);
   }
 }
