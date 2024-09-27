@@ -21,19 +21,19 @@ export class PostMessageUseCaseImpl extends PostMessageUseCase {
     super();
   }
 
-  execute(input: PostMessageUseCaseInput): Observable<Chunk> {
+  execute({ threadId, userId, message }: PostMessageUseCaseInput): Observable<Chunk> {
     return new Observable<Chunk>((observer) => {
       let fullResponse = '';
 
       (async () => {
-        const threadResult = await this.threadsRepository.get(input.threadId);
+        const threadResult = await this.threadsRepository.get(threadId);
         if (threadResult.type === 'error') {
           observer.error(threadResult.error);
           return;
         }
 
         const thread = threadResult.value;
-        const addMessageResult = thread.addUserMessage(input.message);
+        const addMessageResult = thread.addUserMessage({ content: message, userId });
         if (addMessageResult.type === 'error') {
           observer.error(addMessageResult.error);
           return;
