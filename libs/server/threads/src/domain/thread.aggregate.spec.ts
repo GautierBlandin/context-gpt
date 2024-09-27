@@ -1,4 +1,4 @@
-import { ThreadAggregate } from './thread.aggregate';
+import { InvalidUserIdError, ThreadAggregate } from './thread.aggregate';
 import { DomainError } from '@context-gpt/server-shared-errors';
 
 describe('ThreadAggregate', () => {
@@ -33,7 +33,7 @@ describe('ThreadAggregate', () => {
   describe('addUserMessage', () => {
     it('adds a user message and transitions to WaitingForChatbotResponse state', () => {
       const thread = ThreadAggregate.createThread('user123');
-      const result = thread.addUserMessage('Hello, chatbot!');
+      const result = thread.addUserMessage(validAddUserMessageInput());
 
       expect(result.type).toBe('success');
       expect(result.value?.state.status).toBe('WaitingForChatbotResponse');
@@ -46,8 +46,8 @@ describe('ThreadAggregate', () => {
 
     it('returns an error when adding an empty message', () => {
       const thread = ThreadAggregate.createThread('user123');
-      const result1 = thread.addUserMessage('');
-      const result2 = thread.addUserMessage('   ');
+      const result1 = thread.addUserMessage(validAddUserMessageInput().withContent(''));
+      const result2 = thread.addUserMessage(validAddUserMessageInput().withContent('   '));
 
       expect(result1.type).toBe('error');
       expect(result2.type).toBe('error');
@@ -55,10 +55,18 @@ describe('ThreadAggregate', () => {
       expect(result2.error).toBeInstanceOf(DomainError);
     });
 
+    it('returns an error when adding a message from a different user', () => {
+      const thread = ThreadAggregate.createThread('user123');
+      const result1 = thread.addUserMessage(validAddUserMessageInput().withUserId('user456'));
+
+      expect(result1.type).toBe('error');
+      expect(result1.error).toBeInstanceOf(InvalidUserIdError);
+    });
+
     it('returns an error when adding a message in the wrong state', () => {
       const thread = ThreadAggregate.createThread('user123');
-      const result1 = thread.addUserMessage('Hello');
-      const result2 = result1.value?.addUserMessage('Another message');
+      const result1 = thread.addUserMessage(validAddUserMessageInput());
+      const result2 = result1.value?.addUserMessage(validAddUserMessageInput().withContent('Another message'));
 
       expect(result1.type).toBe('success');
       expect(result2?.type).toBe('error');
@@ -67,7 +75,7 @@ describe('ThreadAggregate', () => {
 
     it('trims the message content', () => {
       const thread = ThreadAggregate.createThread('user123');
-      const result = thread.addUserMessage('  Hello, chatbot!  ');
+      const result = thread.addUserMessage(validAddUserMessageInput().withContent('  Hello, chatbot!  '));
 
       expect(result.type).toBe('success');
       expect(result.value?.state.messages[0].content).toBe('Hello, chatbot!');
@@ -77,7 +85,7 @@ describe('ThreadAggregate', () => {
   describe('addChatbotResponse', () => {
     it('adds a chatbot response and transitions to WaitingForUserMessage state', () => {
       const thread = ThreadAggregate.createThread('user123');
-      const result = thread.addUserMessage('Hello, chatbot!').value?.addChatbotResponse('Hello, human!');
+      const result = thread.addUserMessage(validAddUserMessageInput()).value?.addChatbotResponse('Hello, human!');
 
       expect(result?.type).toBe('success');
       expect(result?.value?.state.status).toBe('WaitingForUserMessage');
@@ -90,7 +98,7 @@ describe('ThreadAggregate', () => {
 
     it('returns an error when adding an empty response', () => {
       const thread = ThreadAggregate.createThread('user123');
-      const result1 = thread.addUserMessage('Hello, chatbot!').value?.addChatbotResponse('');
+      const result1 = thread.addUserMessage(validAddUserMessageInput()).value?.addChatbotResponse('');
 
       expect(result1?.type).toBe('error');
       expect(result1?.error).toBeInstanceOf(DomainError);
@@ -98,7 +106,7 @@ describe('ThreadAggregate', () => {
 
     it('returns an error when adding a space-only response', () => {
       const thread = ThreadAggregate.createThread('user123');
-      const result1 = thread.addUserMessage('Hello, chatbot!').value?.addChatbotResponse('    ');
+      const result1 = thread.addUserMessage(validAddUserMessageInput()).value?.addChatbotResponse('    ');
 
       expect(result1?.type).toBe('error');
       expect(result1?.error).toBeInstanceOf(DomainError);
@@ -114,7 +122,7 @@ describe('ThreadAggregate', () => {
 
     it('trims the response content', () => {
       const thread = ThreadAggregate.createThread('user123');
-      const result = thread.addUserMessage('Hello, chatbot!').value?.addChatbotResponse('  Hello, human!  ');
+      const result = thread.addUserMessage(validAddUserMessageInput()).value?.addChatbotResponse('  Hello, human!  ');
 
       expect(result?.type).toBe('success');
       expect(result?.value?.state.messages[1].content).toBe('Hello, human!');
@@ -124,9 +132,9 @@ describe('ThreadAggregate', () => {
   it('allows multiple message exchanges', () => {
     const thread = ThreadAggregate.createThread('user123');
     const result = thread
-      .addUserMessage('Hello, chatbot!')
+      .addUserMessage(validAddUserMessageInput().withContent('Hello, chatbot!'))
       .value?.addChatbotResponse('Hello, human!')
-      .value?.addUserMessage('How are you?')
+      .value?.addUserMessage(validAddUserMessageInput().withContent('How are you?'))
       .value?.addChatbotResponse("I'm doing well, thank you!");
 
     expect(result?.type).toBe('success');
@@ -134,3 +142,18 @@ describe('ThreadAggregate', () => {
     expect(result?.value?.state.status).toBe('WaitingForUserMessage');
   });
 });
+
+function validAddUserMessageInput() {
+  return {
+    content: 'Hello, chatbot!',
+    userId: 'user123',
+    withContent(content: string) {
+      this.content = content;
+      return this;
+    },
+    withUserId(userId: string) {
+      this.userId = userId;
+      return this;
+    },
+  };
+}

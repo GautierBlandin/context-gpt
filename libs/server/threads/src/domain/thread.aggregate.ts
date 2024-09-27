@@ -29,13 +29,23 @@ export class ThreadAggregate {
     return new ThreadAggregate(state);
   }
 
-  addUserMessage(content: string): Result<ThreadAggregate, DomainError> {
+  addUserMessage({
+    content,
+    userId,
+  }: {
+    content: string;
+    userId: string;
+  }): Result<ThreadAggregate, InvalidUserIdError | InvalidStateError | BadUserMessageError> {
+    if (userId !== this.state.createdBy) {
+      return err(new InvalidUserIdError('User ID does not match thread creator'));
+    }
+
     if (!content || content.trim().length === 0) {
       return err(new BadUserMessageError('User message content cannot be empty'));
     }
 
     if (this.state.status !== 'WaitingForUserMessage') {
-      return err(new DomainError('Cannot add user message when not waiting for user input'));
+      return err(new InvalidStateError('Cannot add user message when not waiting for user input'));
     }
 
     const newMessage: Message = {
@@ -86,5 +96,19 @@ export class BadUserMessageError extends DomainError {
   constructor(message: string) {
     super(message);
     this.name = 'BadUserResponseError';
+  }
+}
+
+export class InvalidUserIdError extends DomainError {
+  constructor(message: string) {
+    super(message);
+    this.name = 'InvalidUserIdError';
+  }
+}
+
+export class InvalidStateError extends DomainError {
+  constructor(message: string) {
+    super(message);
+    this.name = 'InvalidStateError';
   }
 }
