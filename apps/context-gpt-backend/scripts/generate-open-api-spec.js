@@ -2,9 +2,9 @@ import fetch from 'node-fetch';
 import fs from 'fs/promises';
 import path from 'path';
 
-const url = 'http://localhost:8001/openapi-json';
+const url = 'http://localhost:8002/openapi-json';
 const outputFile = './apps/context-gpt-backend/context-gpt.openapi.json';
-const maxAttempts = 60; // Maximum number of attempts
+const maxAttempts = 20; // Maximum number of attempts
 const delayBetweenAttempts = 500; // Delay between attempts in milliseconds
 
 async function fetchWithRetry(url, attempt = 1) {
