@@ -10,13 +10,17 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { convertThreadStateToDto, ThreadDto, ThreadsIdMessagesRequestPostDto } from './threads.dto';
+import {
+  convertThreadStateToDto,
+  CreateThreadResponseDto,
+  ThreadDto,
+  ThreadsIdMessagesRequestPostDto,
+} from './threads.dto';
 import { AuthGuard, WithAuthUser } from '@context-gpt/server-auth';
 import { ApiBearerAuth, ApiHeader, ApiResponse } from '@nestjs/swagger';
-import { LlmFacade } from '../ports/LlmFacade';
-import { Message } from '../domain/Message';
 import { ErrorResponseDto } from '@context-gpt/server-shared-errors';
 import { CreateThreadUseCase } from '../use-cases/create-thread.use-case';
+import { PostMessageUseCase } from '../use-cases/post-message.use-case';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard)
@@ -25,26 +29,25 @@ import { CreateThreadUseCase } from '../use-cases/create-thread.use-case';
   description: 'Unauthorized',
   type: ErrorResponseDto,
 })
+@ApiResponse({
+  status: HttpStatus.INTERNAL_SERVER_ERROR,
+  description: 'Internal server error',
+  type: ErrorResponseDto,
+})
 @ApiHeader({ name: 'authorization' })
 @Controller('threads')
 export class ThreadsController {
   constructor(
-    private readonly llmFacade: LlmFacade,
     private readonly createThreadUseCase: CreateThreadUseCase,
+    private readonly postMessageUseCase: PostMessageUseCase,
   ) {}
-
   @Post()
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'Thread created successfully',
     type: ThreadDto,
   })
-  @ApiResponse({
-    status: HttpStatus.INTERNAL_SERVER_ERROR,
-    description: 'Internal server error',
-    type: ErrorResponseDto,
-  })
-  async createThread(@Req() request: WithAuthUser<Request>): Promise<ThreadDto> {
+  async createThread(@Req() request: WithAuthUser<Request>): Promise<CreateThreadResponseDto> {
     const userId = request.user.userId;
     const result = await this.createThreadUseCase.execute({ userId });
 
@@ -59,6 +62,7 @@ export class ThreadsController {
   async handleClaudeRequest(
     @Param('id') threadId: string,
     @Body() claudeRequestDto: ThreadsIdMessagesRequestPostDto,
+    @Req() request: WithAuthUser<Request>,
     @Res() res: Response,
   ) {
     // Set headers for SSE
@@ -69,18 +73,17 @@ export class ThreadsController {
     });
 
     try {
-      const mappedMessages: Message[] = claudeRequestDto.messages.map((msg) => ({
-        sender: msg.sender === 'User' ? 'user' : 'assistant',
-        content: msg.content,
-      }));
-      const observable = this.llmFacade.prompt({ messages: mappedMessages });
+      const userId = request.user.userId;
+      const message = claudeRequestDto.message;
+
+      const observable = this.postMessageUseCase.execute({ threadId, userId, message });
 
       observable.subscribe({
         next: (chunk) => {
           res.write(`data: ${JSON.stringify({ content: chunk.content })}\n\n`);
         },
         error: (error) => {
-          res.write(`data: ${JSON.stringify({ error })}\n\n`);
+          res.write(`data: ${JSON.stringify({ error: error.message })}\n\n`);
           res.end();
         },
         complete: () => {

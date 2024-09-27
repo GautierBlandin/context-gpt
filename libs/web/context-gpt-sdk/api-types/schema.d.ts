@@ -132,7 +132,7 @@ export interface components {
             messages: components["schemas"]["MessageDto"][];
         };
         ThreadsIdMessagesRequestPostDto: {
-            messages: components["schemas"]["MessageDto"][];
+            message: string;
         };
     };
     responses: never;
@@ -280,8 +280,8 @@ export interface operations {
     ThreadsController_createThread: {
         parameters: {
             query?: never;
-            header: {
-                authorization: string;
+            header?: {
+                authorization?: string;
             };
             path?: never;
             cookie?: never;
@@ -320,8 +320,8 @@ export interface operations {
     ThreadsController_handleClaudeRequest: {
         parameters: {
             query?: never;
-            header: {
-                authorization: string;
+            header?: {
+                authorization?: string;
             };
             path: {
                 id: string;
@@ -342,6 +342,15 @@ export interface operations {
             };
             /** @description Unauthorized */
             401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Internal server error */
+            500: {
                 headers: {
                     [name: string]: unknown;
                 };

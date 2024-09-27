@@ -147,7 +147,6 @@
         "parameters": [
           {
             "name": "authorization",
-            "required": true,
             "in": "header",
             "schema": {
               "type": "string"
@@ -198,17 +197,16 @@
         "operationId": "ThreadsController_handleClaudeRequest",
         "parameters": [
           {
-            "name": "id",
-            "required": true,
-            "in": "path",
+            "name": "authorization",
+            "in": "header",
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "authorization",
+            "name": "id",
             "required": true,
-            "in": "header",
+            "in": "path",
             "schema": {
               "type": "string"
             }
@@ -230,6 +228,16 @@
           },
           "401": {
             "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
             "content": {
               "application/json": {
                 "schema": {
@@ -377,15 +385,12 @@
       "ThreadsIdMessagesRequestPostDto": {
         "type": "object",
         "properties": {
-          "messages": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/MessageDto"
-            }
+          "message": {
+            "type": "string"
           }
         },
         "required": [
-          "messages"
+          "message"
         ]
       }
     }

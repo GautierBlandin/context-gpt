@@ -1,5 +1,4 @@
-import { IsArray, IsNotEmpty, IsUUID, ValidateNested } from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsNotEmpty, IsUUID } from 'class-validator';
 import { ThreadState } from '../domain/thread.aggregate';
 
 class MessageDto {
@@ -11,10 +10,7 @@ class MessageDto {
 }
 
 export class ThreadsIdMessagesRequestPostDto {
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => MessageDto)
-  messages: MessageDto[];
+  message: string;
 }
 
 export class ThreadDto {
