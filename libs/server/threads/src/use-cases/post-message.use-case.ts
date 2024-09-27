@@ -1,7 +1,5 @@
-import { err, Result, success } from '@context-gpt/errors';
 import { ThreadsRepository } from '../ports/threads.repository';
 import { Chunk, LlmFacade } from '../ports/LlmFacade';
-import { DomainError, InfrastructureError } from '@context-gpt/server-shared-errors';
 import { Inject } from '@nestjs/common';
 import { Observable } from 'rxjs';
 
@@ -11,14 +9,8 @@ export interface PostMessageUseCaseInput {
   message: string;
 }
 
-export interface PostMessageUseCaseOutput {
-  responseStream: Observable<Chunk>;
-}
-
 export abstract class PostMessageUseCase {
-  abstract execute(
-    input: PostMessageUseCaseInput,
-  ): Promise<Result<PostMessageUseCaseOutput, DomainError | InfrastructureError>>;
+  abstract execute(input: PostMessageUseCaseInput): Observable<Chunk>;
 }
 
 export class PostMessageUseCaseImpl extends PostMessageUseCase {
@@ -29,48 +21,49 @@ export class PostMessageUseCaseImpl extends PostMessageUseCase {
     super();
   }
 
-  async execute(
-    input: PostMessageUseCaseInput,
-  ): Promise<Result<PostMessageUseCaseOutput, DomainError | InfrastructureError>> {
-    const threadResult = await this.threadsRepository.get(input.threadId);
-
-    if (threadResult.type === 'error') {
-      return threadResult;
-    }
-
-    const thread = threadResult.value;
-
-    try {
-      thread.addUserMessage(input.message);
-    } catch (error) {
-      if (error instanceof DomainError) {
-        return err(error);
-      }
-      return err(new InfrastructureError('Unexpected error adding user message'));
-    }
-    const responseStream = this.llmFacade.prompt({ messages: thread.state.messages });
-
-    const managedResponseStream = new Observable<Chunk>((observer) => {
+  execute(input: PostMessageUseCaseInput): Observable<Chunk> {
+    return new Observable<Chunk>((observer) => {
       let fullResponse = '';
 
-      responseStream.subscribe({
-        next: (chunk) => {
-          fullResponse += chunk.content;
-          observer.next(chunk);
-        },
-        error: (error) => observer.error(error),
-        complete: async () => {
-          thread.addChatbotResponse(fullResponse);
-          const saveResult = await this.threadsRepository.save(thread);
-          if (saveResult.type === 'error') {
-            observer.error(saveResult.error);
-          } else {
-            observer.complete();
-          }
-        },
-      });
-    });
+      (async () => {
+        const threadResult = await this.threadsRepository.get(input.threadId);
+        if (threadResult.type === 'error') {
+          observer.error(threadResult.error);
+          return;
+        }
 
-    return success({ responseStream: managedResponseStream });
+        const thread = threadResult.value;
+        const addMessageResult = thread.addUserMessage(input.message);
+        if (addMessageResult.type === 'error') {
+          observer.error(addMessageResult.error);
+          return;
+        }
+
+        const responseStream = this.llmFacade.prompt({ messages: thread.state.messages });
+
+        responseStream.subscribe({
+          next: (chunk) => {
+            fullResponse += chunk.content;
+            observer.next(chunk);
+          },
+          error: (error) => observer.error(error),
+          complete: async () => {
+            const addResponseResult = thread.addChatbotResponse(fullResponse);
+            if (addResponseResult.type === 'error') {
+              observer.error(addResponseResult.error);
+              return;
+            }
+
+            const saveResult = await this.threadsRepository.save(thread);
+            if (saveResult.type === 'error') {
+              observer.error(saveResult.error);
+              return;
+            }
+
+            observer.complete();
+          },
+        });
+      })();
+    });
   }
 }

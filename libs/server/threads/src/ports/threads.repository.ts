@@ -4,6 +4,13 @@ import { DomainError, InfrastructureError } from '@context-gpt/server-shared-err
 
 export abstract class ThreadsRepository {
   abstract save(thread: ThreadAggregate): Promise<Result<void, InfrastructureError>>;
-  abstract get(id: string): Promise<Result<ThreadAggregate, InfrastructureError | DomainError>>;
+  abstract get(id: string): Promise<Result<ThreadAggregate, InfrastructureError | ThreadNotFoundError>>;
   abstract listForUser(userId: string): Promise<Result<ThreadAggregate[], InfrastructureError | DomainError>>;
+}
+
+export class ThreadNotFoundError extends DomainError {
+  constructor(message: string) {
+    super(message);
+    this.name = 'ThreadNotFoundError';
+  }
 }

@@ -1,7 +1,7 @@
-import { ThreadsRepository } from '../ports/threads.repository';
+import { ThreadNotFoundError, ThreadsRepository } from '../ports/threads.repository';
 import { ThreadAggregate } from '../domain/thread.aggregate';
 import { err, Result, success } from '@context-gpt/errors';
-import { DomainError, InfrastructureError } from '@context-gpt/server-shared-errors';
+import { InfrastructureError } from '@context-gpt/server-shared-errors';
 import { Inject } from '@nestjs/common';
 import { PrismaService } from './prisma/prisma.service';
 import { Message } from '../domain/Message';
@@ -100,12 +100,5 @@ export class PrismaThreadsRepository extends ThreadsRepository {
     } catch (error) {
       return err(new InfrastructureError(`Failed to list threads for user`));
     }
-  }
-}
-
-export class ThreadNotFoundError extends DomainError {
-  constructor(message: string) {
-    super(message);
-    this.name = 'ThreadNotFoundError';
   }
 }

@@ -1,7 +1,7 @@
 import { err, Result, success } from '@context-gpt/errors';
 import { ThreadAggregate } from '../domain/thread.aggregate';
 import { DomainError, InfrastructureError } from '@context-gpt/server-shared-errors';
-import { ThreadsRepository } from './threads.repository';
+import { ThreadNotFoundError, ThreadsRepository } from './threads.repository';
 
 export class ThreadsRepositoryFake extends ThreadsRepository {
   private threads: Map<string, ThreadAggregate> = new Map();
@@ -11,10 +11,10 @@ export class ThreadsRepositoryFake extends ThreadsRepository {
     return success(undefined);
   }
 
-  async get(id: string): Promise<Result<ThreadAggregate, InfrastructureError | DomainError>> {
+  async get(id: string): Promise<Result<ThreadAggregate, InfrastructureError | ThreadNotFoundError>> {
     const thread = this.threads.get(id);
     if (!thread) {
-      return err(new DomainError(`Thread with id ${id} not found`));
+      return err(new ThreadNotFoundError(`Thread with id ${id} not found`));
     }
     return success(thread);
   }

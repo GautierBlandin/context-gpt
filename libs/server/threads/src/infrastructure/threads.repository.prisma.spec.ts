@@ -1,7 +1,8 @@
 import { PrismaService } from './prisma/prisma.service';
-import { PrismaThreadsRepository, ThreadNotFoundError } from './threads.repository.prisma';
+import { PrismaThreadsRepository } from './threads.repository.prisma';
 import { ThreadAggregate } from '../domain/thread.aggregate';
 import { InfrastructureError } from '@context-gpt/server-shared-errors';
+import { ThreadNotFoundError } from '../ports/threads.repository';
 
 describe('PrismaThreadsRepository', () => {
   let prismaService: PrismaService;

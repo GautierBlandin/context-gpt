@@ -31,7 +31,7 @@ export class ThreadAggregate {
 
   addUserMessage(content: string): Result<ThreadAggregate, DomainError> {
     if (!content || content.trim().length === 0) {
-      return err(new DomainError('User message content cannot be empty'));
+      return err(new BadUserMessageError('User message content cannot be empty'));
     }
 
     if (this.state.status !== 'WaitingForUserMessage') {
@@ -53,7 +53,7 @@ export class ThreadAggregate {
 
   addChatbotResponse(content: string): Result<ThreadAggregate, DomainError> {
     if (!content || content.trim().length === 0) {
-      return err(new DomainError('Chatbot response content cannot be empty'));
+      return err(new BadLlmResponseError());
     }
 
     if (this.state.status !== 'WaitingForChatbotResponse') {
@@ -72,5 +72,19 @@ export class ThreadAggregate {
     };
 
     return success(this);
+  }
+}
+
+export class BadLlmResponseError extends DomainError {
+  constructor() {
+    super('LLM response is invalid');
+    this.name = 'BadLlmResponseError';
+  }
+}
+
+export class BadUserMessageError extends DomainError {
+  constructor(message: string) {
+    super(message);
+    this.name = 'BadUserResponseError';
   }
 }
