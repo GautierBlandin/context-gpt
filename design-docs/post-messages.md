@@ -61,14 +61,14 @@ Here are the requirements for the new implementation:
 
 # Implementation steps
 
-- [ ] In the ThreadAggregate, add a method to add a user message to the history. Transition the thread to WaitingForChatbotResponse state
-- [ ] In the ThreadsAggregate, add a method to add a chatbot response to the history. Transition the thread to WaitingForUserResponse state
-- [ ] Update the prisma schema to include the new aggregate state
-- [ ] Create a post-message use-case
-  - [ ] In the post-message use-case, load the thread from the database and call the addMessage method on the thread
-  - [ ] In the post-message use-case, send the thread messages to the LLM using LLM Facade
-  - [ ] In the post-message use-case, create an observable that streams the chatbot's response
-  - [ ] Subscribe to the observable so that when it is complete, the thread's aggregate method for receiving the chatbot's 
+- [X] In the ThreadAggregate, add a method to add a user message to the history. Transition the thread to WaitingForChatbotResponse state
+- [X] In the ThreadsAggregate, add a method to add a chatbot response to the history. Transition the thread to WaitingForUserResponse state
+- [X] Update the prisma schema to include the new aggregate state
+- [X] Create a post-message use-case
+  - [X] In the post-message use-case, load the thread from the database and call the addMessage method on the thread
+  - [X] In the post-message use-case, send the thread's messages to the LLM using LLM Facade
+  - [X] In the post-message use-case, create an observable that streams the chatbot's response
+  - [X] Subscribe to the observable so that when it is complete, the thread's aggregate method for receiving the chatbot's 
 response is called, and the repository saves the updated thread aggregate
-  - [ ] Return the observable so that the thread controller can stream the response to the client
-- [ ] Update the threads controller to use the new use-case
+  - [X] Return the observable so that the thread controller can stream the response to the client
+- [X] Update the threads controller to use the new use-case
