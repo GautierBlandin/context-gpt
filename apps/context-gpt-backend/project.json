@@ -57,6 +57,7 @@
     },
     "generate-spec": {
       "executor": "nx:run-commands",
+      "cache": false,
       "options": {
         "command": "bash ./apps/context-gpt-backend/generate-spec.sh"
       },
