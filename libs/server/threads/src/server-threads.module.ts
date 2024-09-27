@@ -8,6 +8,7 @@ import { PrismaService } from './infrastructure/prisma/prisma.service';
 import { ThreadsRepository } from './ports/threads.repository';
 import { PrismaThreadsRepository } from './infrastructure/threads.repository.prisma';
 import { CreateThreadUseCase, CreateThreadUseCaseImpl } from './use-cases/create-thread.use-case';
+import { PostMessageUseCase, PostMessageUseCaseImpl } from './use-cases/post-message.use-case';
 
 @Module({
   imports: [ServerSharedModule, ServerAuthModule],
@@ -24,6 +25,10 @@ import { CreateThreadUseCase, CreateThreadUseCaseImpl } from './use-cases/create
     {
       provide: CreateThreadUseCase,
       useClass: CreateThreadUseCaseImpl,
+    },
+    {
+      provide: PostMessageUseCase,
+      useClass: PostMessageUseCaseImpl,
     },
   ],
   controllers: [ThreadsController],
