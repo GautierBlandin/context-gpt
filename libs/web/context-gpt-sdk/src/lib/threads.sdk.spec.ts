@@ -1,5 +1,3 @@
-// libs/context-gpt-sdk/src/lib/threads.sdk.spec.ts
-
 import { ChunkType, ThreadsSdk } from './threads.sdk';
 import { SharedStateMother } from './share-state.mother';
 import { SharedState } from './shared-state';
@@ -30,24 +28,25 @@ describe('Threads sdk', () => {
     });
   });
 
-  describe('Claude Endpoint (/claude)', () => {
+  describe('postMessage', () => {
     it('should return the expected response when given valid input', async () => {
       // Use the auth-test-helper to get a valid token
       sharedState.accessToken = await getValidAuthorizationToken();
 
-      const messages = [
-        {
-          sender: 'User' as const,
-          content:
-            'The following message is a part of an end-to-end test to integrate you with our chatbot. If you understand this message, please response exactly with the following text: "I understand, and my API is healthy!"',
-        },
-      ];
+      const thread = await threadsSdk.createThread();
+
+      if (!thread.data) {
+        throw new Error('Failed to create thread');
+      }
+
+      const message =
+        'The following message is a part of an end-to-end test to integrate you with our chatbot. If you understand this message, please response exactly with the following text: "I understand, and my API is healthy!"';
 
       let result = '';
       let hasStarted = false;
       let hasEnded = false;
 
-      for await (const chunk of threadsSdk.postMessage({ messages })) {
+      for await (const chunk of threadsSdk.postMessage({ message, threadId: thread.data.threadId })) {
         switch (chunk.type) {
           case ChunkType.Start:
             hasStarted = true;
@@ -69,9 +68,19 @@ describe('Threads sdk', () => {
     });
 
     it('should return 401 if no token is provided', async () => {
+      sharedState.accessToken = await getValidAuthorizationToken();
+
+      const thread = await threadsSdk.createThread();
+
+      if (!thread.data) {
+        throw new Error('Failed to create thread');
+      }
+
       sharedState.accessToken = null;
 
-      const response = await threadsSdk.postMessage({ messages: [] }).next();
+      const response = await threadsSdk
+        .postMessage({ message: 'valid message', threadId: thread.data.threadId })
+        .next();
       const chunk = response.value;
 
       expect(chunk).toMatchObject({

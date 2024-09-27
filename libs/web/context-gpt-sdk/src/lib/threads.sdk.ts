@@ -30,12 +30,12 @@ export class ThreadsSdk {
   }
 
   public async *postMessage({
-    messages,
-  }: paths['/threads/{id}/messages']['post']['requestBody']['content']['application/json']): AsyncGenerator<
-    Chunk,
-    void,
-    unknown
-  > {
+    message,
+    threadId,
+  }: {
+    message: paths['/threads/{id}/messages']['post']['requestBody']['content']['application/json']['message'];
+    threadId: paths['/threads/{id}/messages']['post']['parameters']['path']['id'];
+  }): AsyncGenerator<Chunk, void, unknown> {
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
     };
@@ -44,10 +44,10 @@ export class ThreadsSdk {
       headers['Authorization'] = `Bearer ${this.sharedState.accessToken}`;
     }
 
-    const response = await fetch(`${this.sharedState.baseUrl}/threads/1/messages`, {
+    const response = await fetch(`${this.sharedState.baseUrl}/threads/${threadId}/messages`, {
       method: 'POST',
       headers,
-      body: JSON.stringify({ messages }),
+      body: JSON.stringify({ message }),
     });
 
     if (!response.ok) {
