@@ -16,3 +16,14 @@ A: Keep the existing chat interface
 
 Q: Where do we store the thread id when accessing the chat interface?  
 A: Store it in the URL
+
+# Approach / Design
+
+# Implementation steps
+
+- [ ] Create a simple sidebar component
+  - [ ] Create a button for creating a new thread
+  - [ ] Make creating a new thread redirect to the chat interface with the thread id in the URL
+- [ ] Update the threads repository to enable creating a new thread
+- [ ] Update the threads repository to enable posting a message to a thread
+- [ ] Update the existing chat interface to read the thread id from the URL
