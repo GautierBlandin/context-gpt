@@ -1,1 +1,1 @@
-- Integrate the new threads api
+- Implement the design doc for the new threads api
