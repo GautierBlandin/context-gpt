@@ -50,7 +50,7 @@ ${aliases.BACKEND_TEST_FILES}
 In the following section, you will find details about our error handling strategy.
 
 <errorHandling>
-${aliases.BACKEND_ERROR_HANDLING}
+${aliases.ERROR_HANDLING}
 </errorHandling>
 
 In the following section, you will find the code style guidelines for the backend project.
