@@ -19,11 +19,25 @@ A: Store it in the URL
 
 # Approach / Design
 
+```mermaid
+graph TD
+CreateThreadButton --> ThreadsRepository
+```
+
 # Implementation steps
 
-- [ ] Create a simple sidebar component
-  - [ ] Create a button for creating a new thread
+- [ ] Create a create thread feature
+  - [ ] Create a ThreadsRepository that handles the underlying backend call
+    - [ ] Create a fake implementation of the ThreadsRepository for testing
+    - [ ] Create an implementation of the ThreadsRepository that uses the threads SDK
+  - [ ] Create a headless component that handles the button click
+  - [ ] Create a view layer that renders a simple button
   - [ ] Make creating a new thread redirect to the chat interface with the thread id in the URL
-- [ ] Update the threads repository to enable creating a new thread
-- [ ] Update the threads repository to enable posting a message to a thread
-- [ ] Update the existing chat interface to read the thread id from the URL
+
+- [ ] Update the existing chat feature to conform to the new API (single message instead of whole thread, and need for a thread id)
+  - [ ] Add a method for posting a message in the ThreadsRepository
+    - [ ] Update the fake implementation with the new method
+    - [ ] Update the implementation of the ThreadsRepository that uses the threads SDK with the new method
+  - [ ] Use the threads repository in the chat store instead of the current LLMProxy class
+  - [ ] Read the thread id from the URL and pass it to the chat store at initialization
+  - [ ] Update the chat page to have the sidebar component
