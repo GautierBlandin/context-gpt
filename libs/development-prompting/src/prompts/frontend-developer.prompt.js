@@ -45,5 +45,13 @@ per answer.
 
 </basePrompt>
 
+<userPrompt>
+To provide you with additional context, here are the user's currently open files:
+{{{ open }}}
+
+Here is the user's prompt:
+{{{ input }}}
+</userPrompt>
+
 ${reflectionPrompt}
 `;
