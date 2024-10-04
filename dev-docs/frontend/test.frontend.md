@@ -1,6 +1,6 @@
 # Test files
 
-Tests on the backend use vitest.
+Tests on the frontend use vitest.
 
 Tests are made up of three parts:
 - Arrange
@@ -15,6 +15,8 @@ For example, instead of ```it('should increment count')```, use ```it('increment
 Example of a test file:
 
 ```typescript
+import { describe, expect, it } from 'vitest';
+
 describe('Counter', () => {
   let counter: Counter;
 

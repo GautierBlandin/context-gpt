@@ -27,6 +27,11 @@ async function generatePrompt(promptTemplate) {
     [aliases.WEB_FRAMEWORK]: docPaths.webFrameworkPath,
     [aliases.FRONTEND_PROJECT_STRUCTURE]: docPaths.frontendProjectStructurePath,
     [aliases.FRONTEND_TECHNOLOGIES]: docPaths.frontendTechnologiesPath,
+    [aliases.FRONTEND_COMPONENTS]: docPaths.frontendComponentsPath,
+    [aliases.FRONTEND_HEADLESS_COMPONENTS]: docPaths.frontendHeadlessComponentsPath,
+    [aliases.FRONTEND_FEATURES]: docPaths.frontendFeaturesPath,
+    [aliases.FRONTEND_REPOSITORIES]: docPaths.frontendRepositoriesPath,
+    [aliases.FRONTEND_TEST_FILES]: docPaths.frontendTestFilesPath,
   };
 
   let finalPrompt = promptTemplate;

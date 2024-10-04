@@ -15,7 +15,7 @@
 - Atomic design
 - Stores
 - Five type of states (local, shared, remote, meta, router)
-- View - Hook - Controller - Presenter - Model
+- View - State - Controller - Logic - Model
 
 # References
 https://www.martinfowler.com/eaaDev/PresentationModel.html

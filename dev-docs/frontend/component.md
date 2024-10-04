@@ -2,7 +2,7 @@
 
 A component is made up of three main layers:
 - View layer: this layer is made up of markup and styling (tsx and tailwind classes in our project)
-- State layer: this layer is responsible maintaining the reactive state of the application and making it accessible to
+- State (reactive) layer: this layer is responsible maintaining the reactive state of the application and making it accessible to
 the view layer
 - Logic layer: this layer is responsible for handling all the business logic of the component
 
@@ -13,7 +13,9 @@ How the layer are represented in code:
 - `<component-name>.view.tsx` : View layer
 - `<component-name>.tsx` Controller layer
 - `<component-name>.state.tsx` : State layer
-- `<component-name>.presenter.tsx` : Logic layer
+- `<component-name>.logic.tsx` : Logic layer
+
+The combination of the state and logic layer is called a **headless component**
 
 In the most simple cases, a component could group its three layers in a single file. However, 
 the separation of the layers should be seen even in the simplest case, e.g:
@@ -40,7 +42,7 @@ function useCounter() {
   const increment = () => setCount(prev => increment(prev));
 }
 
-// presenter layer
+// logic layer
 function initCount() {
   return 0;
 }
@@ -56,9 +58,9 @@ function increment(count: number) {
 graph TD
   subgraph "Headless component"
     state
-    presenter
+    logic
   end
   controller --> view
   controller --> state
-  state --> presenter
+  state --> logic
 ```

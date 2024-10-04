@@ -3,6 +3,7 @@
 import { generateAndWritePrompt } from './prompt-generator.js';
 import { backendDeveloperPrompt } from './prompts/backend-developer.prompt.js';
 import { frontendArchitectPrompt } from './prompts/frontend-architect.prompt.js';
+import { frontendDeveloperPrompt } from './prompts/frontend-developer.prompt.js';
 import { genericPrompt } from './prompts/generic.prompt.js';
 import { backendArchitectPrompt } from './prompts/backend-architect.prompt.js';
 import path from 'path';
@@ -16,6 +17,7 @@ async function generatePrompts() {
     { name: 'frontend-architect', content: frontendArchitectPrompt },
     { name: 'generic', content: genericPrompt },
     { name: 'backend-architect', content: backendArchitectPrompt },
+    { name: 'frontend-developer', content: frontendDeveloperPrompt },
   ];
 
   for (const prompt of prompts) {

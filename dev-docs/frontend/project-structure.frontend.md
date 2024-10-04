@@ -30,8 +30,8 @@ Let's start by looking at the overall folder structure, then we will break it do
 │   │   │   ├── chat.spec.tsx
 │   │   │   ├── chat.view.tsx
 │   │   │   ├── chat.state.tsx
-│   │   │   ├── chat.presenter.ts
-│   │   │   ├── chat.presenter.spec.ts
+│   │   │   ├── chat.logic.ts
+│   │   │   ├── chat.logic.spec.ts
 │   │   │   ├── index.ts
 │   ├── remote-state
 │   │   ├── use-list-threads.query.tsx
@@ -49,7 +49,7 @@ Let's start by looking at the overall folder structure, then we will break it do
 
 The domain directory contains domain-specific models and services. 
 The domain should not rely on the view framework (React/Vue/Angular), and instead contain framework-agnostic code
-that focus on the modelisation of the business rules.
+that focus on the modeling of the business rules.
 
 ### Ports
 
@@ -87,7 +87,7 @@ be able to use it.
 ```mermaid
 graph TD
     subgraph "features" 
-        state --> presenter
+        state --> logic
         controller --> state
         controller --> view
     end
@@ -95,7 +95,7 @@ graph TD
     shared-state --> domain
     view --> ui
     state --> remote-state
-    presenter --> domain
+    logic --> domain
     ports[ports] --> domain
     infrastructure -.implements.-> ports
     compositionRoot[composition-root] --provides--> ports

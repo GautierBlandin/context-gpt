@@ -18,3 +18,8 @@ export const webFrameworkPath = path.join(rootPath, './dev-docs/backend/web-fram
 // frontend
 export const frontendProjectStructurePath = path.join(rootPath, './dev-docs/frontend/project-structure.frontend.md');
 export const frontendTechnologiesPath = path.join(rootPath, './dev-docs/frontend/technologies.md');
+export const frontendComponentsPath = path.join(rootPath, './dev-docs/frontend/component.md');
+export const frontendHeadlessComponentsPath = path.join(rootPath, './dev-docs/frontend/component.valtio.md');
+export const frontendFeaturesPath = path.join(rootPath, './dev-docs/frontend/features.md');
+export const frontendRepositoriesPath = path.join(rootPath, './dev-docs/frontend/repositories.md');
+export const frontendTestFilesPath = path.join(rootPath, './dev-docs/frontend/test.frontend.md');
