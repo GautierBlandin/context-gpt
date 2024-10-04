@@ -1,5 +1,4 @@
-import { Chunk } from '../core/Chunk';
-import { Message } from '../core/Message';
+import { Chunk, Message } from '../core';
 
 export interface LLMProxy {
   sendPrompt(input: SendPromptInput): void;
