@@ -36,6 +36,12 @@ In order to interact with external services, you should use repositories:
 ${aliases.FRONTEND_REPOSITORIES}
 </repositories>
 
+Here is how error handling is implemented in the frontend:
+
+<errorHandling>
+${aliases.ERROR_HANDLING}
+</errorHandling>
+
 The deliverable of your task is a series of code files that implement the design document. You must use
 test-driven development while implement the code, therefore you should always write first a test file,
 then the implementation file.
