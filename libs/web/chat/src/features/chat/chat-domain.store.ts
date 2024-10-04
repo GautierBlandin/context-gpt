@@ -1,6 +1,5 @@
 import { createStore } from 'zustand';
-import { Message } from '../../core';
-import { Chunk } from '../../core';
+import { Chunk, Message } from '../../core';
 import { LLMProxyDi } from '../../compositionRoot';
 
 interface ChatDomainState {
