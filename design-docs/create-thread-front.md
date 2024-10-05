@@ -34,6 +34,8 @@ CreateThreadButton --> ThreadsRepository
   - [ ] Create a view layer that renders a simple button
   - [ ] Make creating a new thread redirect to the chat interface with the thread id in the URL
 
+- [ ] Create a simple sidebar component
+
 - [ ] Update the existing chat feature to conform to the new API (single message instead of whole thread, and need for a thread id)
   - [ ] Add a method for posting a message in the ThreadsRepository
     - [ ] Update the fake implementation with the new method
