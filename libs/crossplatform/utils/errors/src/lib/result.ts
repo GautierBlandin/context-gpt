@@ -10,6 +10,8 @@ export type Result<SUCCESS_TYPE, ERROR_TYPE> =
       value?: never;
     };
 
+export type ResultAsync<SUCCESS_TYPE, ERROR_TYPE> = Promise<Result<SUCCESS_TYPE, ERROR_TYPE>>;
+
 export function success<SUCCESS_TYPE>(value: SUCCESS_TYPE): Result<SUCCESS_TYPE, never> {
   return {
     type: 'success',
