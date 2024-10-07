@@ -26,10 +26,11 @@ CreateThreadButton --> ThreadsRepository
 
 # Implementation steps
 
-- [ ] Create a create thread feature
-  - [ ] Create a ThreadsRepository that handles the underlying backend call
-    - [ ] Create a fake implementation of the ThreadsRepository for testing
-    - [ ] Create an implementation of the ThreadsRepository that uses the threads SDK
+- [X] Create a create thread feature
+  - [X] Create a Thread model (id and messages).
+  - [X] Create a ThreadsRepository that handles the underlying backend call
+    - [X] Create a fake implementation of the ThreadsRepository for testing
+    - [X] Create an implementation of the ThreadsRepository that uses the threads SDK
   - [ ] Create a headless component that handles the button click
   - [ ] Create a view layer that renders a simple button
   - [ ] Make creating a new thread redirect to the chat interface with the thread id in the URL
