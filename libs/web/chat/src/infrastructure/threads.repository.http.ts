@@ -3,7 +3,7 @@ import { Thread } from '../core/Thread';
 import { getSdk } from '@context-gpt/context-gpt-sdk';
 import { err, ResultAsync, success } from '@context-gpt/errors';
 
-export class ThreadsRepositoryImpl implements ThreadsRepository {
+export class HttpThreadsRepository implements ThreadsRepository {
   private sdk = getSdk().threads;
 
   public async createThread(): ResultAsync<Thread, Error> {
