@@ -4,7 +4,7 @@ import { FakeThreadsRepository } from '../../ports/threads.repository.fake';
 import { err, Result, success } from '@context-gpt/errors';
 import { describe, expect, it, vi } from 'vitest';
 import { Thread } from '../../core/Thread';
-import { useCreateThread } from './create-thread.experiment.state';
+import { useCreateThread } from './create-thread.zustand-experiment.state';
 
 describe('useCreateThread', () => {
   let fakeThreadsRepository: FakeThreadsRepository;
@@ -38,7 +38,8 @@ describe('useCreateThread', () => {
     vi.spyOn(fakeThreadsRepository, 'createThread').mockResolvedValue(err(mockError));
 
     act(() => {
-      result.current.createThread();
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      result.current.createThread().catch(() => {});
     });
 
     await waitFor(() => {
