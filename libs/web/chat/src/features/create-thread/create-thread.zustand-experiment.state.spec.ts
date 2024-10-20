@@ -38,8 +38,7 @@ describe('useCreateThread', () => {
     vi.spyOn(fakeThreadsRepository, 'createThread').mockResolvedValue(err(mockError));
 
     act(() => {
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      result.current.createThread().catch(() => {});
+      result.current.createThread();
     });
 
     await waitFor(() => {

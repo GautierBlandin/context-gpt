@@ -5,7 +5,7 @@ import { threadsRepositorySingleton } from '../../compositionRoot/threads.reposi
 import { toPromise } from '@context-gpt/errors';
 
 type CreateThreadState = Pick<MutationObserverResult<Thread, Error>, 'data' | 'error' | 'isPending'> & {
-  createThread: () => Promise<Thread>;
+  createThread: () => Promise<void>;
 };
 
 export const createThreadHeadlessStoreFactory: (queryClient: QueryClient) => StateCreator<CreateThreadState> =
@@ -27,6 +27,11 @@ export const createThreadHeadlessStoreFactory: (queryClient: QueryClient) => Sta
       error: mutationObserver.getCurrentResult().error,
       data: mutationObserver.getCurrentResult().data,
       isPending: mutationObserver.getCurrentResult().isPending,
-      createThread: () => mutationObserver.mutate(),
+      createThread: async () => {
+        await mutationObserver.mutate().catch(noop);
+      },
     };
   };
+
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+export function noop(): void {}
