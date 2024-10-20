@@ -1,17 +1,17 @@
 import { useRef } from 'react';
-import { proxy, useSnapshot } from 'valtio';
+import { useSnapshot } from 'valtio';
 import { createThreadHeadless } from './create-thread.experiment.headless';
 import { QueryClient } from '@tanstack/query-core';
 
 export function useCreateThread() {
-  const createThreadRef = useRef(proxy(createThreadHeadless(new QueryClient())));
+  const createThreadRef = useRef(createThreadHeadless(new QueryClient()));
 
-  const snap = useSnapshot(createThreadRef.current);
+  const { thread, isPending, error } = useSnapshot(createThreadRef.current);
 
   return {
-    thread: snap.thread,
-    isPending: snap.isPending,
-    error: snap.error,
+    thread,
+    isPending,
+    error,
     createThread: () => {
       return createThreadRef.current.createThread();
     },
